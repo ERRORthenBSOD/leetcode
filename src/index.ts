@@ -3,19 +3,20 @@
 // type F = (x: number) => number;
 
 class ListNode {
-  val: number;
-  next: ListNode | null;
-  constructor(val?: number, next?: ListNode | null) {
-    this.val = val === undefined ? 0 : val;
-    this.next = next === undefined ? null : next;
-  }
+	val: number;
+	next: ListNode | null;
+	constructor(val?: number, next?: ListNode | null) {
+		this.val = val === undefined ? 0 : val;
+		this.next = next === undefined ? null : next;
+	}
 }
 const arrayToLinkedList = (arr: number[]) =>
-  arr.reduceRight<null | ListNode>(
-    (last, val) =>
-      (last = last === null ? new ListNode(val) : new ListNode(val, last)),
-    null
-  );
+	arr.reduceRight<null | ListNode>(
+		(last, val) =>
+			(last =
+				last === null ? new ListNode(val) : new ListNode(val, last)),
+		null,
+	);
 
 // function compose(functions: F[]): F {
 //   return functions.reduceRight((acc, fn) => fn(acc), x);
@@ -1975,29 +1976,29 @@ const arrayToLinkedList = (arr: number[]) =>
 // console.log(leafSimilar(root3, root4));
 
 class TreeNode {
-  val: number;
-  left: TreeNode | null;
-  right: TreeNode | null;
-  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
-    this.val = val === undefined ? 0 : val;
-    this.left = left === undefined ? null : left;
-    this.right = right === undefined ? null : right;
-  }
+	val: number;
+	left: TreeNode | null;
+	right: TreeNode | null;
+	constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+		this.val = val === undefined ? 0 : val;
+		this.left = left === undefined ? null : left;
+		this.right = right === undefined ? null : right;
+	}
 
-  insert(values: number[]): TreeNode {
-    const queue: TreeNode[] = [this];
-    for (let i = 0; i < values.length; ) {
-      const current = queue.shift();
-      for (const side of ["left", "right"] as const) {
-        if (values[i]) {
-          current[side] = new TreeNode(values[i]);
-          queue.push(current[side]);
-        }
-        i++;
-      }
-    }
-    return this;
-  }
+	insert(values: number[]): TreeNode {
+		const queue: TreeNode[] = [this];
+		for (let i = 0; i < values.length; ) {
+			const current = queue.shift();
+			for (const side of ['left', 'right'] as const) {
+				if (values[i]) {
+					current[side] = new TreeNode(values[i]);
+					queue.push(current[side]);
+				}
+				i++;
+			}
+		}
+		return this;
+	}
 }
 
 // const root = new TreeNode(1).insert([5, 3, null, 4, 10, 6, 9, 2]);
@@ -4762,7 +4763,34 @@ prev = 2
 //   )
 // ); //224
 
-function subarraysWithKDistinct(nums: number[], k: number): number {}
+// function slidingWindowAtMost(nums: number[], k: number): number {
+// 	const freqMap = new Map<number, number>();
+// 	let L = 0;
+// 	let count = 0;
+// 	for (let R = 0; R < nums.length; R++) {
+// 		freqMap.set(nums[R], (freqMap.get(nums[R]) ?? 0) + 1);
+// 		// If the number of distinct elements in the window exceeds k,
+// 		// we shrink the window from the left until we have at most k distinct elements.
+// 		while (freqMap.size > k) {
+// 			freqMap.set(nums[L], freqMap.get(nums[L]) - 1);
+// 			if (freqMap.get(nums[L]) === 0) {
+// 				freqMap.delete(nums[L]);
+// 			}
+// 			L++;
+// 		}
+// 		count += R - L + 1;
+// 	}
 
-console.log(subarraysWithKDistinct([1, 2, 1, 2, 3], 2)); // 7
-console.log(subarraysWithKDistinct([1, 2, 1, 3, 4], 3)); // 3
+// 	return count;
+// }
+
+// function subarraysWithKDistinct(nums: number[], k: number): number {
+// 	return slidingWindowAtMost(nums, k) - slidingWindowAtMost(nums, k - 1);
+// }
+
+// console.log(subarraysWithKDistinct([1, 2, 1, 2, 3], 2)); // 7
+// console.log(subarraysWithKDistinct([1, 2, 1, 3, 4], 3)); // 3
+
+const value: unknown = 'Foo';
+const len: number = (<string>value).length;
+const len2: number = (value as string).length;
