@@ -1942,20 +1942,45 @@ def array_to_binary_tree(lst):
 # print(solution.numSubarrayProductLessThanK([1, 2, 3], 0))  # 0
 
 
-class Solution:
-    def maxSubarrayLength(self, nums: List[int], k: int) -> int:
-        max_length = 1
-        L = 0
-        freq_map = defaultdict(int)
-        for R, n in enumerate(nums):
-            freq_map[n] += 1
-            while freq_map[n] > k:
-                freq_map[nums[L]] -= 1
-                L += 1
+# class Solution:
+#     def maxSubarrayLength(self, nums: List[int], k: int) -> int:
+#         max_length = 1
+#         L = 0
+#         freq_map = defaultdict(int)
+#         for R, n in enumerate(nums):
+#             freq_map[n] += 1
+#             while freq_map[n] > k:
+#                 freq_map[nums[L]] -= 1
+#                 L += 1
 
-            max_length = max(max_length, R - L + 1)
-        return max_length
+#             max_length = max(max_length, R - L + 1)
+#         return max_length
+
+
+# solution = Solution()
+# print(solution.maxSubarrayLength([1, 1, 1, 3], 2))  # 3
+
+
+class Solution:
+    def countSubarrays(self, nums: List[int], minK: int, maxK: int) -> int:
+        count = 0
+        min_i = max_i = -1
+        bad_i = -1
+        for i in range(len(nums)):
+            if minK <= nums[i] <= maxK:
+                if nums[i] == minK:
+                    min_i = i
+                if nums[i] == maxK:
+                    max_i = i
+                if max_i >= 0 and min_i >= 0:
+                    count += min(min_i, max_i) - bad_i # !!!!!!!!!!!!!!!!!
+            else:
+                min_i, max_i = -1, -1
+                bad_i = i
+        return count
 
 
 solution = Solution()
-print(solution.maxSubarrayLength([1, 1, 1, 3], 2))  # 3
+print(solution.countSubarrays([1, 3, 5, 2, 7, 5], 1, 5))   # 2
+# print(solution.countSubarrays([4, 2, 1, 3, 5, 2, 7, 5, 1, 3], 1, 5))   # 6
+print(solution.countSubarrays([1, 1, 1, 1], 1, 1))   # 10
