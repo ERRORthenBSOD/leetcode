@@ -1,69 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>My Title</title>
-  </head>
-  <body>
-    <main>
-      <section>
-        <dl>
-          <dt lang="en-US"><dfn>color</dfn></dt>
-          <dt lang="en-GB"><dfn>colour</dfn></dt>
-          <dd>
-            A sensation which (in humans) derives from the ability of the fine
-            structure of the eye to distinguish three differently filtered
-            analyses of a view.
-          </dd>
-        </dl>
-      </section>
-      <section>
-        <custom-azz>
-          <h1 slot="title" class="text-3xl">Some Slot Content</h1>
-        </custom-azz>
-      </section>
-      <section>
-        <template id="person-template">
-          <div>
-            <h2>Personal ID Card</h2>
-            <slot name="person-name">NAME MISSING</slot>
-            <ul>
-              <li><slot name="person-age">AGE MISSING</slot></li>
-              <li>
-                <slot name="person-occupation">OCCUPATION MISSING</slot>
-              </li>
-            </ul>
-          </div>
-        </template>
-        <person-details>
-          <p slot="person-name">Morgan Stanley</p>
-          <span slot="person-age">36</span>
-          <span slot="person-occupation">Accountant</span>
-        </person-details>
+	<head>
+		<meta charset="UTF-8" />
+		<title>My Title</title>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+		<main>
+			<section>
+				<dl>
+					<dt lang="en-US"><dfn>color</dfn></dt>
+					<dt lang="en-GB"><dfn>colour</dfn></dt>
+					<dd>
+						A sensation which (in humans) derives from the ability
+						of the fine structure of the eye to distinguish three
+						differently filtered analyses of a view.
+					</dd>
+				</dl>
+			</section>
+			<section>
+				<custom-azz>
+					<h1 slot="title" class="text-3xl">Some Slot Content</h1>
+				</custom-azz>
+			</section>
+			<section>
+				<template id="person-template">
+					<div>
+						<h2>Personal ID Card</h2>
+						<slot name="person-name">NAME MISSING</slot>
+						<ul>
+							<li><slot name="person-age">AGE MISSING</slot></li>
+							<li>
+								<slot name="person-occupation"
+									>OCCUPATION MISSING</slot
+								>
+							</li>
+						</ul>
+					</div>
+				</template>
+				<person-details>
+					<p slot="person-name">Morgan Stanley</p>
+					<span slot="person-age">36</span>
+					<span slot="person-occupation">Accountant</span>
+				</person-details>
 
-        <person-details>
-          <p slot="person-name">Dr. Shazaam</p>
-          <span slot="person-age">Immortal</span>
-          <span slot="person-occupation">Superhero</span>
-        </person-details>
+				<person-details>
+					<p slot="person-name">Dr. Shazaam</p>
+					<span slot="person-age">Immortal</span>
+					<span slot="person-occupation">Superhero</span>
+				</person-details>
 
-        <person-details>
-          <p slot="person-name">Boris</p>
-          <span slot="age">27</span>
-          <span slot="i-am-awesome">Time traveller</span>
-        </person-details>
-      </section>
-      <article>
-        <details>
-          <summary>
-            I have &nbsp; &gtrsim; keys but no doors. I have space but no room.
-            You can enter but can’t leave. What am I?
-          </summary>
-          A keyboard.
-        </details>
-      </article>
-      <div title="Test Title">this is DIV with title: 'Test Title'</div>
-    </main>
-    <script src="script.js"></script>
-  </body>
+				<person-details>
+					<p slot="person-name">Boris</p>
+					<span slot="age">27</span>
+					<span slot="i-am-awesome">Time traveller</span>
+				</person-details>
+			</section>
+			<article>
+				<details>
+					<summary>
+						I have &nbsp; &gtrsim; keys but no doors. I have space
+						but no room. You can enter but can’t leave. What am I?
+					</summary>
+					A keyboard.
+				</details>
+			</article>
+			<div title="Test Title">this is DIV with title: 'Test Title'</div>
+			<section>
+				<div class="left">1</div>
+				<div class="left">2</div>
+				<div class="right">3</div>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+					Morbi tristique sapien ac erat tincidunt, sit amet dignissim
+					lectus vulputate. Donec id iaculis velit. Aliquam vel
+					malesuada erat. Praesent non magna ac massa aliquet
+					tincidunt vel in massa. Phasellus feugiat est vel leo
+					finibus congue.
+				</p>
+			</section>
+			<section class="transition">
+				<hgroup>
+					<h1 id="technique-one">Some text</h1>
+				</hgroup>
+			</section>
+		</main>
+		<script src="script.js"></script>
+	</body>
 </html>

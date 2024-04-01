@@ -1961,26 +1961,37 @@ def array_to_binary_tree(lst):
 # print(solution.maxSubarrayLength([1, 1, 1, 3], 2))  # 3
 
 
+# class Solution:
+#     def countSubarrays(self, nums: List[int], minK: int, maxK: int) -> int:
+#         count = 0
+#         min_i = max_i = -1
+#         bad_i = -1
+#         for i in range(len(nums)):
+#             if minK <= nums[i] <= maxK:
+#                 if nums[i] == minK:
+#                     min_i = i
+#                 if nums[i] == maxK:
+#                     max_i = i
+#                 if max_i >= 0 and min_i >= 0:
+#                     count += min(min_i, max_i) - bad_i  # !!!!!!!!!!!!!!!!!
+#             else:
+#                 min_i, max_i = -1, -1
+#                 bad_i = i
+#         return count
+
+
+# solution = Solution()
+# print(solution.countSubarrays([1, 3, 5, 2, 7, 5], 1, 5))   # 2
+# print(solution.countSubarrays([4, 2, 1, 3, 5, 2, 7, 5, 1, 3], 1, 5))   # 6
+# print(solution.countSubarrays([1, 1, 1, 1], 1, 1))   # 10
+
+
 class Solution:
-    def countSubarrays(self, nums: List[int], minK: int, maxK: int) -> int:
-        count = 0
-        min_i = max_i = -1
-        bad_i = -1
-        for i in range(len(nums)):
-            if minK <= nums[i] <= maxK:
-                if nums[i] == minK:
-                    min_i = i
-                if nums[i] == maxK:
-                    max_i = i
-                if max_i >= 0 and min_i >= 0:
-                    count += min(min_i, max_i) - bad_i # !!!!!!!!!!!!!!!!!
-            else:
-                min_i, max_i = -1, -1
-                bad_i = i
-        return count
+    def lengthOfLastWord(self, s: str) -> int:
+        return len(s.rstrip().split()[-1])
 
 
 solution = Solution()
-print(solution.countSubarrays([1, 3, 5, 2, 7, 5], 1, 5))   # 2
-# print(solution.countSubarrays([4, 2, 1, 3, 5, 2, 7, 5, 1, 3], 1, 5))   # 6
-print(solution.countSubarrays([1, 1, 1, 1], 1, 1))   # 10
+print(solution.lengthOfLastWord('Hello World'))  # 5
+print(solution.lengthOfLastWord('   fly me   to   the moon  '))  # 4
+print(solution.lengthOfLastWord('luffy is still joyboy'))  # 6

@@ -4794,3 +4794,11 @@ prev = 2
 const value: unknown = 'Foo';
 const len: number = (<string>value).length;
 const len2: number = (value as string).length;
+
+function lengthOfLastWord(s: string): number {
+	return s.trimEnd().split(' ').at(-1).length;
+}
+
+console.log(lengthOfLastWord('Hello World')); // 5
+console.log(lengthOfLastWord('   fly me   to   the moon  ')); // 4
+console.log(lengthOfLastWord('luffy is still joyboy')); // 6
