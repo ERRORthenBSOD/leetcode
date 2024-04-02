@@ -1986,12 +1986,43 @@ def array_to_binary_tree(lst):
 # print(solution.countSubarrays([1, 1, 1, 1], 1, 1))   # 10
 
 
+# class Solution:
+#     def lengthOfLastWord(self, s: str) -> int:
+#         return len(s.rstrip().split()[-1])
+
+
+# solution = Solution()
+# print(solution.lengthOfLastWord('Hello World'))  # 5
+# print(solution.lengthOfLastWord('   fly me   to   the moon  '))  # 4
+# print(solution.lengthOfLastWord('luffy is still joyboy'))  # 6
+
+
 class Solution:
-    def lengthOfLastWord(self, s: str) -> int:
-        return len(s.rstrip().split()[-1])
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        char_mapS: Dict[str, str] = {}
+        char_mapT: Dict[str, str] = {}
+        for i in range(len(s)):
+            # s to t
+            if s[i] in char_mapS:
+                if char_mapS[s[i]] != t[i]:
+                    return False
+            else:
+                char_mapS[s[i]] = t[i]
+            # t to s
+            if t[i] in char_mapT:
+                if char_mapT[t[i]] != s[i]:
+                    return False
+            else:
+                char_mapT[t[i]] = s[i]
+
+        return True
 
 
 solution = Solution()
-print(solution.lengthOfLastWord('Hello World'))  # 5
-print(solution.lengthOfLastWord('   fly me   to   the moon  '))  # 4
-print(solution.lengthOfLastWord('luffy is still joyboy'))  # 6
+# print(solution.isIsomorphic('egg', 'add'))  # True
+# ('ea', )
+
+print(solution.isIsomorphic('foo', 'bar'))  # False
+print(solution.isIsomorphic('paper', 'title'))  # True
+print(solution.isIsomorphic("bbbaaaba", "aaabbbba"))  # False
+print(solution.isIsomorphic("badc", "baba"))  # False
