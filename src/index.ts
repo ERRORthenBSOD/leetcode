@@ -4791,14 +4791,77 @@ prev = 2
 // console.log(subarraysWithKDistinct([1, 2, 1, 2, 3], 2)); // 7
 // console.log(subarraysWithKDistinct([1, 2, 1, 3, 4], 3)); // 3
 
+// function lengthOfLastWord(s: string): number {
+// 	return s.trimEnd().split(' ').at(-1).length;
+// }
+
+// console.log(lengthOfLastWord('Hello World')); // 5
+// console.log(lengthOfLastWord('   fly me   to   the moon  ')); // 4
+// console.log(lengthOfLastWord('luffy is still joyboy')); // 6
+
 const value: unknown = 'Foo';
 const len: number = (<string>value).length;
 const len2: number = (value as string).length;
 
-function lengthOfLastWord(s: string): number {
-	return s.trimEnd().split(' ').at(-1).length;
+function exist(board: string[][], word: string): boolean {
+	const ROWS = board.length;
+	const COLS = board[0].length;
+
+	function backTrack(row: number, col: number, wordIndex: number): boolean {
+		if (wordIndex === word.length) {
+			return true;
+		}
+
+		if (
+			row < 0 ||
+			col < 0 ||
+			row >= ROWS ||
+			col >= COLS ||
+			word[wordIndex] !== board[row][col]
+		) {
+			return false;
+		}
+
+		board[row][col] = '';
+		const nextIndex = wordIndex + 1;
+
+		const res =
+			backTrack(row + 1, col, nextIndex) ||
+			backTrack(row - 1, col, nextIndex) ||
+			backTrack(row, col + 1, nextIndex) ||
+			backTrack(row, col - 1, nextIndex);
+
+		board[row][col] = word[wordIndex];
+		return res;
+	}
+	for (let r = 0; r < ROWS; r++) {
+		for (let c = 0; c < COLS; c++) {
+			if (backTrack(r, c, 0)) {
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
-console.log(lengthOfLastWord('Hello World')); // 5
-console.log(lengthOfLastWord('   fly me   to   the moon  ')); // 4
-console.log(lengthOfLastWord('luffy is still joyboy')); // 6
+console.log(
+	exist(
+		[
+			['A', 'B', 'C', 'E'],
+			['S', 'F', 'C', 'S'],
+			['A', 'D', 'E', 'E'],
+		],
+		'ABCCED',
+	),
+);
+
+console.log(
+	exist(
+		[
+			['C', 'A', 'A'],
+			['A', 'A', 'A'],
+			['B', 'C', 'D'],
+		],
+		'AAB',
+	),
+);

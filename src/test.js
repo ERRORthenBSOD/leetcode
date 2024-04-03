@@ -4,7 +4,7 @@
 //         this.getName1();
 //     }
 
-const { reverse } = require("dns");
+const { reverse } = require('dns');
 
 //     getName1() {
 //         console.log('FOO ' + this.name);
@@ -411,23 +411,23 @@ const { reverse } = require("dns");
 // console.log(curriedSum(1)(2)(3));
 // console.log([1, 2, 3] + [4, 5, 6]); // 1,2,34,5,6
 
-// function sum2(a) {
-// 	let result = a;
+function sum2(a) {
+	let result = a;
 
-// 	function f(b) {
-// 		result += b;
+	function f(b) {
+		result += b;
 
-// 		return f;
-// 	}
+		return f;
+	}
 
-// 	f[Symbol.toPrimitive] = function (_hint) {
-// 		return result;
-// 	};
-// 	f.toString = function () {
-// 		return result;
-// 	};
-// 	return f;
-// }
+	f[Symbol.toPrimitive] = function (_hint) {
+		return result;
+	};
+	f.toString = function () {
+		return result;
+	};
+	return f;
+}
 
 // const res = sum2(1) + sum2(1)(2);
 // console.log(res);
@@ -435,37 +435,94 @@ const { reverse } = require("dns");
 // console.log(sum2(1)(2)(3));
 
 function reverseStr(s) {
-  if (!s.length) {
-    return "";
-  }
-  return reverseStr(s.slice(1)) + s.at(0);
+	if (!s.length) {
+		return '';
+	}
+	return reverseStr(s.slice(1)) + s.at(0);
 }
 
 // console.log(reverseStr("hello"));
 
 function deepComparison(a, b) {
-  if (a === b) {
-    return true;
-  }
-  if (a === null || b === null) {
-    return false;
-  }
-  if (typeof a !== "object" || typeof b !== "object") {
-    return false;
-  }
+	if (a === b) {
+		return true;
+	}
+	if (a === null || b === null) {
+		return false;
+	}
+	if (typeof a !== 'object' || typeof b !== 'object') {
+		return false;
+	}
 
-  const aKeys = Object.getOwnPropertyNames(a);
-  const bKeys = Object.getOwnPropertyNames(b);
-  if (aKeys.length !== bKeys) {
-    return false;
-  }
-  for (const key in aKeys) {
-    if (!Object.hasOwn(b)) {
-      return false;
-    }
-    if (!deepComparison(a[key], b[key])) {
-      return false;
-    }
-  }
-  return true;
+	const aKeys = Object.getOwnPropertyNames(a);
+	const bKeys = Object.getOwnPropertyNames(b);
+	if (aKeys.length !== bKeys) {
+		return false;
+	}
+	for (const key in aKeys) {
+		if (!Object.hasOwn(b)) {
+			return false;
+		}
+		if (!deepComparison(a[key], b[key])) {
+			return false;
+		}
+	}
+	return true;
 }
+
+// const arr = ["FreeCodeCamp", "Is", "An", "Awesome", "Resource"];
+// arr.forEach((el, index, arr) => {
+//   arr[index] = el[0].toUpperCase() + el.slice(1);
+// });
+
+// console.log(arr);
+
+// var obj = {
+// 	name: 'test',
+// 	azz: function () {
+// 		console.log(1111, this);
+// 		const setName = function (name) {
+// 			this.name = name;
+// 		};
+// 		setName('OMG');
+// 	},
+// };
+// console.log(obj.azz());
+
+// function Person() {}
+// var person = Person();
+// var person1 = new Person();
+// for (let i = 1; i < 100; i++) {
+// 	console.log((i % 3 ? '' : 'Fizz') + (i % 5 ? '' : 'Buzz') || i);
+// }
+
+// const obj = { a: 1, b: 2 };
+
+// Object.preventExtensions(obj);
+// obj.c = 111;
+// console.log(obj);
+
+// const scores = [1, 2, 3, 4, 5];
+// const maxScore = Math.max(...scores);
+
+// // Arrow Function as .map() callback
+// const azz = scores.map((score) => +(score / maxScore).toFixed(2));
+// console.log(azz);
+
+// function logParams(first, second, first) {
+// 	console.log(first, second);
+// }
+// logParams('Hello', 'World', '!!!'); // "Hello"  "World"  "!!!"
+// const sum = new Function('a', 'b', 'return a + b');
+
+var foo = { n: 1 };
+var bar = foo;
+foo.x = foo = { n: 2 };
+
+
+function varCheck() {
+	var test = 'test';
+	return test;
+}
+varCheck();
+

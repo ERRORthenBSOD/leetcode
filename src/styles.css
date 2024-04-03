@@ -1,14 +1,15 @@
 section {
 	border: 1px solid blue;
-	width: 100%;
-	float: left;
+	/* width: 100%;
+	float: left; */
+	margin-top: 20px;
 }
 
-div {
+/* div {
 	margin: 5px;
 	width: 50px;
 	height: 150px;
-}
+} */
 
 .left {
 	float: left;
@@ -34,4 +35,17 @@ h1#technique-one span {
 	background: red;
 	-webkit-transition: width 2s; /* Safari prior 6.1 */
 	transition: width 2s;
+}
+
+.grid-container {
+	display: grid;
+	place-items: center;
+	height: 200px;
+	padding: 1em;
+	max-width: 75%;
+}
+.grid-container > .item {
+	border: 1px solid green;
+	padding: 1em;
+	max-width: 75%;
 }

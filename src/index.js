@@ -32,12 +32,3 @@
 
 // console.log(compactObject({ a: null, b: [false, 1] }));
 // console.log(compactObject([null, 0, 5, [0], [false, 16]]));
-
-// const arr = ["FreeCodeCamp", "Is", "An", "Awesome", "Resource"];
-// arr.forEach((el, index, arr) => {
-//   arr[index] = el[0].toUpperCase() + el.slice(1);
-// });
-
-// console.log(arr);
-
-

@@ -1997,32 +1997,66 @@ def array_to_binary_tree(lst):
 # print(solution.lengthOfLastWord('luffy is still joyboy'))  # 6
 
 
-class Solution:
-    def isIsomorphic(self, s: str, t: str) -> bool:
-        char_mapS: Dict[str, str] = {}
-        char_mapT: Dict[str, str] = {}
-        for i in range(len(s)):
-            # s to t
-            if s[i] in char_mapS:
-                if char_mapS[s[i]] != t[i]:
-                    return False
-            else:
-                char_mapS[s[i]] = t[i]
-            # t to s
-            if t[i] in char_mapT:
-                if char_mapT[t[i]] != s[i]:
-                    return False
-            else:
-                char_mapT[t[i]] = s[i]
+# class Solution:
+#     def isIsomorphic(self, s: str, t: str) -> bool:
+#         char_mapS: Dict[str, str] = {}
+#         char_mapT: Dict[str, str] = {}
+#         for i in range(len(s)):
+#             # s to t
+#             if s[i] in char_mapS:
+#                 if char_mapS[s[i]] != t[i]:
+#                     return False
+#             else:
+#                 char_mapS[s[i]] = t[i]
+#             # t to s
+#             if t[i] in char_mapT:
+#                 if char_mapT[t[i]] != s[i]:
+#                     return False
+#             else:
+#                 char_mapT[t[i]] = s[i]
 
-        return True
+#         return True
 
 
-solution = Solution()
+# solution = Solution()
 # print(solution.isIsomorphic('egg', 'add'))  # True
 # ('ea', )
 
-print(solution.isIsomorphic('foo', 'bar'))  # False
-print(solution.isIsomorphic('paper', 'title'))  # True
-print(solution.isIsomorphic("bbbaaaba", "aaabbbba"))  # False
-print(solution.isIsomorphic("badc", "baba"))  # False
+# print(solution.isIsomorphic('foo', 'bar'))  # False
+# print(solution.isIsomorphic('paper', 'title'))  # True
+# print(solution.isIsomorphic("bbbaaaba", "aaabbbba"))  # False
+# print(solution.isIsomorphic("badc", "baba"))  # False
+
+
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        ROWS = len(board)
+        COLS = len(board[0])
+
+        def dfs(row: int, col: int, i: int) -> bool:
+            if i == len(word):
+                return True
+            # out of bound
+            if row < 0 or row >= ROWS or col < 0 or col >= COLS:
+                return False
+            # not char we looking for
+            if board[row][col] != word[i]:
+                return False
+            # mark current char visited
+            board[row][col] = ""
+            next_i = i + 1
+            res = (
+                dfs(row - 1, col, next_i)
+                or dfs(row + 1, col, next_i)
+                or dfs(row, col + 1, next_i)
+                or dfs(row, col - 1, next_i)
+            )
+            # set back visited char
+            board[row][col] = word[i]
+            return res
+
+        for r in range(ROWS):
+            for c in range(COLS):
+                if dfs(r, c, 0):
+                    return True
+        return False
