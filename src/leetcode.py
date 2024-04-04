@@ -2028,35 +2028,50 @@ def array_to_binary_tree(lst):
 # print(solution.isIsomorphic("badc", "baba"))  # False
 
 
+# class Solution:
+#     def exist(self, board: List[List[str]], word: str) -> bool:
+#         ROWS = len(board)
+#         COLS = len(board[0])
+
+#         def dfs(row: int, col: int, i: int) -> bool:
+#             if i == len(word):
+#                 return True
+#             # out of bound
+#             if row < 0 or row >= ROWS or col < 0 or col >= COLS:
+#                 return False
+#             # not char we looking for
+#             if board[row][col] != word[i]:
+#                 return False
+#             # mark current char visited
+#             board[row][col] = ""
+#             next_i = i + 1
+#             res = (
+#                 dfs(row - 1, col, next_i)
+#                 or dfs(row + 1, col, next_i)
+#                 or dfs(row, col + 1, next_i)
+#                 or dfs(row, col - 1, next_i)
+#             )
+#             # set back visited char
+#             board[row][col] = word[i]
+#             return res
+
+#         for r in range(ROWS):
+#             for c in range(COLS):
+#                 if dfs(r, c, 0):
+#                     return True
+#         return False
+
+
 class Solution:
-    def exist(self, board: List[List[str]], word: str) -> bool:
-        ROWS = len(board)
-        COLS = len(board[0])
+    def maxDepth(self, s: str) -> int:
+        depth = 0
+        max_depth = 0
 
-        def dfs(row: int, col: int, i: int) -> bool:
-            if i == len(word):
-                return True
-            # out of bound
-            if row < 0 or row >= ROWS or col < 0 or col >= COLS:
-                return False
-            # not char we looking for
-            if board[row][col] != word[i]:
-                return False
-            # mark current char visited
-            board[row][col] = ""
-            next_i = i + 1
-            res = (
-                dfs(row - 1, col, next_i)
-                or dfs(row + 1, col, next_i)
-                or dfs(row, col + 1, next_i)
-                or dfs(row, col - 1, next_i)
-            )
-            # set back visited char
-            board[row][col] = word[i]
-            return res
+        for char in s:
+            if char == '(':
+                depth += 1
+            elif char == ')':
+                depth -= 1
+            max_depth = max(depth, max_depth)
 
-        for r in range(ROWS):
-            for c in range(COLS):
-                if dfs(r, c, 0):
-                    return True
-        return False
+        return max_depth
