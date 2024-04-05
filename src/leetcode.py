@@ -2062,16 +2062,43 @@ def array_to_binary_tree(lst):
 #         return False
 
 
+# class Solution:
+#     def maxDepth(self, s: str) -> int:
+#         depth = 0
+#         max_depth = 0
+
+#         for char in s:
+#             if char == '(':
+#                 depth += 1
+#             elif char == ')':
+#                 depth -= 1
+#             max_depth = max(depth, max_depth)
+
+#         return max_depth
+
+
 class Solution:
-    def maxDepth(self, s: str) -> int:
-        depth = 0
-        max_depth = 0
+    def makeGood(self, s: str) -> str:
+        if len(s) == 1:
+            return s
+        stack: List[str] = []
 
-        for char in s:
-            if char == '(':
-                depth += 1
-            elif char == ')':
-                depth -= 1
-            max_depth = max(depth, max_depth)
+        def areGoodChars(char1: str, char2: str) -> bool:
+            return not (char1 != char2 and char1.upper() == char2.upper())
 
-        return max_depth
+        for i in range(len(s)):
+            if len(stack) == 0 or areGoodChars(s[i], stack[-1]):
+                stack.append(s[i])
+            else:
+                stack.pop()
+
+        return ''.join(stack)
+
+
+solution = Solution()
+print(solution.makeGood("leEeetcode"))
+print(solution.makeGood("abBAcC"))
+
+
+# "abBAcC" --> "aAcC" --> "cC" --> ""
+# "abBAcC" --> "abBA" --> "aA" --> ""
