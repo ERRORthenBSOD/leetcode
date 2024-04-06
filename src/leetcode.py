@@ -2077,28 +2077,63 @@ def array_to_binary_tree(lst):
 #         return max_depth
 
 
+# class Solution:
+#     def makeGood(self, s: str) -> str:
+#         if len(s) == 1:
+#             return s
+#         stack: List[str] = []
+
+#         def areGoodChars(char1: str, char2: str) -> bool:
+#             return not (char1 != char2 and char1.upper() == char2.upper())
+
+#         for i in range(len(s)):
+#             if len(stack) == 0 or areGoodChars(s[i], stack[-1]):
+#                 stack.append(s[i])
+#             else:
+#                 stack.pop()
+
+#         return ''.join(stack)
+
+
+# solution = Solution()
+# print(solution.makeGood("leEeetcode"))
+# print(solution.makeGood("abBAcC"))
+
+
+# # "abBAcC" --> "aAcC" --> "cC" --> ""
+# # "abBAcC" --> "abBA" --> "aA" --> ""
+
+
 class Solution:
-    def makeGood(self, s: str) -> str:
-        if len(s) == 1:
-            return s
+    def minRemoveToMakeValid(self, s: str) -> str:
+        opened = 0
         stack: List[str] = []
-
-        def areGoodChars(char1: str, char2: str) -> bool:
-            return not (char1 != char2 and char1.upper() == char2.upper())
-
-        for i in range(len(s)):
-            if len(stack) == 0 or areGoodChars(s[i], stack[-1]):
-                stack.append(s[i])
+        for c in s:
+            if c == '(':
+                opened += 1
+                stack.append(c)
             else:
-                stack.pop()
+                if c == ')':
+                    if opened >= 1:
+                        opened -= 1
+                        stack.append(c)
+                else:
+                    stack.append(c)
+        if not opened:
+            return ''.join(stack)
 
+        i = len(stack) - 1
+
+        while opened:
+            if stack[i] == '(':
+                stack[i] = ''
+                opened -= 1
+            i -= 1    
         return ''.join(stack)
 
 
 solution = Solution()
-print(solution.makeGood("leEeetcode"))
-print(solution.makeGood("abBAcC"))
-
-
-# "abBAcC" --> "aAcC" --> "cC" --> ""
-# "abBAcC" --> "abBA" --> "aA" --> ""
+# print(solution.minRemoveToMakeValid("lee(t(c)o)de)"))  # "lee(t(c)o)de"
+# print(solution.minRemoveToMakeValid("a)b(c)d"))  # "ab(c)d"
+# print(solution.minRemoveToMakeValid("))(("))  # ""
+print(solution.minRemoveToMakeValid("())()((("))  # ""

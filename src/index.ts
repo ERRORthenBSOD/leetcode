@@ -4866,21 +4866,50 @@ const len2: number = (value as string).length;
 // 	),
 // );
 
-function maxDepth(s: string): number {
-	let max_counter = 0;
-	let temp_counter = 0;
-	for (const char of s) {
-		if (char === '(') {
-			temp_counter++;
+// function maxDepth(s: string): number {
+// 	let max_counter = 0;
+// 	let temp_counter = 0;
+// 	for (const char of s) {
+// 		if (char === '(') {
+// 			temp_counter++;
+// 		}
+// 		if (char === ')') {
+// 			temp_counter--;
+// 		}
+// 		max_counter = Math.max(max_counter, temp_counter);
+// 	}
+
+// 	return max_counter;
+// }
+
+// console.log(maxDepth('(1+(2*3)+((8)/4))+1')); // 3
+// console.log(maxDepth('(1)+((2))+(((3)))')); // 3
+
+function minRemoveToMakeValid(s: string): string {
+	const stack: number[] = [];
+	const str = s.split('');
+	for (let i = 0; i < s.length; i++) {
+		const c = s[i];
+		if (c === '(') {
+			stack.push(i);
+		} else {
+			if (c === ')') {
+				if (stack.length) {
+					stack.pop();
+				} else {
+					str[i] = '';
+				}
+			}
 		}
-		if (char === ')') {
-			temp_counter--;
-		}
-		max_counter = Math.max(max_counter, temp_counter);
+	}
+	for (let i = 0; i < stack.length; i++) {
+		str[i] = '';
 	}
 
-	return max_counter;
+	return str.join('');
 }
 
-console.log(maxDepth('(1+(2*3)+((8)/4))+1')); // 3
-console.log(maxDepth('(1)+((2))+(((3)))')); // 3
+// console.log(minRemoveToMakeValid('lee(t(c)o)de)')); // "lee(t(c)o)de"
+// console.log(minRemoveToMakeValid('a)b(c)d')); // "ab(c)d"
+// console.log(minRemoveToMakeValid('))((')); // ''
+console.log(minRemoveToMakeValid('(a(b(c)d)')); // "a(b(c)d)"
