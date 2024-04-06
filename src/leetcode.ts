@@ -4885,31 +4885,60 @@ const len2: number = (value as string).length;
 // console.log(maxDepth('(1+(2*3)+((8)/4))+1')); // 3
 // console.log(maxDepth('(1)+((2))+(((3)))')); // 3
 
-function minRemoveToMakeValid(s: string): string {
-	const stack: number[] = [];
-	const str = s.split('');
-	for (let i = 0; i < s.length; i++) {
-		const c = s[i];
-		if (c === '(') {
-			stack.push(i);
-		} else {
-			if (c === ')') {
-				if (stack.length) {
-					stack.pop();
-				} else {
-					str[i] = '';
-				}
-			}
-		}
-	}
-	for (let i = 0; i < stack.length; i++) {
-		str[i] = '';
-	}
+// function minRemoveToMakeValid(s: string): string {
+// 	const stack: number[] = [];
+// 	const str = s.split('');
+// 	for (let i = 0; i < s.length; i++) {
+// 		const c = s[i];
+// 		if (c === '(') {
+// 			stack.push(i);
+// 		} else {
+// 			if (c === ')') {
+// 				if (stack.length) {
+// 					stack.pop();
+// 				} else {
+// 					str[i] = '';
+// 				}
+// 			}
+// 		}
+// 	}
+// 	for (let i = 0; i < stack.length; i++) {
+// 		str[i] = '';
+// 	}
 
-	return str.join('');
-}
+// 	return str.join('');
+// }
 
 // console.log(minRemoveToMakeValid('lee(t(c)o)de)')); // "lee(t(c)o)de"
 // console.log(minRemoveToMakeValid('a)b(c)d')); // "ab(c)d"
 // console.log(minRemoveToMakeValid('))((')); // ''
-console.log(minRemoveToMakeValid('(a(b(c)d)')); // "a(b(c)d)"
+// console.log(minRemoveToMakeValid('(a(b(c)d)')); // "a(b(c)d)"
+
+function countSquares(matrix: number[][]): number {
+	const ROWS = matrix.length;
+	const COLS = matrix[0].length;
+
+	let ans = 0;
+	for (let r = 0; r < ROWS; r++) {
+		for (let c = 0; c < COLS; c++) {
+			if (matrix[r][c] === 1 && r > 0 && c > 0) {
+				matrix[r][c] =
+					Math.min(
+						matrix[r - 1][c],
+						matrix[r][c - 1],
+						matrix[r - 1][c - 1],
+					) + 1;
+			}
+			ans += matrix[r][c];
+		}
+	}
+	return ans;
+}
+
+console.log(
+	countSquares([
+		[0, 1, 1, 1],
+		[1, 1, 1, 1],
+		[0, 1, 1, 1],
+	]),
+); // 15

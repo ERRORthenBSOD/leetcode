@@ -2104,36 +2104,63 @@ def array_to_binary_tree(lst):
 # # "abBAcC" --> "abBA" --> "aA" --> ""
 
 
-class Solution:
-    def minRemoveToMakeValid(self, s: str) -> str:
-        opened = 0
-        stack: List[str] = []
-        for c in s:
-            if c == '(':
-                opened += 1
-                stack.append(c)
-            else:
-                if c == ')':
-                    if opened >= 1:
-                        opened -= 1
-                        stack.append(c)
-                else:
-                    stack.append(c)
-        if not opened:
-            return ''.join(stack)
+# class Solution:
+#     def minRemoveToMakeValid(self, s: str) -> str:
+#         opened = 0
+#         stack: List[str] = []
+#         for c in s:
+#             if c == '(':
+#                 opened += 1
+#                 stack.append(c)
+#             else:
+#                 if c == ')':
+#                     if opened >= 1:
+#                         opened -= 1
+#                         stack.append(c)
+#                 else:
+#                     stack.append(c)
+#         if not opened:
+#             return ''.join(stack)
 
-        i = len(stack) - 1
+#         i = len(stack) - 1
 
-        while opened:
-            if stack[i] == '(':
-                stack[i] = ''
-                opened -= 1
-            i -= 1    
-        return ''.join(stack)
+#         while opened:
+#             if stack[i] == '(':
+#                 stack[i] = ''
+#                 opened -= 1
+#             i -= 1
+#         return ''.join(stack)
 
 
-solution = Solution()
+# solution = Solution()
 # print(solution.minRemoveToMakeValid("lee(t(c)o)de)"))  # "lee(t(c)o)de"
 # print(solution.minRemoveToMakeValid("a)b(c)d"))  # "ab(c)d"
 # print(solution.minRemoveToMakeValid("))(("))  # ""
-print(solution.minRemoveToMakeValid("())()((("))  # ""
+# print(solution.minRemoveToMakeValid("())()((("))  # ""
+
+class Solution:
+    def countSquares(self, matrix: List[List[int]]) -> int:
+        ROWS = len(matrix)
+        COLS = len(matrix[0])
+        dp = [[0] * (COLS + 1) for _ in range(ROWS + 1)]
+        res = 0
+        for r in range(1, ROWS + 1):
+            for c in range(1, COLS + 1):
+                if matrix[r-1][c-1] == 1:
+                    dp[r][c] = min(dp[r-1][c], dp[r][c-1], dp[r-1][c-1]) + 1
+                    res += dp[r][c]
+        print(dp)
+        return res
+
+
+solution = Solution()
+print(solution.countSquares([
+    [0, 1, 1, 1],
+    [1, 1, 1, 1],
+    [0, 1, 1, 1]
+]))  # 15
+# [[0, 0, 0, 0, 0], 
+#  [0, 0, 1, 1, 1], 
+#  [0, 1, 1, 2, 2], 
+#  [0, 0, 1, 2, 3]
+# ]
