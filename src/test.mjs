@@ -4,7 +4,7 @@
 //         this.getName1();
 //     }
 
-const { reverse } = require('dns');
+// const { reverse } = require('dns');
 
 //     getName1() {
 //         console.log('FOO ' + this.name);
@@ -519,10 +519,156 @@ var foo = { n: 1 };
 var bar = foo;
 foo.x = foo = { n: 2 };
 
+// function varCheck() {
+// 	var test = 'test';
+// 	return test;
+// }
+// varCheck();
 
-function varCheck() {
-	var test = 'test';
-	return test;
-}
-varCheck();
+// function throttle(mainFunction, delay) {
+// 	let timerFlag = null; // Variable to keep track of the timer
 
+// 	return (...args) => {
+// 		// If there is no timer currently running
+// 		if (timerFlag === null) {
+// 			mainFunction(...args); // Execute the main function
+
+// 			timerFlag = setTimeout(() => {
+// 				// Set a timer to clear the timerFlag after the specified delay
+// 				timerFlag = null; // Clear the timerFlag to allow the main function to be executed again
+// 			}, delay);
+// 		}
+// 	};
+// }
+
+// const res = sum2(1) + sum2(1)(2);
+// console.log(res);
+// console.log(sum2(1)(2));
+// console.log(sum2(1)(2)(3));
+
+// function sum(a, b, c) {
+// 	return a + b + c;
+// }
+
+// let curriedSum = curry(sum);
+
+// alert(curriedSum(1, 2, 3)); // 6, still callable normally
+// alert(curriedSum(1)(2, 3)); // 6, currying of 1st arg
+// alert(curriedSum(1)(2)(3));
+
+// function curry(func) {
+// 	return function curried(...args) {
+// 		if (args.length >= func.length) {
+// 			return func.apply(this, args);
+// 		}
+// 		return function (...args2) {
+// 			return curried.apply(this, args.concat(args2));
+// 		};
+// 	};
+// }
+
+// function coldDate() {
+// 	return new Observable((subscriber) => {
+// 		const value = 123;
+// 		subscriber.next(value);
+// 	});
+// }
+
+// class Observable {
+// 	constructor(private onSubscribe: (observer: Observer) => Subscription) {}
+
+// 	subscribe(observer: Observer) {
+// 	  this.onSubscribe(observer);
+// 	}
+// }
+
+// const obs$ = of(null).pipe(map(() => Math.random()));
+// obs$.subscribe({
+// 	next: console.log,
+// });
+// obs$.subscribe(console.log);
+// obs$.subscribe(console.log);
+// obs$.subscribe(console.log);
+
+// const stream$ = new Observable((observer) => {
+// 	observer.next(1);
+// 	setTimeout(() => {
+// 		observer.next(2);
+// 	}, 1000);
+// 	setTimeout(() => {
+// 		observer.error(new Error('AZZ ERROR'));
+// 	}, 1500);
+// 	setTimeout(() => {
+// 		observer.next(777);
+// 	}, 2000);
+// 	setTimeout(() => {
+// 		observer.complete();
+// 	}, 3000);
+// });
+
+// stream$
+// 	.pipe(
+// 		catchError((err) => {
+// 			console.log('CATCHED', err);
+// 			return EMPTY;
+// 		}),
+// 	)
+// 	.subscribe(
+// 		(val) => {
+// 			console.log(val);
+// 		},
+// 		// (err) => {
+// 		// 	console.log('ERR', err);
+// 		// },
+// 	);
+
+// const subject = new Subject();
+
+// interval(500)
+// 	.pipe(
+// 		take(5),
+// 		map(() => Math.random().toString().substring(2, 4)),
+// 	)
+// 	.subscribe(subject);
+// myObs$
+
+// 	.subscribe(subject);
+// subject.subscribe({ next: console.log });
+// eslint-disable-next-line quotes
+
+// const azz = {
+// 	currFilter: 'Jane Doe',
+// 	users: [{ name: 'Jane Doe' }],
+// 	filter: function () {
+// 		return this.users.filter(function (user) {
+// 			return user.name === this.currFilter;
+// 		});
+// 	},
+// };
+
+// function one() {
+// 	const a = 111;
+// 	return function () {
+// 		console.log(globalThis);
+// 	};
+// }
+
+// console.log(one()());
+// console.log(1);
+
+// Promise.resolve(2).then(console.log);
+// console.log(3);
+
+// setTimeout(() => console.log(4));
+
+// const foo2 = () => {
+// 	console.log('foo1');
+// 	setTimeout(foo2);
+// };
+
+// foo2();
+
+// const foo1 = () => {
+// 	console.log('foo1');
+// 	return Promise.resolve().then(foo1);
+// };
