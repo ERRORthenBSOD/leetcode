@@ -4914,31 +4914,78 @@ const len2: number = (value as string).length;
 // console.log(minRemoveToMakeValid('))((')); // ''
 // console.log(minRemoveToMakeValid('(a(b(c)d)')); // "a(b(c)d)"
 
-function countSquares(matrix: number[][]): number {
-	const ROWS = matrix.length;
-	const COLS = matrix[0].length;
+// function countSquares(matrix: number[][]): number {
+// 	const ROWS = matrix.length;
+// 	const COLS = matrix[0].length;
 
-	let ans = 0;
-	for (let r = 0; r < ROWS; r++) {
-		for (let c = 0; c < COLS; c++) {
-			if (matrix[r][c] === 1 && r > 0 && c > 0) {
-				matrix[r][c] =
-					Math.min(
-						matrix[r - 1][c],
-						matrix[r][c - 1],
-						matrix[r - 1][c - 1],
-					) + 1;
+// 	let ans = 0;
+// 	for (let r = 0; r < ROWS; r++) {
+// 		for (let c = 0; c < COLS; c++) {
+// 			if (matrix[r][c] === 1 && r > 0 && c > 0) {
+// 				matrix[r][c] =
+// 					Math.min(
+// 						matrix[r - 1][c],
+// 						matrix[r][c - 1],
+// 						matrix[r - 1][c - 1],
+// 					) + 1;
+// 			}
+// 			ans += matrix[r][c];
+// 		}
+// 	}
+// 	return ans;
+// }
+
+// console.log(
+// 	countSquares([
+// 		[0, 1, 1, 1],
+// 		[1, 1, 1, 1],
+// 		[0, 1, 1, 1],
+// 	]),
+// ); // 15
+
+function checkValidString(s: string): boolean {
+	const stack: number[] = [];
+	const wildCardStack: number[] = [];
+
+	for (let i = 0; i < s.length; i++) {
+		const c = s[i];
+		if (c === '*') {
+			wildCardStack.push(i);
+		}
+		if (c === ')') {
+			if (stack.length) {
+				stack.pop();
+			} else if (wildCardStack.length) {
+				wildCardStack.pop();
+			} else {
+				return false;
 			}
-			ans += matrix[r][c];
+		}
+		if (c === '(') {
+			stack.push(i);
 		}
 	}
-	return ans;
+	while (stack.length && wildCardStack.length) {
+		if (stack.pop() > wildCardStack.pop()) {
+			return false;
+		}
+	}
+	return stack.length === 0;
 }
+// console.log(checkValidString('**(')); // false
+console.log(checkValidString('(((******')); // true
+console.log(checkValidString('(')); // true
 
-console.log(
-	countSquares([
-		[0, 1, 1, 1],
-		[1, 1, 1, 1],
-		[0, 1, 1, 1],
-	]),
-); // 15
+// console.log(checkValidString('()')); // true
+// console.log(checkValidString('(*)')); // true
+// console.log(checkValidString('(*))')); // true
+// console.log(
+// 	checkValidString(
+// 		'((((()(()()()*()(((((*)()*(**(())))))(())()())(((())())())))))))(((((())*)))()))(()((*()*(*)))(*)()',
+// 	),
+// ); // true
+// console.log(
+// 	checkValidString(
+// 		'(((((*(()((((*((**(((()()*)()()()*((((**)())*)*)))))))(())(()))())((*()()(((()((()*(())*(()**)()(())',
+// 	),
+// ); // false

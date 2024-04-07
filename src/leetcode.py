@@ -2138,29 +2138,51 @@ def array_to_binary_tree(lst):
 # print(solution.minRemoveToMakeValid("))(("))  # ""
 # print(solution.minRemoveToMakeValid("())()((("))  # ""
 
-class Solution:
-    def countSquares(self, matrix: List[List[int]]) -> int:
-        ROWS = len(matrix)
-        COLS = len(matrix[0])
-        dp = [[0] * (COLS + 1) for _ in range(ROWS + 1)]
-        res = 0
-        for r in range(1, ROWS + 1):
-            for c in range(1, COLS + 1):
-                if matrix[r-1][c-1] == 1:
-                    dp[r][c] = min(dp[r-1][c], dp[r][c-1], dp[r-1][c-1]) + 1
-                    res += dp[r][c]
-        print(dp)
-        return res
+# class Solution:
+#     def countSquares(self, matrix: List[List[int]]) -> int:
+#         ROWS = len(matrix)
+#         COLS = len(matrix[0])
+#         dp = [[0] * (COLS + 1) for _ in range(ROWS + 1)]
+#         res = 0
+#         for r in range(1, ROWS + 1):
+#             for c in range(1, COLS + 1):
+#                 if matrix[r-1][c-1] == 1:
+#                     dp[r][c] = min(dp[r-1][c], dp[r][c-1], dp[r-1][c-1]) + 1
+#                     res += dp[r][c]
+#         print(dp)
+#         return res
 
 
-solution = Solution()
-print(solution.countSquares([
-    [0, 1, 1, 1],
-    [1, 1, 1, 1],
-    [0, 1, 1, 1]
-]))  # 15
-# [[0, 0, 0, 0, 0], 
-#  [0, 0, 1, 1, 1], 
-#  [0, 1, 1, 2, 2], 
+# solution = Solution()
+# print(solution.countSquares([
+#     [0, 1, 1, 1],
+#     [1, 1, 1, 1],
+#     [0, 1, 1, 1]
+# ]))  # 15
+# [[0, 0, 0, 0, 0],
+#  [0, 0, 1, 1, 1],
+#  [0, 1, 1, 2, 2],
 #  [0, 0, 1, 2, 3]
 # ]
+
+
+# greedy
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        opened_brackets_min = 0
+        opened_brackets_max = 0
+
+        for c in s:
+            if c == '(':
+                opened_brackets_min += 1
+                opened_brackets_max += 1
+            if c == ')':
+                opened_brackets_max -= 1
+                opened_brackets_min = max(opened_brackets_min-1, 0)
+            if c == '*':
+                opened_brackets_max += 1
+                opened_brackets_min = max(opened_brackets_min-1, 0)
+            if opened_brackets_max < 0:
+                return False
+
+        return opened_brackets_min == 0
