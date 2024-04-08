@@ -2167,22 +2167,40 @@ def array_to_binary_tree(lst):
 
 
 # greedy
+# class Solution:
+#     def checkValidString(self, s: str) -> bool:
+#         opened_brackets_min = 0
+#         opened_brackets_max = 0
+
+#         for c in s:
+#             if c == '(':
+#                 opened_brackets_min += 1
+#                 opened_brackets_max += 1
+#             if c == ')':
+#                 opened_brackets_max -= 1
+#                 opened_brackets_min = max(opened_brackets_min-1, 0)
+#             if c == '*':
+#                 opened_brackets_max += 1
+#                 opened_brackets_min = max(opened_brackets_min-1, 0)
+#             if opened_brackets_max < 0:
+#                 return False
+
+#         return opened_brackets_min == 0
+
+
 class Solution:
-    def checkValidString(self, s: str) -> bool:
-        opened_brackets_min = 0
-        opened_brackets_max = 0
+    def countStudents(self, students: List[int], sandwiches: List[int]) -> int:
+        count = Counter(students)
+        res = len(students)
+        for s in sandwiches:
+            if count[s] > 0:
+                count[s] -= 1
+                res -= 1
+            else:
+                return res
+        return res
 
-        for c in s:
-            if c == '(':
-                opened_brackets_min += 1
-                opened_brackets_max += 1
-            if c == ')':
-                opened_brackets_max -= 1
-                opened_brackets_min = max(opened_brackets_min-1, 0)
-            if c == '*':
-                opened_brackets_max += 1
-                opened_brackets_min = max(opened_brackets_min-1, 0)
-            if opened_brackets_max < 0:
-                return False
 
-        return opened_brackets_min == 0
+solution = Solution()
+# print(solution.countStudents([1, 1, 0, 0], [0, 1, 0, 1]))
+print(solution.countStudents([1, 1, 1, 0, 0, 1], [1, 0, 0, 0, 1, 1]))

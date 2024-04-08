@@ -4943,38 +4943,38 @@ const len2: number = (value as string).length;
 // 	]),
 // ); // 15
 
-function checkValidString(s: string): boolean {
-	const stack: number[] = [];
-	const wildCardStack: number[] = [];
+// function checkValidString(s: string): boolean {
+// 	const stack: number[] = [];
+// 	const wildCardStack: number[] = [];
 
-	for (let i = 0; i < s.length; i++) {
-		const c = s[i];
-		if (c === '*') {
-			wildCardStack.push(i);
-		}
-		if (c === ')') {
-			if (stack.length) {
-				stack.pop();
-			} else if (wildCardStack.length) {
-				wildCardStack.pop();
-			} else {
-				return false;
-			}
-		}
-		if (c === '(') {
-			stack.push(i);
-		}
-	}
-	while (stack.length && wildCardStack.length) {
-		if (stack.pop() > wildCardStack.pop()) {
-			return false;
-		}
-	}
-	return stack.length === 0;
-}
+// 	for (let i = 0; i < s.length; i++) {
+// 		const c = s[i];
+// 		if (c === '*') {
+// 			wildCardStack.push(i);
+// 		}
+// 		if (c === ')') {
+// 			if (stack.length) {
+// 				stack.pop();
+// 			} else if (wildCardStack.length) {
+// 				wildCardStack.pop();
+// 			} else {
+// 				return false;
+// 			}
+// 		}
+// 		if (c === '(') {
+// 			stack.push(i);
+// 		}
+// 	}
+// 	while (stack.length && wildCardStack.length) {
+// 		if (stack.pop() > wildCardStack.pop()) {
+// 			return false;
+// 		}
+// 	}
+// 	return stack.length === 0;
+// }
 // console.log(checkValidString('**(')); // false
-console.log(checkValidString('(((******')); // true
-console.log(checkValidString('(')); // true
+// console.log(checkValidString('(((******')); // true
+// console.log(checkValidString('(')); // true
 
 // console.log(checkValidString('()')); // true
 // console.log(checkValidString('(*)')); // true
@@ -4989,3 +4989,22 @@ console.log(checkValidString('(')); // true
 // 		'(((((*(()((((*((**(((()()*)()()()*((((**)())*)*)))))))(())(()))())((*()()(((()((()*(())*(()**)()(())',
 // 	),
 // ); // false
+
+function countStudents(students: number[], sandwiches: number[]): number {
+	let l = students.length * sandwiches.length;
+	while (l >= 0) {
+		const st = students.shift();
+		const sand = sandwiches[0];
+		if (sand === st) {
+			l--;
+			sandwiches.shift();
+		} else {
+			students.push(st);
+		}
+		l--;
+	}
+
+	return students.length;
+}
+console.log(countStudents([1, 1, 0, 0], [0, 1, 0, 1]));
+console.log(countStudents([1, 1, 1, 0, 0, 1], [1, 0, 0, 0, 1, 1]));
