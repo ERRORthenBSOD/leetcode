@@ -4990,21 +4990,55 @@ const len2: number = (value as string).length;
 // 	),
 // ); // false
 
-function countStudents(students: number[], sandwiches: number[]): number {
-	let l = students.length * sandwiches.length;
-	while (l >= 0) {
-		const st = students.shift();
-		const sand = sandwiches[0];
-		if (sand === st) {
-			l--;
-			sandwiches.shift();
-		} else {
-			students.push(st);
-		}
-		l--;
-	}
+// function countStudents(students: number[], sandwiches: number[]): number {
+// 	let l = students.length * sandwiches.length;
+// 	while (l >= 0) {
+// 		const st = students.shift();
+// 		const sand = sandwiches[0];
+// 		if (sand === st) {
+// 			l--;
+// 			sandwiches.shift();
+// 		} else {
+// 			students.push(st);
+// 		}
+// 		l--;
+// 	}
 
-	return students.length;
+// 	return students.length;
+// }
+// console.log(countStudents([1, 1, 0, 0], [0, 1, 0, 1]));
+// console.log(countStudents([1, 1, 1, 0, 0, 1], [1, 0, 0, 0, 1, 1]));
+
+// function timeRequiredToBuy(tickets: number[], k: number): number {
+// 	if (k === 1) {
+// 		return k + 1;
+// 	}
+// 	let time = 0;
+// 	const currentTickets = tickets[k];
+// 	for (let i = 0; i < tickets.length; i++) {
+// 		const el = tickets[i];
+// 		if (i <= k) {
+// 			time += Math.min(currentTickets, el);
+// 		} else {
+// 			time += Math.min(currentTickets - 1, el);
+// 		}
+// 	}
+// 	return time;
+// }
+
+// console.log(timeRequiredToBuy([2, 3, 2], 2)); // 6
+// console.log(timeRequiredToBuy([5, 1, 1, 1], 0)); // 8
+// console.log(timeRequiredToBuy([84, 49, 5, 24, 70, 77, 87, 8], 3)); // 154
+
+function deckRevealedIncreasing(deck: number[]): number[] {
+	deck.sort((a, b) => a - b);
+	const res: number[] = [];
+	const queue: number[] = Array.from({ length: deck.length }, (_, i) => i);
+	for (let i = 0; i < deck.length; i++) {
+		res[queue.shift()] = deck[i];
+		queue.push(queue.shift());
+	}
+	return res;
 }
-console.log(countStudents([1, 1, 0, 0], [0, 1, 0, 1]));
-console.log(countStudents([1, 1, 1, 0, 0, 1], [1, 0, 0, 0, 1, 1]));
+
+console.log(deckRevealedIncreasing([17, 13, 11, 2, 3, 5, 7])); // [2,13,3,11,5,17,7]
