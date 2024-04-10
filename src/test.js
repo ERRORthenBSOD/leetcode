@@ -525,22 +525,6 @@ foo.x = foo = { n: 2 };
 // }
 // varCheck();
 
-// function throttle(mainFunction, delay) {
-// 	let timerFlag = null; // Variable to keep track of the timer
-
-// 	return (...args) => {
-// 		// If there is no timer currently running
-// 		if (timerFlag === null) {
-// 			mainFunction(...args); // Execute the main function
-
-// 			timerFlag = setTimeout(() => {
-// 				// Set a timer to clear the timerFlag after the specified delay
-// 				timerFlag = null; // Clear the timerFlag to allow the main function to be executed again
-// 			}, delay);
-// 		}
-// 	};
-// }
-
 // const res = sum2(1) + sum2(1)(2);
 // console.log(res);
 // console.log(sum2(1)(2));
@@ -672,3 +656,421 @@ foo.x = foo = { n: 2 };
 // 	console.log('foo1');
 // 	return Promise.resolve().then(foo1);
 // };
+
+// eslint-disable-next-line no-constant-condition
+// let z = 1;
+// if (true) {
+// 	var azz = 123;
+// 	let z = 2;
+// }
+// function two() {
+// 	var azz2 = 123;
+// }
+
+// let z = { d: 10 };
+// let b = z;
+// b.d = 11;
+// console.log(b, z);
+
+// if (b.d == z.d) {
+// 	console.log('BAD');
+// }
+
+// let a = 1;
+// console.log(22, typeof a.toString());
+// if (typeof a == 'number') {
+// 	console.log(111111111);
+// }
+
+// let z = { d: 10 };
+// let b = z;
+
+// z.a = 123;
+// console.log(z, b);
+
+// const user = {
+// 	name: 'Azz',
+// 	getName() {
+// 		return function () {
+// 			return this.name;
+// 		};
+// 	},
+// };
+
+// console.log(user.getName().bind(user)());
+// function coldDate() {
+// 	return new Observable((subscriber) => {
+// 		const value = new Date().toLocaleTimeString();
+// 		subscriber.next(value);
+// 	});
+// }
+
+// const observable = coldDate();
+
+// const s1 = observable.subscribe(console.log);
+
+// setTimeout(() => {
+// 	const s2 = observable.subscribe(console.log);
+// }, 2000);
+
+// setTimeout(() => {
+// 	const s3 = observable.subscribe(console.log);
+// }, 4000);
+
+// console.log(typeof name);
+
+// let name = 123;
+
+// function curry(func) {
+// 	return function curried(...args) {
+// 		if (args.length >= func.length) {
+// 			return func.apply(this, args);
+// 		} else {
+// 			return function (...args2) {
+// 				console.log(111, ...args2);
+// 				return curried.apply(this, args.concat(args2));
+// 			};
+// 		}
+// 	};
+// }
+
+// function curry(func) {
+// 	return function curried(...args) {
+// 		if (args.length >= func.length) {
+// 			return func.apply(this, args);
+// 		} else {
+// 			return function (...args2) {
+// 				return curried.apply(this, args.concat(args2));
+// 			};
+// 		}
+// 	};
+// }
+
+// function sum(a, b, c) {
+// 	return a + b + c;
+// }
+
+// let curriedSum = curry(sum);
+
+// console.log(curriedSum(1, 2, 3)); // 6, still callable normally
+// console.log(curriedSum(1)(2, 3)); // 6, currying of 1st arg
+// console.log(curriedSum(1)(2)(3));
+
+// function throttle(mainFunction, delay) {
+// 	let timerFlag = null; // Variable to keep track of the timer
+
+// 	return (...args) => {
+// 		// If there is no timer currently running
+// 		if (timerFlag === null) {
+// 			mainFunction(...args); // Execute the main function
+
+// 			timerFlag = setTimeout(() => {
+// 				// Set a timer to clear the timerFlag after the specified delay
+// 				timerFlag = null; // Clear the timerFlag to allow the main function to be executed again
+// 			}, delay);
+// 		}
+// 	};
+// }
+
+// const user = {
+// 	name: 'Azz',
+// 	getName() {
+// 		const func = function () {
+// 			return this.name;
+// 		};
+// 		return func.bind(this);
+// 	},
+// };
+// console.log(user.getName()());
+
+// import { of } from 'rxjs';
+// of([1, 2, 3, 4, 5])
+// 	.pipe(switchMap((e) => of(e)))
+// 	.subscribe(console.log);
+
+// const higherOrder = of([1, 2])
+// 	.pipe(
+// 		map(() => interval(1000)),
+// 		mergeAll(),
+// 	)
+// 	.subscribe((x) => console.log(x));
+
+// let publisher$ = interval(1000).pipe(take(5), publish());
+
+// const one$ = of(1, 2).pipe(delay(1000));
+// const two$ = of(3, 4).pipe(delay(800));
+// one$.pipe(
+// 	switchMap((one) => two$.pipe(map((two) => `${one} + ${two}`))),
+// ).subscribe((re) => {
+// 	console.log(re);
+// });
+// combineLatest([one$, two$])
+// 	.pipe(mergeAll())
+// 	.subscribe((res) => {
+// 		console.log(res);
+// 	});
+
+// const first$ = interval(1000).pipe(
+// 	map(() => 'FIRST'),
+// 	take(3),
+// );
+// const second$ = interval(800).pipe(
+// 	map(() => 'SECOND'),
+// 	take(2),
+// );
+// merge(first$, second$)
+// 	.pipe(combineLatestAll())
+// 	.subscribe((res) => {
+// 		console.log(res);
+// 	});
+
+// const tick$ = connectable(timer(1_000), {
+// 	connector: () => new Subject(),
+// });
+
+// tick$.connect((res) => {
+// 	console.log(111, res);
+// });
+
+// function FizzBuzz() {
+// 	for (let i = 0; i < 100; ) {
+// 		console.log((++i % 3 ? '' : 'Fizz') + (i % 5 ? '' : 'Buzz') || i);
+// 	}
+// }
+// FizzBuzz();
+
+import {
+	delay,
+	from,
+	interval,
+	of,
+	map,
+	take,
+	share,
+	tap,
+	Observable,
+	Subject,
+	mergeAll,
+	merge,
+	zip,
+	concatAll,
+	connect,
+	filter,
+	first,
+	EMPTY,
+	range,
+	BehaviorSubject,
+	ReplaySubject,
+	shareReplay,
+	concatMap,
+} from 'rxjs';
+
+const testMap = (operator) => {
+	from([0, 1, 2, 3, 4])
+		.pipe(operator((x) => of(x).pipe(delay(500))))
+		.subscribe({
+			next: console.log,
+			error: () => {},
+			complete: (res) => console.log(operator.name + 'completed'),
+		});
+};
+
+// testMap(switchMap);
+// testMap(mergeMap);
+// testMap(concatMap);
+// testMap(exhaustMap);
+
+// const testReplaySubj = new ReplaySubject();
+// let i = 0;
+// interval(1000)
+// 	.pipe(map(() => 'EVENT' + i++))
+// 	.subscribe(testReplaySubj);
+
+// testReplaySubj.subscribe((res) => {
+// 	console.log(res);
+// });
+
+// setTimeout(() => {
+// 	testReplaySubj.subscribe((res) => {
+// 		console.log('THIS IS SUB2', res);
+// 	});
+// }, 5000);
+
+// const source$ = interval(1000).pipe(
+// 	tap((x) => console.log('Processing: ', x)),
+// 	map(() => {
+// 		let i = 0;
+// 		return 'EVENT' + i++;
+// 	}),
+// 	take(3),
+// 	share(),
+// );
+// source$.subscribe((x) => console.log('subscription 1: ', x));
+// setTimeout(() => {
+// 	source$.subscribe((x) => console.log('subscription 2: ', x));
+// }, 1000);
+// const source2$ = interval(1000).pipe(
+// 	map(() => 'EVENT' + i++),
+// 	take(6),
+// 	shareReplay(3),
+// );
+// source2$.subscribe((x) => console.log('subscription 1: ', x));
+// source2$.subscribe((x) => console.log('subscription 2: ', x));
+
+// setTimeout(() => {
+// 	source2$.subscribe((y) => console.log('sub C: ', y));
+// }, 11000);
+
+// function makeHot(cold) {
+// 	const subject = new Subject();
+// 	cold.subscribe(subject);
+// 	return new Observable((observer) => subject.subscribe(observer));
+// }
+// of([1, 2, 3]).subscribe((res) => {
+// 	console.log('of' + res);
+// });
+// from([1, 2, 3]).subscribe((res) => {
+// 	console.log('from' + res);
+// // });
+// function makeHot(cold) {
+// 	const subject = new Subject();
+// 	cold.subscribe(subject);
+// 	return new Observable((observer) => subject.subscribe(observer));
+// }
+
+// const cold$ = interval(1000).pipe(
+// 	tap((x) => console.log('SESSION' + x)),
+// 	take(3),
+// 	map(() => 'EVENT'),
+// );
+
+// const hot$ = makeHot(cold$);
+// hot$.subscribe((e) => {
+// 	console.log('SUB1', e);
+// });
+// hot$.subscribe((e) => {
+// 	console.log('SUB2', e);
+// });
+
+// merge(of(1, 2, 3), from([4, 5, 6])).subscribe(console.log);
+
+// const age$ = of(27, 25, 29);
+// const name$ = of('Foo', 'Bar', 'Beer').pipe(delay(1000));
+// const isDev$ = of(true, true, false);
+
+// zip(age$, name$, isDev$)
+// 	.pipe(map(([age, name, isDev]) => ({ age, name, isDev })))
+// 	.subscribe(console.log);
+
+// const int = interval(1000).pipe(
+// 	// tap((x) => console.log('SESSION' + x)),
+// 	take(1),
+// 	map(() => 'EVENT'),
+// );
+
+// int.pipe(concatAll()).subscribe((re) => {
+// 	console.log(re);
+// });
+// const source$ = of(1, 2, 3, 4, 5).pipe(
+// 	tap({
+// 		subscribe: () => console.log('subscription started'),
+// 		next: (n) => console.log(`source emitted ${n}`),
+// 	}),
+// );
+
+// source$
+// 	.pipe(
+// 		// Notice in here we're merging 3 subscriptions to `shared$`.
+// 		connect((shared$) =>
+// 			merge(
+// 				shared$.pipe(map((n) => `all ${n}`)),
+// 				shared$.pipe(
+// 					filter((n) => n % 2 === 0),
+// 					map((n) => `even ${n}`),
+// 				),
+// 				shared$.pipe(
+// 					filter((n) => n % 2 === 1),
+// 					map((n) => `odd ${n}`),
+// 				),
+// 			),
+// 		),
+// 	)
+// 	.subscribe(console.log);
+// range(1, 10)
+// 	.pipe(first((el) => el > 3))
+// 	.subscribe(
+// 		(res) => console.log('On next reached.', res),
+// 		() => console.log('On error reached.'),
+// 	);
+
+// const obs1$ = new Subject();
+// const obs2$ = new Subject();
+// obs1$
+// 	.pipe(
+// 		map((v) => obs2$.pipe(map((v2) => v + ' ' + v2))),
+// 		mergeAll(),
+// 	)
+// 	.subscribe((v) => console.log(v));
+
+// obs1$.next('1');
+// obs2$.next('2');
+
+// obs1$.next('3');
+// obs2$.next('4');
+
+// obs1$.next('5');
+// obs2$.next('6');
+
+// obs1$.next('7');
+// obs2$.next('8');
+
+// const rep$ = new ReplaySubject(1);
+
+// rep$.next(111);
+
+// const one = rep$.subscribe(console.log);
+// const two = rep$.subscribe(console.log);
+
+// one.unsubscribe();
+// two.unsubscribe();
+// const tree = rep$.subscribe(console.log);
+// rep$.next(222);
+// rep$.next(222);
+// rep$.next(222);
+
+const source$ = from([1, 2]).pipe(
+	tap((x) => console.log('subscription started ', x)),
+	concatMap((el) => of(el).pipe(delay(1000))),
+	shareReplay(1),
+);
+
+source$.subscribe((n) => console.log(`1 source emitted ${n}`));
+
+setTimeout(() => {
+	source$.subscribe((n) => console.log(`2 source emitted ${n}`));
+}, 2000);
+// function makeHot(cold) {
+// 	const subject = new Subject();
+// 	cold.subscribe(subject);
+// 	return new Observable((observer) => subject.subscribe(observer));
+// }
+
+// makeHot
+
+function makeHot(cold) {
+	const subj = new Subject();
+	cold.subscribe(subj);
+	return new Observable((obs) => subj.subscribe(obs));
+}
+const curry = function (func) {
+	return function curried(...args) {
+		if (args.length >= func.length) {
+			return func.apply(this, args);
+		} else {
+			return function (...otherArgs) {
+				console.log(...args, ...otherArgs);
+				return curried.apply(this, [...args, ...otherArgs]);
+			};
+		}
+	};
+};

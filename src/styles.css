@@ -49,3 +49,13 @@ h1#technique-one span {
 	padding: 1em;
 	max-width: 75%;
 }
+
+/* button[aria-label='Зарегистрироваться'] {
+	visibility: hidden;
+}
+button[aria-label='Логин'] {
+	visibility: hidden;
+} */
+/* div[class*='unified-side-bar___'] button[class*='wire-button'] {
+	visibility: hidden;
+} */
