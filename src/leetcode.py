@@ -2188,19 +2188,34 @@ def array_to_binary_tree(lst):
 #         return opened_brackets_min == 0
 
 
+# class Solution:
+#     def countStudents(self, students: List[int], sandwiches: List[int]) -> int:
+#         count = Counter(students)
+#         res = len(students)
+#         for s in sandwiches:
+#             if count[s] > 0:
+#                 count[s] -= 1
+#                 res -= 1
+#             else:
+#                 return res
+#         return res
+
+
+# solution = Solution()
+# # print(solution.countStudents([1, 1, 0, 0], [0, 1, 0, 1]))
+# print(solution.countStudents([1, 1, 1, 0, 0, 1], [1, 0, 0, 0, 1, 1]))
+
+
 class Solution:
-    def countStudents(self, students: List[int], sandwiches: List[int]) -> int:
-        count = Counter(students)
-        res = len(students)
-        for s in sandwiches:
-            if count[s] > 0:
-                count[s] -= 1
-                res -= 1
+    def timeRequiredToBuy(self, tickets: List[int], k: int) -> int:
+        if tickets[k] == 1:
+            return k + 1
+        time = 0
+        current_tickets = tickets[k]
+        for i in range(len(tickets)):
+            el = tickets[i]
+            if i <= k:
+                time += min(el, current_tickets)
             else:
-                return res
-        return res
-
-
-solution = Solution()
-# print(solution.countStudents([1, 1, 0, 0], [0, 1, 0, 1]))
-print(solution.countStudents([1, 1, 1, 0, 0, 1], [1, 0, 0, 0, 1, 1]))
+                time += min(el, current_tickets-1)
+        return time
