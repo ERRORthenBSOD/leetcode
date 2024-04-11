@@ -863,6 +863,7 @@ import {
 	ReplaySubject,
 	shareReplay,
 	concatMap,
+	switchMap,
 } from 'rxjs';
 
 const testMap = (operator) => {
@@ -1057,20 +1058,37 @@ setTimeout(() => {
 
 // makeHot
 
-function makeHot(cold) {
-	const subj = new Subject();
-	cold.subscribe(subj);
-	return new Observable((obs) => subj.subscribe(obs));
-}
-const curry = function (func) {
-	return function curried(...args) {
-		if (args.length >= func.length) {
-			return func.apply(this, args);
-		} else {
-			return function (...otherArgs) {
-				console.log(...args, ...otherArgs);
-				return curried.apply(this, [...args, ...otherArgs]);
-			};
-		}
-	};
-};
+// function makeHot(cold) {
+// 	const subj = new Subject();
+// 	cold.subscribe(subj);
+// 	return new Observable((obs) => subj.subscribe(obs));
+// }
+// const curry = function (func) {
+// 	return function curried(...args) {
+// 		if (args.length >= func.length) {
+// 			return func.apply(this, args);
+// 		} else {
+// 			return function (...otherArgs) {
+// 				console.log(...args, ...otherArgs);
+// 				return curried.apply(this, [...args, ...otherArgs]);
+// 			};
+// 		}
+// 	};
+// };
+
+// of([1, 2, 3, 4, 5])
+// 	.pipe(switchMap((e) => of(e)))
+// 	.subscribe(console.log);
+
+// const a = "xyaabbb"
+// const b = "lllmopq"
+// fun(a, b) -> "ablmopqxy"
+
+// function merge2(a, b) {
+// 	const set = new Set(a + b);
+// 	return Array.from(set).join('').sort();
+// }
+
+// merge('xyaabbb', 'lllmopq'); //"ablmopqxy"
+
+

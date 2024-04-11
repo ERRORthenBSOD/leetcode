@@ -5030,15 +5030,42 @@ const len2: number = (value as string).length;
 // console.log(timeRequiredToBuy([5, 1, 1, 1], 0)); // 8
 // console.log(timeRequiredToBuy([84, 49, 5, 24, 70, 77, 87, 8], 3)); // 154
 
-function deckRevealedIncreasing(deck: number[]): number[] {
-	deck.sort((a, b) => a - b);
-	const res: number[] = [];
-	const queue: number[] = Array.from({ length: deck.length }, (_, i) => i);
-	for (let i = 0; i < deck.length; i++) {
-		res[queue.shift()] = deck[i];
-		queue.push(queue.shift());
+// function deckRevealedIncreasing(deck: number[]): number[] {
+// 	deck.sort((a, b) => a - b);
+// 	const res: number[] = [];
+// 	const queue: number[] = Array.from({ length: deck.length }, (_, i) => i);
+// 	for (let i = 0; i < deck.length; i++) {
+// 		res[queue.shift()] = deck[i];
+// 		queue.push(queue.shift());
+// 	}
+// 	return res;
+// }
+
+// console.log(deckRevealedIncreasing([17, 13, 11, 2, 3, 5, 7])); // [2,13,3,11,5,17,7]
+
+function removeKdigits(num: string, k: number): string {
+	if (k === num.length) {
+		return '0';
 	}
-	return res;
+	const stack: string[] = [];
+	for (const n of num) {
+		while (k > 0 && stack.length && stack.at(-1) > n) {
+			k--;
+			stack.pop();
+		}
+		stack.push(n);
+	}
+	while (k) {
+		stack.pop();
+		k--;
+	}
+	if (!stack.length) {
+		return '0';
+	}
+	return Number(stack.join('')).toString();
 }
 
-console.log(deckRevealedIncreasing([17, 13, 11, 2, 3, 5, 7])); // [2,13,3,11,5,17,7]
+console.log(removeKdigits('1432219', 3)); // 1219
+console.log(removeKdigits('10200', 1)); // 200
+console.log(removeKdigits('10', 2)); // 0
+console.log(removeKdigits('112', 1)); // 0
