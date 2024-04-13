@@ -2206,16 +2206,65 @@ def array_to_binary_tree(lst):
 # print(solution.countStudents([1, 1, 1, 0, 0, 1], [1, 0, 0, 0, 1, 1]))
 
 
+# class Solution:
+#     def timeRequiredToBuy(self, tickets: List[int], k: int) -> int:
+#         if tickets[k] == 1:
+#             return k + 1
+#         time = 0
+#         current_tickets = tickets[k]
+#         for i in range(len(tickets)):
+#             el = tickets[i]
+#             if i <= k:
+#                 time += min(el, current_tickets)
+#             else:
+#                 time += min(el, current_tickets-1)
+#         return time
+
+
+# class Solution:
+#     def trap(self, height: List[int]) -> int:
+#         if not height:
+#             return 0
+#         L, R = 0, len(height) - 1
+#         left_max, right_max = height[L], height[R]
+#         water = 0
+
+#         while L < R:
+#             if left_max < right_max:
+#                 L += 1
+#                 left_max = max(left_max, height[L])
+#                 water  += left_max - height[L]
+#             else:
+#                 R -= 1
+#                 right_max = max(right_max, height[R])
+#                 water  += right_max - height[R]
+
+#         return water
+
+
+# solution = Solution()
+# print(solution.trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]))
+
 class Solution:
-    def timeRequiredToBuy(self, tickets: List[int], k: int) -> int:
-        if tickets[k] == 1:
-            return k + 1
-        time = 0
-        current_tickets = tickets[k]
-        for i in range(len(tickets)):
-            el = tickets[i]
-            if i <= k:
-                time += min(el, current_tickets)
-            else:
-                time += min(el, current_tickets-1)
-        return time
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        max_area = 0
+        stack = []  # (index, height)
+
+        for i, h in enumerate(heights):
+            start = i
+            while stack and stack[-1][1] > h:
+                index, height = stack.pop()
+                max_area = max(max_area, height * (i-index))
+                start = index
+            stack.append((start, h))
+
+        for i, h in stack:
+            max_area = max(max_area, height * (len(height) - i))
+        return max_area
+
+
+solution = Solution()
+print(solution.largestRectangleArea([2, 1, 5, 6, 2, 3]))  # 10
+
+
+print(solution.largestRectangleArea([2, 4]))  # 4
