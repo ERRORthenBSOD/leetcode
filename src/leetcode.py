@@ -2245,26 +2245,48 @@ def array_to_binary_tree(lst):
 # solution = Solution()
 # print(solution.trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]))
 
+# class Solution:
+#     def largestRectangleArea(self, heights: List[int]) -> int:
+#         max_area = 0
+#         stack = []  # (index, height)
+
+#         for i, h in enumerate(heights):
+#             start = i
+#             while stack and stack[-1][1] > h:
+#                 index, height = stack.pop()
+#                 max_area = max(max_area, height * (i-index))
+#                 start = index
+#             stack.append((start, h))
+
+#         for i, h in stack:
+#             max_area = max(max_area, height * (len(height) - i))
+#         return max_area
+
+
+# solution = Solution()
+# print(solution.largestRectangleArea([2, 1, 5, 6, 2, 3]))  # 10
+
+
+# print(solution.largestRectangleArea([2, 4]))  # 4
+
+
 class Solution:
-    def largestRectangleArea(self, heights: List[int]) -> int:
-        max_area = 0
-        stack = []  # (index, height)
+    def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
+        sum = 0
+        def traverse(root: Optional[TreeNode], is_left: bool):
+            nonlocal sum
+            if not root:
+                return
+            if is_left and not root.left and not root.right:
+                sum += root.val
+            traverse(root.right, False)
+            traverse(root.left, True)     
 
-        for i, h in enumerate(heights):
-            start = i
-            while stack and stack[-1][1] > h:
-                index, height = stack.pop()
-                max_area = max(max_area, height * (i-index))
-                start = index
-            stack.append((start, h))
+        traverse(root, False)
+        return sum
 
-        for i, h in stack:
-            max_area = max(max_area, height * (len(height) - i))
-        return max_area
 
+root = array_to_binary_tree([3, 9, 20, None, None, 15, 7])  # 24
 
 solution = Solution()
-print(solution.largestRectangleArea([2, 1, 5, 6, 2, 3]))  # 10
-
-
-print(solution.largestRectangleArea([2, 4]))  # 4
+print(solution.sumOfLeftLeaves(root))
