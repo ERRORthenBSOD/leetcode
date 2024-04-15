@@ -1990,10 +1990,12 @@ class TreeNode {
 		for (let i = 0; i < values.length; ) {
 			const current = queue.shift();
 			for (const side of ['left', 'right'] as const) {
-				if (values[i]) {
-					current[side] = new TreeNode(values[i]);
-					queue.push(current[side]);
-				}
+				// if (values[i]) {
+				// 	current[side] = new TreeNode(values[i]);
+				// 	queue.push(current[side]);
+				// }
+				current[side] = new TreeNode(values[i]);
+				queue.push(current[side]);
 				i++;
 			}
 		}
@@ -5073,73 +5075,95 @@ const len2: number = (value as string).length;
 // 84: Largest rectangle in histogram
 // Return max area available based on an array input (e.g. [ 3, 1, 3, 2, 2 ] => return 6)
 
-const maxArea = (arr: number[]): number => {
-	let area = 0;
-	const maxHeight = Math.max(...arr);
-	const map = [];
+// const maxArea = (arr: number[]): number => {
+// 	let area = 0;
+// 	const maxHeight = Math.max(...arr);
+// 	const map = [];
 
-	// Build a map of all the maximum possible length for each height (e.g. [1,5] 1 is height, 5 is length)
-	for (let j = 1; j <= maxHeight; j++) {
-		let curLength = 0;
-		let maxLength = 0;
-		// For each height loop across the length to find the max length
-		for (let i = 0; i < arr.length; i++) {
-			if (arr[i] >= j) {
-				curLength++;
-			} else {
-				maxLength = Math.max(maxLength, curLength);
-				curLength = 0;
-			}
+// 	// Build a map of all the maximum possible length for each height (e.g. [1,5] 1 is height, 5 is length)
+// 	for (let j = 1; j <= maxHeight; j++) {
+// 		let curLength = 0;
+// 		let maxLength = 0;
+// 		// For each height loop across the length to find the max length
+// 		for (let i = 0; i < arr.length; i++) {
+// 			if (arr[i] >= j) {
+// 				curLength++;
+// 			} else {
+// 				maxLength = Math.max(maxLength, curLength);
+// 				curLength = 0;
+// 			}
+// 		}
+// 		maxLength = Math.max(maxLength, curLength);
+// 		map.push([j, maxLength]);
+// 		maxLength = 0;
+// 		curLength = 0;
+// 	}
+
+// 	// Calculate the area of all the possible rectangles for each height e.g. (map = [[1,5],[2,3],[3,1]] -> 5,6,1)
+// 	for (const x of map) {
+// 		area = Math.max(x[0] * x[1], area);
+// 	}
+// 	return area;
+// };
+
+// const maximalRectangle = (matrix: string[][]): number => {
+// 	// Step 1: Convert matrix to integer
+// 	const numMatrix: number[][] = matrix.map((subArr) =>
+// 		subArr.map((item) => parseInt(item)),
+// 	);
+
+// 	// Pre-fill histogram with 0s
+// 	const histogram: number[] = Array(numMatrix[0].length).fill(0);
+// 	let area = 0;
+
+// 	// Step 2: If matrix has no ones -> return 0
+// 	if (!numMatrix.some((subArr) => subArr.includes(1))) {
+// 		return area;
+// 	}
+
+// 	// Step 3: Build histograms
+// 	for (let i = 0; i < numMatrix.length; i++) {
+// 		for (let j = 0; j < numMatrix[i].length; j++) {
+// 			// If the incoming matrix is 0, set histogram to 0
+// 			if (numMatrix[i][j] === 0) {
+// 				histogram[j] = 0;
+// 			} else {
+// 				histogram[j]++;
+// 			}
+// 		}
+// 		// Run the maxArea function with each histogram to find the max possible area for each histogram
+// 		area = Math.max(area, maxArea(histogram));
+// 	}
+// 	return area;
+// };
+
+// console.log(
+// 	maximalRectangle([
+// 		['1', '0', '1', '0', '0'],
+// 		['1', '0', '1', '1', '1'],
+// 		['1', '1', '1', '1', '1'],
+// 		['1', '0', '0', '1', '0'],
+// 	]),
+// ); // 6
+
+function sumNumbers(root: TreeNode | null): number {
+	function traverse(root: TreeNode | null, strSum: string): number {
+		if (!root) {
+			return 0;
 		}
-		maxLength = Math.max(maxLength, curLength);
-		map.push([j, maxLength]);
-		maxLength = 0;
-		curLength = 0;
-	}
-
-	// Calculate the area of all the possible rectangles for each height e.g. (map = [[1,5],[2,3],[3,1]] -> 5,6,1)
-	for (const x of map) {
-		area = Math.max(x[0] * x[1], area);
-	}
-	return area;
-};
-
-const maximalRectangle = (matrix: string[][]): number => {
-	// Step 1: Convert matrix to integer
-	const numMatrix: number[][] = matrix.map((subArr) =>
-		subArr.map((item) => parseInt(item)),
-	);
-
-	// Pre-fill histogram with 0s
-	const histogram: number[] = Array(numMatrix[0].length).fill(0);
-	let area = 0;
-
-	// Step 2: If matrix has no ones -> return 0
-	if (!numMatrix.some((subArr) => subArr.includes(1))) {
-		return area;
-	}
-
-	// Step 3: Build histograms
-	for (let i = 0; i < numMatrix.length; i++) {
-		for (let j = 0; j < numMatrix[i].length; j++) {
-			// If the incoming matrix is 0, set histogram to 0
-			if (numMatrix[i][j] === 0) {
-				histogram[j] = 0;
-			} else {
-				histogram[j]++;
-			}
+		if (root.left === null && root.right === null) {
+			return +(strSum + root.val);
 		}
-		// Run the maxArea function with each histogram to find the max possible area for each histogram
-		area = Math.max(area, maxArea(histogram));
+		let sum = 0;
+		sum += traverse(root.left, strSum + root.val);
+		sum += traverse(root.right, strSum + root.val);
+		return sum;
 	}
-	return area;
-};
+	return traverse(root, '');
+}
 
-console.log(
-	maximalRectangle([
-		['1', '0', '1', '0', '0'],
-		['1', '0', '1', '1', '1'],
-		['1', '1', '1', '1', '1'],
-		['1', '0', '0', '1', '0'],
-	]),
-); // 6
+const root = new TreeNode(1).insert([2, 3]);
+const root2 = new TreeNode(4).insert([9, 0, 5, 1]);
+
+// console.log(sumNumbers(root)); // 25
+console.log(sumNumbers(root2)); // 1026
