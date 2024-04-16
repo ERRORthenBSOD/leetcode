@@ -5146,24 +5146,54 @@ const len2: number = (value as string).length;
 // 	]),
 // ); // 6
 
-function sumNumbers(root: TreeNode | null): number {
-	function traverse(root: TreeNode | null, strSum: string): number {
-		if (!root) {
-			return 0;
-		}
-		if (root.left === null && root.right === null) {
-			return +(strSum + root.val);
-		}
-		let sum = 0;
-		sum += traverse(root.left, strSum + root.val);
-		sum += traverse(root.right, strSum + root.val);
-		return sum;
+// function sumNumbers(root: TreeNode | null): number {
+// 	function traverse(root: TreeNode | null, strSum: string): number {
+// 		if (!root) {
+// 			return 0;
+// 		}
+// 		if (root.left === null && root.right === null) {
+// 			return +(strSum + root.val);
+// 		}
+// 		let sum = 0;
+// 		sum += traverse(root.left, strSum + root.val);
+// 		sum += traverse(root.right, strSum + root.val);
+// 		return sum;
+// 	}
+// 	return traverse(root, '');
+// }
+
+// const root = new TreeNode(1).insert([2, 3]);
+// const root2 = new TreeNode(4).insert([9, 0, 5, 1]);
+
+// // console.log(sumNumbers(root)); // 25
+// console.log(sumNumbers(root2)); // 1026
+type NullableTreeNode = TreeNode | null;
+function addOneRow(
+	root: NullableTreeNode,
+	val: number,
+	depth: number,
+): NullableTreeNode {
+	if (depth === 1) {
+		return new TreeNode(val, root);
 	}
-	return traverse(root, '');
+
+	function traverse(root: NullableTreeNode, d: number) {
+		if (!root) {
+			return;
+		}
+
+		if (d === depth - 1) {
+			root.left = new TreeNode(val, root.left);
+			root.right = new TreeNode(val, null, root.right);
+		} else {
+			traverse(root.left, d + 1);
+			traverse(root.right, d + 1);
+		}
+	}
+	traverse(root, 1);
+	return root;
 }
 
-const root = new TreeNode(1).insert([2, 3]);
-const root2 = new TreeNode(4).insert([9, 0, 5, 1]);
+const root = new TreeNode(4).insert([2, 6, 3, 1, 5]);
 
-// console.log(sumNumbers(root)); // 25
-console.log(sumNumbers(root2)); // 1026
+console.log(addOneRow(root, 1, 1));
