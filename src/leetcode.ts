@@ -5167,33 +5167,64 @@ const len2: number = (value as string).length;
 
 // // console.log(sumNumbers(root)); // 25
 // console.log(sumNumbers(root2)); // 1026
-type NullableTreeNode = TreeNode | null;
-function addOneRow(
-	root: NullableTreeNode,
-	val: number,
-	depth: number,
-): NullableTreeNode {
-	if (depth === 1) {
-		return new TreeNode(val, root);
-	}
+// type NullableTreeNode = TreeNode | null;
+// function addOneRow(
+// 	root: NullableTreeNode,
+// 	val: number,
+// 	depth: number,
+// ): NullableTreeNode {
+// 	if (depth === 1) {
+// 		return new TreeNode(val, root);
+// 	}
 
-	function traverse(root: NullableTreeNode, d: number) {
+// 	function traverse(root: NullableTreeNode, d: number) {
+// 		if (!root) {
+// 			return;
+// 		}
+
+// 		if (d === depth - 1) {
+// 			root.left = new TreeNode(val, root.left);
+// 			root.right = new TreeNode(val, null, root.right);
+// 		} else {
+// 			traverse(root.left, d + 1);
+// 			traverse(root.right, d + 1);
+// 		}
+// 	}
+// 	traverse(root, 1);
+// 	return root;
+// }
+
+// const root = new TreeNode(4).insert([2, 6, 3, 1, 5]);
+
+// console.log(addOneRow(root, 1, 1));
+function identity<Type>(arg: Type): Type {
+	return arg;
+}
+
+function smallestFromLeaf(root: TreeNode | null): string {
+	let res = '';
+	function traverse(root: TreeNode | null, currentString: string): void {
 		if (!root) {
 			return;
 		}
+		currentString = String.fromCharCode(root.val + 97) + currentString;
 
-		if (d === depth - 1) {
-			root.left = new TreeNode(val, root.left);
-			root.right = new TreeNode(val, null, root.right);
-		} else {
-			traverse(root.left, d + 1);
-			traverse(root.right, d + 1);
+		if (!root.left && !root.right) {
+			if (res === '' || res > currentString) {
+				res = currentString;
+			}
+		}
+		if (root.right) {
+			traverse(root.right, currentString);
+		}
+		if (root.left) {
+			traverse(root.left, currentString);
 		}
 	}
-	traverse(root, 1);
-	return root;
+
+	traverse(root, '');
+	return res;
 }
 
-const root = new TreeNode(4).insert([2, 6, 3, 1, 5]);
-
-console.log(addOneRow(root, 1, 1));
+const root = new TreeNode(0).insert([1, 2, 3, 4, 3, 4]);
+console.log(smallestFromLeaf(root)); // dba

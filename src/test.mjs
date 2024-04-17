@@ -1039,17 +1039,17 @@ const testMap = (operator) => {
 // rep$.next(222);
 // rep$.next(222);
 
-const source$ = from([1, 2]).pipe(
-	tap((x) => console.log('subscription started ', x)),
-	concatMap((el) => of(el).pipe(delay(1000))),
-	shareReplay(1),
-);
+// const source$ = from([1, 2, 3, 4]).pipe(
+// 	tap((x) => console.log('event started ', x)),
+// 	concatMap((el) => of(el).pipe(delay(1000))),
+// 	shareReplay(1),
+// );
 
-source$.subscribe((n) => console.log(`1 source emitted ${n}`));
+// source$.subscribe((n) => console.log(`1 source emitted ${n}`));
 
-setTimeout(() => {
-	source$.subscribe((n) => console.log(`2 source emitted ${n}`));
-}, 2000);
+// setTimeout(() => {
+// 	source$.subscribe((n) => console.log(`2 source emitted ${n}`));
+// }, 4000);
 // function makeHot(cold) {
 // 	const subject = new Subject();
 // 	cold.subscribe(subject);
@@ -1091,4 +1091,58 @@ setTimeout(() => {
 
 // merge('xyaabbb', 'lllmopq'); //"ablmopqxy"
 
+// queueMicrotask(() => console.log('start'));
+// setTimeout(() => console.log('1'), 0);
+// const promise = new Promise((resolve, reject) => {
+// 	console.log('2');
+// 	resolve();
+// });
+// promise.then(() => console.log('3'));
+// console.log('finish');
 
+// const randomTimer = interval(1000).pipe(
+// 	map(() => Math.random()),
+// 	shareReplay({ refCount: true, bufferSize: 1 }),
+// 	takeUntil(this.destroy$),
+// );
+
+// randomTimer.pipe(switchMap(() => this.apiService.ping())).subscribe();
+
+// const structure = [
+// 	'a.js',
+// 	'b.js',
+// 	{
+// 		src: [
+// 			'some.js',
+// 			'other.js',
+// 			{
+// 				components: ['someComponent.js', { azz: ['one', 'two'] }],
+// 			},
+// 		],
+// 	},
+// ];
+
+function flatten(struct, prefix = '') {
+	let res = [];
+	for (const s of struct) {
+		if (typeof s === 'string') {
+			res.push(prefix + s);
+		} else if (typeof s === 'object') {
+			const [key, value] = Object.entries(s)[0];
+			res.push(...flatten(value, `${prefix}${key}/`));
+		}
+	}
+	return res;
+}
+
+// console.log(flatten(structure));
+
+/*
+[
+  'a.js',
+  'b.js',
+  'src/some.js',
+  'src/other.js',
+  'src/components/someComponent.js'
+]
+*/
