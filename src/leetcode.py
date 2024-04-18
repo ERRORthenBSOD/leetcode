@@ -2270,23 +2270,57 @@ def array_to_binary_tree(lst):
 # print(solution.largestRectangleArea([2, 4]))  # 4
 
 
+# class Solution:
+#     def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
+#         sum = 0
+#         def traverse(root: Optional[TreeNode], is_left: bool):
+#             nonlocal sum
+#             if not root:
+#                 return
+#             if is_left and not root.left and not root.right:
+#                 sum += root.val
+#             traverse(root.right, False)
+#             traverse(root.left, True)
+
+#         traverse(root, False)
+#         return sum
+
+
+# root = array_to_binary_tree([3, 9, 20, None, None, 15, 7])  # 24
+
+# solution = Solution()
+# print(solution.sumOfLeftLeaves(root))
+
+
 class Solution:
-    def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
-        sum = 0
-        def traverse(root: Optional[TreeNode], is_left: bool):
-            nonlocal sum
-            if not root:
-                return
-            if is_left and not root.left and not root.right:
-                sum += root.val
-            traverse(root.right, False)
-            traverse(root.left, True)     
+    def islandPerimeter(self, grid: List[List[int]]) -> int:
+        perimeter = 0
+        ROWS, COLS = len(grid), len(grid[0])
 
-        traverse(root, False)
-        return sum
+        def countSides(row, col):
+            res = 0
+            print((row, col))
+            if row == 0 or grid[row-1][col] == 0:
+                res += 1
+            if row == ROWS-1 or grid[row+1][col] == 0:
+                res += 1
+            if col == COLS-1 or grid[row][col + 1] == 0:
+                res += 1
+            if col == 0 or grid[row][col - 1] == 0:
+                res += 1
+            return res
 
+        for r in range(ROWS):
+            for c in range(COLS):
+                el = grid[r][c]
+                if el == 0:
+                    continue
+                else:
+                    perimeter += countSides(r, c)
 
-root = array_to_binary_tree([3, 9, 20, None, None, 15, 7])  # 24
+        return perimeter
+
 
 solution = Solution()
-print(solution.sumOfLeftLeaves(root))
+print(solution.islandPerimeter(
+    [[0, 1, 0, 0], [1, 1, 1, 0], [0, 1, 0, 0], [1, 1, 0, 0]]))  # 16
