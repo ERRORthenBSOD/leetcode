@@ -5197,34 +5197,92 @@ const len2: number = (value as string).length;
 // const root = new TreeNode(4).insert([2, 6, 3, 1, 5]);
 
 // console.log(addOneRow(root, 1, 1));
-function identity<Type>(arg: Type): Type {
-	return arg;
-}
+// function identity<Type>(arg: Type): Type {
+// 	return arg;
+// }
 
-function smallestFromLeaf(root: TreeNode | null): string {
-	let res = '';
-	function traverse(root: TreeNode | null, currentString: string): void {
-		if (!root) {
+// function smallestFromLeaf(root: TreeNode | null): string {
+// 	let res = '';
+// 	function traverse(root: TreeNode | null, currentString: string): void {
+// 		if (!root) {
+// 			return;
+// 		}
+// 		currentString = String.fromCharCode(root.val + 97) + currentString;
+
+// 		if (!root.left && !root.right) {
+// 			if (res === '' || res > currentString) {
+// 				res = currentString;
+// 			}
+// 		}
+// 		if (root.right) {
+// 			traverse(root.right, currentString);
+// 		}
+// 		if (root.left) {
+// 			traverse(root.left, currentString);
+// 		}
+// 	}
+
+// 	traverse(root, '');
+// 	return res;
+// }
+
+// const root = new TreeNode(0).insert([1, 2, 3, 4, 3, 4]);
+// console.log(smallestFromLeaf(root)); // dba
+
+function numIslands(grid: string[][]): number {
+	if (!grid) {
+		return 0;
+	}
+	let islands = 0;
+	const ROWS = grid.length;
+	const COLS = grid[0].length;
+
+	function dfs(row: number, col: number) {
+		// Base case: If the current cell is out of bounds or is not land ("1"), return
+		if (
+			row < 0 ||
+			row >= ROWS ||
+			col < 0 ||
+			col >= COLS ||
+			grid[row][col] !== '1'
+		) {
 			return;
 		}
-		currentString = String.fromCharCode(root.val + 97) + currentString;
+		// Mark the current cell as visited by changing its value to "*"
+		grid[row][col] = '*';
 
-		if (!root.left && !root.right) {
-			if (res === '' || res > currentString) {
-				res = currentString;
-			}
-		}
-		if (root.right) {
-			traverse(root.right, currentString);
-		}
-		if (root.left) {
-			traverse(root.left, currentString);
-		}
+		// Explore neighboring cells recursively
+		dfs(row - 1, col);
+		dfs(row + 1, col);
+		dfs(row, col - 1);
+		dfs(row, col + 1);
 	}
 
-	traverse(root, '');
-	return res;
+	for (let r = 0; r < ROWS; r++) {
+		for (let c = 0; c < COLS; c++) {
+			if (grid[r][c] == '1') {
+				islands++;
+				dfs(r, c);
+			}
+		}
+	}
+	return islands;
 }
 
-const root = new TreeNode(0).insert([1, 2, 3, 4, 3, 4]);
-console.log(smallestFromLeaf(root)); // dba
+console.log(
+	numIslands([
+		['1', '1', '1', '1', '0'],
+		['1', '1', '0', '1', '0'],
+		['1', '1', '0', '0', '0'],
+		['0', '0', '0', '0', '0'],
+	]),
+); // 1
+
+console.log(
+	numIslands([
+		['1', '1', '0', '0', '0'],
+		['1', '1', '0', '0', '0'],
+		['0', '0', '1', '0', '0'],
+		['0', '0', '0', '1', '1'],
+	]),
+); // 3

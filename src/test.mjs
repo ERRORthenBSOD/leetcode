@@ -1122,18 +1122,18 @@ const testMap = (operator) => {
 // 	},
 // ];
 
-// function flatten(struct, prefix = '') {
-// 	let res = [];
-// 	for (const s of struct) {
-// 		if (typeof s === 'string') {
-// 			res.push(prefix + s);
-// 		} else if (typeof s === 'object') {
-// 			const [key, value] = Object.entries(s)[0];
-// 			res.push(...flatten(value, `${prefix}${key}/`));
-// 		}
-// 	}
-// 	return res;
-// }
+function flatten(struct, prefix = '') {
+	let res = [];
+	for (const s of struct) {
+		if (typeof s === 'string') {
+			res.push(prefix + s);
+		} else if (typeof s === 'object') {
+			const [key, value] = Object.entries(s)[0];
+			res.push(...flatten(value, `${prefix}${key}/`));
+		}
+	}
+	return res;
+}
 
 // console.log(flatten(structure));
 
