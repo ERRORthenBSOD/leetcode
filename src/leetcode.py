@@ -2292,35 +2292,71 @@ def array_to_binary_tree(lst):
 # print(solution.sumOfLeftLeaves(root))
 
 
-class Solution:
-    def islandPerimeter(self, grid: List[List[int]]) -> int:
-        perimeter = 0
-        ROWS, COLS = len(grid), len(grid[0])
+# class Solution:
+#     def islandPerimeter(self, grid: List[List[int]]) -> int:
+#         perimeter = 0
+#         ROWS, COLS = len(grid), len(grid[0])
 
-        def countSides(row, col):
-            res = 0
-            print((row, col))
-            if row == 0 or grid[row-1][col] == 0:
-                res += 1
-            if row == ROWS-1 or grid[row+1][col] == 0:
-                res += 1
-            if col == COLS-1 or grid[row][col + 1] == 0:
-                res += 1
-            if col == 0 or grid[row][col - 1] == 0:
-                res += 1
-            return res
+#         def countSides(row, col):
+#             res = 0
+#             print((row, col))
+#             if row == 0 or grid[row-1][col] == 0:
+#                 res += 1
+#             if row == ROWS-1 or grid[row+1][col] == 0:
+#                 res += 1
+#             if col == COLS-1 or grid[row][col + 1] == 0:
+#                 res += 1
+#             if col == 0 or grid[row][col - 1] == 0:
+#                 res += 1
+#             return res
+
+#         for r in range(ROWS):
+#             for c in range(COLS):
+#                 el = grid[r][c]
+#                 if el == 0:
+#                     continue
+#                 else:
+#                     perimeter += countSides(r, c)
+
+#         return perimeter
+
+
+# solution = Solution()
+# print(solution.islandPerimeter(
+#     [[0, 1, 0, 0], [1, 1, 1, 0], [0, 1, 0, 0], [1, 1, 0, 0]]))  # 16
+
+class Solution:
+    def findFarmland(self, land: List[List[int]]) -> List[List[int]]:
+        ROWS = len(land)
+        COLS = len(land[0])
+        res: List[List[int]] = []
+
+        def traverse(row: int, col: int):
+            if (row >= ROWS or
+                row < 0 or
+                col >= COLS or
+                col < 0 or
+                    land[row][col] != 1):
+                return
+            land[row][col] = -1
+            res[-1][2] = max(row, res[-1][2])
+            res[-1][3] = max(col, res[-1][3])
+            traverse(row + 1, col)
+            traverse(row - 1, col)
+            traverse(row, col+1)
+            traverse(row, col-1)
 
         for r in range(ROWS):
             for c in range(COLS):
-                el = grid[r][c]
-                if el == 0:
-                    continue
-                else:
-                    perimeter += countSides(r, c)
+                el = land[r][c]
+                if el == 1:
+                    res.append([r, c, r, c])
+                    traverse(r, c)
 
-        return perimeter
+        return res
 
 
 solution = Solution()
-print(solution.islandPerimeter(
-    [[0, 1, 0, 0], [1, 1, 1, 0], [0, 1, 0, 0], [1, 1, 0, 0]]))  # 16
+# [[0,0,0,0],[1,1,2,2]]
+print(solution.findFarmland([[1, 0, 0], [0, 1, 1], [0, 1, 1]]))
+print(solution.findFarmland([[1, 1], [1, 1]]))  # [[0,0,1,1]]
