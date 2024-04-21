@@ -2325,38 +2325,82 @@ def array_to_binary_tree(lst):
 # print(solution.islandPerimeter(
 #     [[0, 1, 0, 0], [1, 1, 1, 0], [0, 1, 0, 0], [1, 1, 0, 0]]))  # 16
 
+# class Solution:
+#     def findFarmland(self, land: List[List[int]]) -> List[List[int]]:
+#         ROWS = len(land)
+#         COLS = len(land[0])
+#         res: List[List[int]] = []
+
+#         def traverse(row: int, col: int):
+#             if (row >= ROWS or
+#                 row < 0 or
+#                 col >= COLS or
+#                 col < 0 or
+#                     land[row][col] != 1):
+#                 return
+#             land[row][col] = -1
+#             res[-1][2] = max(row, res[-1][2])
+#             res[-1][3] = max(col, res[-1][3])
+#             traverse(row + 1, col)
+#             traverse(row - 1, col)
+#             traverse(row, col+1)
+#             traverse(row, col-1)
+
+#         for r in range(ROWS):
+#             for c in range(COLS):
+#                 el = land[r][c]
+#                 if el == 1:
+#                     res.append([r, c, r, c])
+#                     traverse(r, c)
+
+#         return res
+
+
+# solution = Solution()
+# # [[0,0,0,0],[1,1,2,2]]
+# print(solution.findFarmland([[1, 0, 0], [0, 1, 1], [0, 1, 1]]))
+# print(solution.findFarmland([[1, 1], [1, 1]]))  # [[0,0,1,1]]
+
+
 class Solution:
-    def findFarmland(self, land: List[List[int]]) -> List[List[int]]:
-        ROWS = len(land)
-        COLS = len(land[0])
-        res: List[List[int]] = []
+    def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+        if len(edges) == 0:
+            return False
 
-        def traverse(row: int, col: int):
-            if (row >= ROWS or
-                row < 0 or
-                col >= COLS or
-                col < 0 or
-                    land[row][col] != 1):
-                return
-            land[row][col] = -1
-            res[-1][2] = max(row, res[-1][2])
-            res[-1][3] = max(col, res[-1][3])
-            traverse(row + 1, col)
-            traverse(row - 1, col)
-            traverse(row, col+1)
-            traverse(row, col-1)
+        adjacency_list = {}
 
-        for r in range(ROWS):
-            for c in range(COLS):
-                el = land[r][c]
-                if el == 1:
-                    res.append([r, c, r, c])
-                    traverse(r, c)
+        # BI-directional loop
+        for [src, dst] in edges:
+            if src in adjacency_list:
+                adjacency_list[src].append(dst)
+            else:
+                adjacency_list[src] = [dst]
 
-        return res
+            if dst in adjacency_list:
+                adjacency_list[dst].append(src)
+            else:
+                adjacency_list[dst] = [src]
+
+        if source not in adjacency_list.keys():
+            return False
+        print(adjacency_list)
+        q = deque()
+        q.append(source)
+        visited: Set[int] = set()
+
+        while q:
+            curr_node = q.popleft()
+            if curr_node == destination:
+                return True
+            if curr_node not in visited:
+                for neighbor in adjacency_list[curr_node]:
+                    q.append(neighbor)
+            visited.add(curr_node)
+
+        return False
 
 
 solution = Solution()
-# [[0,0,0,0],[1,1,2,2]]
-print(solution.findFarmland([[1, 0, 0], [0, 1, 1], [0, 1, 1]]))
-print(solution.findFarmland([[1, 1], [1, 1]]))  # [[0,0,1,1]]
+print(solution.validPath(3, [[0, 1], [1, 2], [2, 0]], 0, 2))  # True
+print(solution.validPath(
+    6, [[0, 1], [0, 2], [3, 5], [5, 4], [4, 3]], 0, 5))  # False
