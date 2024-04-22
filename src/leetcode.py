@@ -2362,45 +2362,78 @@ def array_to_binary_tree(lst):
 # print(solution.findFarmland([[1, 1], [1, 1]]))  # [[0,0,1,1]]
 
 
+# class Solution:
+#     def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+#         if len(edges) == 0:
+#             return False
+
+#         adjacency_list = {}
+
+#         # BI-directional loop
+#         for [src, dst] in edges:
+#             if src in adjacency_list:
+#                 adjacency_list[src].append(dst)
+#             else:
+#                 adjacency_list[src] = [dst]
+
+#             if dst in adjacency_list:
+#                 adjacency_list[dst].append(src)
+#             else:
+#                 adjacency_list[dst] = [src]
+
+#         if source not in adjacency_list.keys():
+#             return False
+#         q = deque()
+#         q.append(source)
+#         visited: Set[int] = set()
+
+#         while q:
+#             curr_node = q.popleft()
+#             if curr_node == destination:
+#                 return True
+#             if curr_node not in visited:
+#                 for neighbor in adjacency_list[curr_node]:
+#                     q.append(neighbor)
+#             visited.add(curr_node)
+
+#         return False
+
+
+# solution = Solution()
+# print(solution.validPath(3, [[0, 1], [1, 2], [2, 0]], 0, 2))  # True
+# print(solution.validPath(
+#     6, [[0, 1], [0, 2], [3, 5], [5, 4], [4, 3]], 0, 5))  # False
+
+
 class Solution:
-    def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
-        if len(edges) == 0:
-            return False
+    def openLock(self, deadends: List[str], target: str) -> int:
+        if '0000' in deadends:
+            return -1
+    
+        def get_possible_turns(lock)-> List[str]:
+            res = []
+            for i in range(4):
+                digit = str((int(lock[i]) + 1) % 10)
+                res.append(lock[:i] + digit + lock[i+1:])
+                digit = str((int(lock[i]) -1 + 10) % 10)
+                res.append(lock[:i] + digit + lock[i+1:])
+            return res
 
-        adjacency_list = {}
-
-        # BI-directional loop
-        for [src, dst] in edges:
-            if src in adjacency_list:
-                adjacency_list[src].append(dst)
-            else:
-                adjacency_list[src] = [dst]
-
-            if dst in adjacency_list:
-                adjacency_list[dst].append(src)
-            else:
-                adjacency_list[dst] = [src]
-
-        if source not in adjacency_list.keys():
-            return False
-        print(adjacency_list)
         q = deque()
-        q.append(source)
-        visited: Set[int] = set()
-
+        q.append(['0000', 0]) # [lock, turns]
+        visited: Set[str] = set(deadends)
         while q:
-            curr_node = q.popleft()
-            if curr_node == destination:
-                return True
-            if curr_node not in visited:
-                for neighbor in adjacency_list[curr_node]:
-                    q.append(neighbor)
-            visited.add(curr_node)
+            lock, turns = q.popleft()
+            if lock == target:
+                return turns
+            for turn in get_possible_turns(lock):
+                if turn not in visited:
+                    visited.add(turn)
+                    q.append([turn, turns + 1])
 
-        return False
-
-
+        return -1
+    
 solution = Solution()
-print(solution.validPath(3, [[0, 1], [1, 2], [2, 0]], 0, 2))  # True
-print(solution.validPath(
-    6, [[0, 1], [0, 2], [3, 5], [5, 4], [4, 3]], 0, 5))  # False
+print(solution.openLock(["0201","0101","0102","1212","2002"], '0202')) # 6
+# print(solution.openLock(["8888"], '0009')) # 1
+# print(solution.openLock(["8887","8889","8878","8898","8788","8988","7888","9888"], '8888')) # -1
