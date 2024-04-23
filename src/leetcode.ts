@@ -5229,60 +5229,124 @@ const len2: number = (value as string).length;
 // const root = new TreeNode(0).insert([1, 2, 3, 4, 3, 4]);
 // console.log(smallestFromLeaf(root)); // dba
 
-function numIslands(grid: string[][]): number {
-	if (!grid) {
-		return 0;
-	}
-	let islands = 0;
-	const ROWS = grid.length;
-	const COLS = grid[0].length;
+// function numIslands(grid: string[][]): number {
+// 	if (!grid) {
+// 		return 0;
+// 	}
+// 	let islands = 0;
+// 	const ROWS = grid.length;
+// 	const COLS = grid[0].length;
 
-	function dfs(row: number, col: number) {
-		// Base case: If the current cell is out of bounds or is not land ("1"), return
-		if (
-			row < 0 ||
-			row >= ROWS ||
-			col < 0 ||
-			col >= COLS ||
-			grid[row][col] !== '1'
-		) {
-			return;
+// 	function dfs(row: number, col: number) {
+// 		// Base case: If the current cell is out of bounds or is not land ("1"), return
+// 		if (
+// 			row < 0 ||
+// 			row >= ROWS ||
+// 			col < 0 ||
+// 			col >= COLS ||
+// 			grid[row][col] !== '1'
+// 		) {
+// 			return;
+// 		}
+// 		// Mark the current cell as visited by changing its value to "*"
+// 		grid[row][col] = '*';
+
+// 		// Explore neighboring cells recursively
+// 		dfs(row - 1, col);
+// 		dfs(row + 1, col);
+// 		dfs(row, col - 1);
+// 		dfs(row, col + 1);
+// 	}
+
+// 	for (let r = 0; r < ROWS; r++) {
+// 		for (let c = 0; c < COLS; c++) {
+// 			if (grid[r][c] == '1') {
+// 				islands++;
+// 				dfs(r, c);
+// 			}
+// 		}
+// 	}
+// 	return islands;
+// }
+
+// console.log(
+// 	numIslands([
+// 		['1', '1', '1', '1', '0'],
+// 		['1', '1', '0', '1', '0'],
+// 		['1', '1', '0', '0', '0'],
+// 		['0', '0', '0', '0', '0'],
+// 	]),
+// ); // 1
+
+// console.log(
+// 	numIslands([
+// 		['1', '1', '0', '0', '0'],
+// 		['1', '1', '0', '0', '0'],
+// 		['0', '0', '1', '0', '0'],
+// 		['0', '0', '0', '1', '1'],
+// 	]),
+// ); // 3
+
+function findMinHeightTrees(n: number, edges: number[][]): number[] {
+	if (!edges.length || n === 1) {
+		return [0];
+	}
+	const adj = new Map<number, number[]>();
+	for (const [n1, n2] of edges) {
+		let val = adj.get(n1) ?? [];
+		val.push(n2);
+		adj.set(n1, val);
+		val = adj.get(n2) ?? [];
+		val.push(n1);
+		adj.set(n2, val);
+	}
+	const edgeCount = new Map<number, number>();
+	const leaves: number[] = [];
+	for (const [src, neighbors] of adj.entries()) {
+		if (neighbors.length === 1) {
+			leaves.push(src);
 		}
-		// Mark the current cell as visited by changing its value to "*"
-		grid[row][col] = '*';
-
-		// Explore neighboring cells recursively
-		dfs(row - 1, col);
-		dfs(row + 1, col);
-		dfs(row, col - 1);
-		dfs(row, col + 1);
+		edgeCount.set(src, neighbors.length);
 	}
 
-	for (let r = 0; r < ROWS; r++) {
-		for (let c = 0; c < COLS; c++) {
-			if (grid[r][c] == '1') {
-				islands++;
-				dfs(r, c);
+	while (n > 2) {
+		const l = leaves.length;
+		n -= l;
+		for (let i = 0; i < l; i++) {
+			const node = leaves.shift();
+			for (const nei of adj.get(node)) {
+				edgeCount.set(nei, edgeCount.get(nei) - 1);
+				if (edgeCount.get(nei) === 1) {
+					leaves.push(nei);
+				}
 			}
 		}
 	}
-	return islands;
+	return leaves;
 }
 
 console.log(
-	numIslands([
-		['1', '1', '1', '1', '0'],
-		['1', '1', '0', '1', '0'],
-		['1', '1', '0', '0', '0'],
-		['0', '0', '0', '0', '0'],
+	findMinHeightTrees(4, [
+		[1, 0],
+		[1, 2],
+		[1, 3],
 	]),
-); // 1
-
+); // 3
 console.log(
-	numIslands([
-		['1', '1', '0', '0', '0'],
-		['1', '1', '0', '0', '0'],
-		['0', '0', '1', '0', '0'],
-		['0', '0', '0', '1', '1'],
+	findMinHeightTrees(6, [
+		[3, 0],
+		[3, 1],
+		[3, 2],
+		[3, 4],
+		[5, 4],
+	]),
+); // [3,4]
+console.log(
+	findMinHeightTrees(6, [
+		[0, 1],
+		[0, 2],
+		[0, 3],
+		[3, 4],
+		[4, 5],
 	]),
 ); // 3
