@@ -5287,66 +5287,88 @@ const len2: number = (value as string).length;
 // 	]),
 // ); // 3
 
-function findMinHeightTrees(n: number, edges: number[][]): number[] {
-	if (!edges.length || n === 1) {
-		return [0];
-	}
-	const adj = new Map<number, number[]>();
-	for (const [n1, n2] of edges) {
-		let val = adj.get(n1) ?? [];
-		val.push(n2);
-		adj.set(n1, val);
-		val = adj.get(n2) ?? [];
-		val.push(n1);
-		adj.set(n2, val);
-	}
-	const edgeCount = new Map<number, number>();
-	const leaves: number[] = [];
-	for (const [src, neighbors] of adj.entries()) {
-		if (neighbors.length === 1) {
-			leaves.push(src);
-		}
-		edgeCount.set(src, neighbors.length);
-	}
+// function findMinHeightTrees(n: number, edges: number[][]): number[] {
+// 	if (!edges.length || n === 1) {
+// 		return [0];
+// 	}
+// 	const adj = new Map<number, number[]>();
+// 	for (const [n1, n2] of edges) {
+// 		let val = adj.get(n1) ?? [];
+// 		val.push(n2);
+// 		adj.set(n1, val);
+// 		val = adj.get(n2) ?? [];
+// 		val.push(n1);
+// 		adj.set(n2, val);
+// 	}
+// 	const edgeCount = new Map<number, number>();
+// 	const leaves: number[] = [];
+// 	for (const [src, neighbors] of adj.entries()) {
+// 		if (neighbors.length === 1) {
+// 			leaves.push(src);
+// 		}
+// 		edgeCount.set(src, neighbors.length);
+// 	}
 
-	while (n > 2) {
-		const l = leaves.length;
-		n -= l;
-		for (let i = 0; i < l; i++) {
-			const node = leaves.shift();
-			for (const nei of adj.get(node)) {
-				edgeCount.set(nei, edgeCount.get(nei) - 1);
-				if (edgeCount.get(nei) === 1) {
-					leaves.push(nei);
-				}
-			}
-		}
-	}
-	return leaves;
-}
+// 	while (n > 2) {
+// 		const l = leaves.length;
+// 		n -= l;
+// 		for (let i = 0; i < l; i++) {
+// 			const node = leaves.shift();
+// 			for (const nei of adj.get(node)) {
+// 				edgeCount.set(nei, edgeCount.get(nei) - 1);
+// 				if (edgeCount.get(nei) === 1) {
+// 					leaves.push(nei);
+// 				}
+// 			}
+// 		}
+// 	}
+// 	return leaves;
+// }
 
-console.log(
-	findMinHeightTrees(4, [
-		[1, 0],
-		[1, 2],
-		[1, 3],
-	]),
-); // 3
-console.log(
-	findMinHeightTrees(6, [
-		[3, 0],
-		[3, 1],
-		[3, 2],
-		[3, 4],
-		[5, 4],
-	]),
-); // [3,4]
-console.log(
-	findMinHeightTrees(6, [
-		[0, 1],
-		[0, 2],
-		[0, 3],
-		[3, 4],
-		[4, 5],
-	]),
-); // 3
+// console.log(
+// 	findMinHeightTrees(4, [
+// 		[1, 0],
+// 		[1, 2],
+// 		[1, 3],
+// 	]),
+// ); // 3
+// console.log(
+// 	findMinHeightTrees(6, [
+// 		[3, 0],
+// 		[3, 1],
+// 		[3, 2],
+// 		[3, 4],
+// 		[5, 4],
+// 	]),
+// ); // [3,4]
+// console.log(
+// 	findMinHeightTrees(6, [
+// 		[0, 1],
+// 		[0, 2],
+// 		[0, 3],
+// 		[3, 4],
+// 		[4, 5],
+// 	]),
+// ); // 3
+
+// function tribonacci(n: number, memo: Map<number, number>): number {
+// 	if (n <= 0) {
+// 		return 0;
+// 	}
+// 	if (n <= 2) {
+// 		return 1;
+// 	}
+// 	if (memo.has(n)) {
+// 		console.log('memo');
+// 		return memo.get(n);
+// 	}
+
+// 	const val =
+// 		tribonacci(n - 1, memo) +
+// 		tribonacci(n - 2, memo) +
+// 		tribonacci(n - 3, memo);
+// 	memo.set(n, val);
+// 	return val;
+// }
+
+// console.log(tribonacci(34, new Map())); //

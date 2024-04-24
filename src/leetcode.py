@@ -2405,35 +2405,51 @@ def array_to_binary_tree(lst):
 #     6, [[0, 1], [0, 2], [3, 5], [5, 4], [4, 3]], 0, 5))  # False
 
 
-class Solution:
-    def openLock(self, deadends: List[str], target: str) -> int:
-        if '0000' in deadends:
-            return -1
-    
-        def get_possible_turns(lock)-> List[str]:
-            res = []
-            for i in range(4):
-                digit = str((int(lock[i]) + 1) % 10)
-                res.append(lock[:i] + digit + lock[i+1:])
-                digit = str((int(lock[i]) -1 + 10) % 10)
-                res.append(lock[:i] + digit + lock[i+1:])
-            return res
+# class Solution:
+#     def openLock(self, deadends: List[str], target: str) -> int:
+#         if '0000' in deadends:
+#             return -1
 
-        q = deque()
-        q.append(['0000', 0]) # [lock, turns]
-        visited: Set[str] = set(deadends)
-        while q:
-            lock, turns = q.popleft()
-            if lock == target:
-                return turns
-            for turn in get_possible_turns(lock):
-                if turn not in visited:
-                    visited.add(turn)
-                    q.append([turn, turns + 1])
+#         def get_possible_turns(lock)-> List[str]:
+#             res = []
+#             for i in range(4):
+#                 digit = str((int(lock[i]) + 1) % 10)
+#                 res.append(lock[:i] + digit + lock[i+1:])
+#                 digit = str((int(lock[i]) -1 + 10) % 10)
+#                 res.append(lock[:i] + digit + lock[i+1:])
+#             return res
 
-        return -1
-    
-solution = Solution()
-print(solution.openLock(["0201","0101","0102","1212","2002"], '0202')) # 6
+#         q = deque()
+#         q.append(['0000', 0]) # [lock, turns]
+#         visited: Set[str] = set(deadends)
+#         while q:
+#             lock, turns = q.popleft()
+#             if lock == target:
+#                 return turns
+#             for turn in get_possible_turns(lock):
+#                 if turn not in visited:
+#                     visited.add(turn)
+#                     q.append([turn, turns + 1])
+
+#         return -1
+
+# solution = Solution()
+# print(solution.openLock(["0201","0101","0102","1212","2002"], '0202')) # 6
 # print(solution.openLock(["8888"], '0009')) # 1
 # print(solution.openLock(["8887","8889","8878","8898","8788","8988","7888","9888"], '8888')) # -1
+
+
+class Solution:
+    def tribonacci(self, n: int) -> int:
+        queue = deque()
+        queue.extend([0, 1, 1])
+        if n < 3:
+            return queue[n]
+        for _ in range(3, n+1):
+            queue.append(queue[0] + queue[1]+queue[2])
+            queue.popleft()
+        return queue.pop()
+
+
+solution = Solution()
+print(solution.tribonacci(4)) # 4
