@@ -2439,17 +2439,39 @@ def array_to_binary_tree(lst):
 # print(solution.openLock(["8887","8889","8878","8898","8788","8988","7888","9888"], '8888')) # -1
 
 
+# class Solution:
+#     def tribonacci(self, n: int) -> int:
+#         queue = deque()
+#         queue.extend([0, 1, 1])
+#         if n < 3:
+#             return queue[n]
+#         for _ in range(3, n+1):
+#             queue.append(queue[0] + queue[1]+queue[2])
+#             queue.popleft()
+#         return queue.pop()
+
+
+# solution = Solution()
+# print(solution.tribonacci(4)) # 4
+
+
 class Solution:
-    def tribonacci(self, n: int) -> int:
-        queue = deque()
-        queue.extend([0, 1, 1])
-        if n < 3:
-            return queue[n]
-        for _ in range(3, n+1):
-            queue.append(queue[0] + queue[1]+queue[2])
-            queue.popleft()
-        return queue.pop()
+    def longestIdealString(self, s: str, k: int) -> int:
+        if len(s) == 1:
+            return 1
+        dp = [0] * 26
+        for c in s:
+            curr = ord(c) - ord('a')
+            longest = 1
+            for prev in range(26):
+                if abs(prev - curr) <= k:
+                    longest = max(longest, 1 + dp[prev])
+            # Append s[i] to the previous longest ideal subsequence
+            dp[curr] = max(dp[curr], longest)
+        return max(dp)
 
 
 solution = Solution()
-print(solution.tribonacci(4)) # 4
+print(solution.longestIdealString("acfgbd", 2))  # 4
+# print(solution.longestIdealString("abcd", 3))  # 4
+# print(solution.longestIdealString("pvjcci", 4))  # 4
