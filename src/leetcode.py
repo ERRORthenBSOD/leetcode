@@ -2455,23 +2455,52 @@ def array_to_binary_tree(lst):
 # print(solution.tribonacci(4)) # 4
 
 
+# class Solution:
+#     def longestIdealString(self, s: str, k: int) -> int:
+#         if len(s) == 1:
+#             return 1
+#         dp = [0] * 26
+#         for c in s:
+#             curr = ord(c) - ord('a')
+#             longest = 1
+#             for prev in range(26):
+#                 if abs(prev - curr) <= k:
+#                     longest = max(longest, 1 + dp[prev])
+#             # Append s[i] to the previous longest ideal subsequence
+#             dp[curr] = max(dp[curr], longest)
+#         return max(dp)
+
+
+# solution = Solution()
+# print(solution.longestIdealString("acfgbd", 2))  # 4
+# print(solution.longestIdealString("abcd", 3))  # 4
+# print(solution.longestIdealString("pvjcci", 4))  # 4
+
+
 class Solution:
-    def longestIdealString(self, s: str, k: int) -> int:
-        if len(s) == 1:
-            return 1
-        dp = [0] * 26
-        for c in s:
-            curr = ord(c) - ord('a')
-            longest = 1
-            for prev in range(26):
-                if abs(prev - curr) <= k:
-                    longest = max(longest, 1 + dp[prev])
-            # Append s[i] to the previous longest ideal subsequence
-            dp[curr] = max(dp[curr], longest)
-        return max(dp)
+    def minFallingPathSum(self, grid: List[List[int]]) -> int:
+        SIZE = len(grid) # square
+        min_sum = math.inf
+        memo = {}
+        def traverse(r: int, c: int) -> int:
+            if r == SIZE - 1:
+                return grid[r][c]
+            
+            if (r, c) in memo:
+                return memo[(r, c)]
+
+            next_minimum = math.inf
+            for next_row_col in range(SIZE):
+                if next_row_col != c:
+                    next_minimum = min(
+                        next_minimum, traverse(r + 1, next_row_col))
+            memo[(r, c)] = grid[r][c] + int(next_minimum)
+            return memo[(r, c)]
+
+        for col in range(SIZE):
+            min_sum = min(traverse(0, col), min_sum)
+        return int(min_sum)
 
 
 solution = Solution()
-print(solution.longestIdealString("acfgbd", 2))  # 4
-# print(solution.longestIdealString("abcd", 3))  # 4
-# print(solution.longestIdealString("pvjcci", 4))  # 4
+print(solution.minFallingPathSum([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))  # 13
