@@ -5372,3 +5372,36 @@ const len2: number = (value as string).length;
 // }
 
 // console.log(tribonacci(34, new Map())); //
+
+function findRotateSteps(ring: string, key: string): number {
+	const memo = new Map<string, number>();
+	function walk(ringIndex: number, keyIndex: number): number {
+		if (keyIndex === key.length) {
+			return 0;
+		}
+		const memKey = `${ringIndex},${keyIndex}}`;
+		if (memo.has(memKey)) {
+			return memo.get(memKey);
+		}
+		let moves = Infinity;
+		for (let i = 0; i < ring.length; i++) {
+			const c = ring[i];
+			if (c === key[keyIndex]) {
+				const distance = Math.abs(ringIndex - i);
+				const minDist = Math.min(
+					distance, // inside
+					ring.length - distance, // around
+				);
+				moves = Math.min(minDist + 1 + walk(i, keyIndex + 1), moves);
+			}
+		}
+		memo.set(memKey, moves);
+		return moves;
+	}
+
+	return walk(0, 0);
+}
+
+console.log(findRotateSteps('godding', 'gd')); // 4
+console.log(findRotateSteps('godding', 'godding')); // 13
+console.log(findRotateSteps('abcde', 'ade')); // 6
