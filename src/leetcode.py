@@ -4,7 +4,7 @@ import heapq
 from itertools import product
 import math
 import sys
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Deque, Dict, List, Optional, Set, Tuple
 
 
 class ListNode:
@@ -2477,30 +2477,85 @@ def array_to_binary_tree(lst):
 # print(solution.longestIdealString("pvjcci", 4))  # 4
 
 
+# class Solution:
+#     def minFallingPathSum(self, grid: List[List[int]]) -> int:
+#         SIZE = len(grid) # square
+#         min_sum = math.inf
+#         memo = {}
+#         def traverse(r: int, c: int) -> int:
+#             if r == SIZE - 1:
+#                 return grid[r][c]
+
+#             if (r, c) in memo:
+#                 return memo[(r, c)]
+
+#             next_minimum = math.inf
+#             for next_row_col in range(SIZE):
+#                 if next_row_col != c:
+#                     next_minimum = min(
+#                         next_minimum, traverse(r + 1, next_row_col))
+#             memo[(r, c)] = grid[r][c] + int(next_minimum)
+#             return memo[(r, c)]
+
+#         for col in range(SIZE):
+#             min_sum = min(traverse(0, col), min_sum)
+#         return int(min_sum)
+
+# class Solution:
+#     def minFallingPathSum(self, grid: List[List[int]]) -> int:
+#         SIZE = len(grid)  # square
+#         dp = grid[0]
+
+#         for r in range(1, SIZE):
+#             next_dp = [math.inf] * SIZE
+#             for curr_col in range(SIZE):
+#                 for prev_col in range(SIZE):
+#                     if curr_col != prev_col:
+#                         next_dp[curr_col] = min(
+#                             next_dp[curr_col], grid[r][curr_col] + dp[prev_col])
+#             dp = next_dp
+#         return min(dp)
+
+
+# solution = Solution()
+# print(solution.minFallingPathSum([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))  # 13
+
+
 class Solution:
-    def minFallingPathSum(self, grid: List[List[int]]) -> int:
-        SIZE = len(grid) # square
-        min_sum = math.inf
-        memo = {}
-        def traverse(r: int, c: int) -> int:
-            if r == SIZE - 1:
-                return grid[r][c]
-            
-            if (r, c) in memo:
-                return memo[(r, c)]
+    def sumOfDistancesInTree(self, n: int, edges: List[List[int]]) -> List[int]:
+        graph: Dict[int, List[int]] = defaultdict(list)
 
-            next_minimum = math.inf
-            for next_row_col in range(SIZE):
-                if next_row_col != c:
-                    next_minimum = min(
-                        next_minimum, traverse(r + 1, next_row_col))
-            memo[(r, c)] = grid[r][c] + int(next_minimum)
-            return memo[(r, c)]
+        for source, target in edges:  # both ways
+            graph[source].append(target)
+            graph[target].append(source)
 
-        for col in range(SIZE):
-            min_sum = min(traverse(0, col), min_sum)
-        return int(min_sum)
+        output = [0] * n
+        count = [1] * n
+        self.root = 0
+
+        def dfs(cur: int, parent: int, depth: int) -> int:
+            res = 1
+            for child in graph[cur]:
+                if child != parent:
+                    res += dfs(child, cur, depth+1)
+                    self.root += (depth + 1)
+            count[cur] = res
+            return res
+
+        dfs(0, -1, 0)
+
+        def dfs2(cur: int, parent: int, ans_p: int):
+            output[cur] = ans_p
+            for child in graph[cur]:
+                if child != parent:
+                    dfs2(child, cur, ans_p+(n-count[child])-count[child])
+
+        dfs2(0, -1, self.root)
+        return output
 
 
 solution = Solution()
-print(solution.minFallingPathSum([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))  # 13
+print(solution.sumOfDistancesInTree(
+    6, [[0, 1], [0, 2], [2, 3], [2, 4], [2, 5]]))  # [8,12,6,10,10,10]
+print(solution.sumOfDistancesInTree(1, []))  # [0]
+print(solution.sumOfDistancesInTree(2, [[1, 0]]))  # [1,1]
