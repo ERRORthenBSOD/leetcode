@@ -2521,41 +2521,60 @@ def array_to_binary_tree(lst):
 # print(solution.minFallingPathSum([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))  # 13
 
 
+# class Solution:
+#     def sumOfDistancesInTree(self, n: int, edges: List[List[int]]) -> List[int]:
+#         graph: Dict[int, List[int]] = defaultdict(list)
+
+#         for source, target in edges:  # both ways
+#             graph[source].append(target)
+#             graph[target].append(source)
+
+#         output = [0] * n
+#         count = [1] * n
+#         self.root = 0
+
+#         def dfs(cur: int, parent: int, depth: int) -> int:
+#             res = 1
+#             for child in graph[cur]:
+#                 if child != parent:
+#                     res += dfs(child, cur, depth+1)
+#                     self.root += (depth + 1)
+#             count[cur] = res
+#             return res
+
+#         dfs(0, -1, 0)
+
+#         def dfs2(cur: int, parent: int, ans_p: int):
+#             output[cur] = ans_p
+#             for child in graph[cur]:
+#                 if child != parent:
+#                     dfs2(child, cur, ans_p+(n-count[child])-count[child])
+
+#         dfs2(0, -1, self.root)
+#         return output
+
+
+# solution = Solution()
+# print(solution.sumOfDistancesInTree(
+#     6, [[0, 1], [0, 2], [2, 3], [2, 4], [2, 5]]))  # [8,12,6,10,10,10]
+# print(solution.sumOfDistancesInTree(1, []))  # [0]
+# print(solution.sumOfDistancesInTree(2, [[1, 0]]))  # [1,1]
+
+
 class Solution:
-    def sumOfDistancesInTree(self, n: int, edges: List[List[int]]) -> List[int]:
-        graph: Dict[int, List[int]] = defaultdict(list)
-
-        for source, target in edges:  # both ways
-            graph[source].append(target)
-            graph[target].append(source)
-
-        output = [0] * n
-        count = [1] * n
-        self.root = 0
-
-        def dfs(cur: int, parent: int, depth: int) -> int:
-            res = 1
-            for child in graph[cur]:
-                if child != parent:
-                    res += dfs(child, cur, depth+1)
-                    self.root += (depth + 1)
-            count[cur] = res
-            return res
-
-        dfs(0, -1, 0)
-
-        def dfs2(cur: int, parent: int, ans_p: int):
-            output[cur] = ans_p
-            for child in graph[cur]:
-                if child != parent:
-                    dfs2(child, cur, ans_p+(n-count[child])-count[child])
-
-        dfs2(0, -1, self.root)
-        return output
+    def minOperations(self, nums: List[int], k: int) -> int:
+        xored, count = 0, 0
+        for n in nums:
+            xored ^= n
+        print(xored)
+        while k or xored:
+            if (k % 2) != (xored % 2):
+                count += 1
+            k //= 2
+            xored //= 2
+        return count
 
 
 solution = Solution()
-print(solution.sumOfDistancesInTree(
-    6, [[0, 1], [0, 2], [2, 3], [2, 4], [2, 5]]))  # [8,12,6,10,10,10]
-print(solution.sumOfDistancesInTree(1, []))  # [0]
-print(solution.sumOfDistancesInTree(2, [[1, 0]]))  # [1,1]
+print(solution.minOperations([2, 1, 3, 4], 1))  # 2
+# print(solution.minOperations([2, 0, 2, 0], 0))  # 0
