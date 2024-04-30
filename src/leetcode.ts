@@ -5373,35 +5373,55 @@ const len2: number = (value as string).length;
 
 // console.log(tribonacci(34, new Map())); //
 
-function findRotateSteps(ring: string, key: string): number {
-	const memo = new Map<string, number>();
-	function walk(ringIndex: number, keyIndex: number): number {
-		if (keyIndex === key.length) {
-			return 0;
-		}
-		const memKey = `${ringIndex},${keyIndex}}`;
-		if (memo.has(memKey)) {
-			return memo.get(memKey);
-		}
-		let moves = Infinity;
-		for (let i = 0; i < ring.length; i++) {
-			const c = ring[i];
-			if (c === key[keyIndex]) {
-				const distance = Math.abs(ringIndex - i);
-				const minDist = Math.min(
-					distance, // inside
-					ring.length - distance, // around
-				);
-				moves = Math.min(minDist + 1 + walk(i, keyIndex + 1), moves);
-			}
-		}
-		memo.set(memKey, moves);
-		return moves;
-	}
+// function findRotateSteps(ring: string, key: string): number {
+// 	const memo = new Map<string, number>();
+// 	function walk(ringIndex: number, keyIndex: number): number {
+// 		if (keyIndex === key.length) {
+// 			return 0;
+// 		}
+// 		const memKey = `${ringIndex},${keyIndex}}`;
+// 		if (memo.has(memKey)) {
+// 			return memo.get(memKey);
+// 		}
+// 		let moves = Infinity;
+// 		for (let i = 0; i < ring.length; i++) {
+// 			const c = ring[i];
+// 			if (c === key[keyIndex]) {
+// 				const distance = Math.abs(ringIndex - i);
+// 				const minDist = Math.min(
+// 					distance, // inside
+// 					ring.length - distance, // around
+// 				);
+// 				moves = Math.min(minDist + 1 + walk(i, keyIndex + 1), moves);
+// 			}
+// 		}
+// 		memo.set(memKey, moves);
+// 		return moves;
+// 	}
 
-	return walk(0, 0);
+// 	return walk(0, 0);
+// }
+
+// console.log(findRotateSteps('godding', 'gd')); // 4
+// console.log(findRotateSteps('godding', 'godding')); // 13
+// console.log(findRotateSteps('abcde', 'ade')); // 6
+function wonderfulSubstrings(word: string): number {
+	let count = 0;
+	const freq: number[] = new Array(1024).fill(0);
+	freq[0] = 1;
+	let mask = 0;
+	for (let i = 0; i < word.length; i++) {
+		const charIndex = word.charCodeAt(i) - 97;
+		mask ^= 1 << charIndex;
+		count += freq[mask];
+		for (let j = 0; j < 10; j++) {
+			count += freq[mask ^ (1 << j)];
+		}
+		freq[mask]++;
+	}
+	return count;
 }
 
-console.log(findRotateSteps('godding', 'gd')); // 4
-console.log(findRotateSteps('godding', 'godding')); // 13
-console.log(findRotateSteps('abcde', 'ade')); // 6
+console.log(wonderfulSubstrings('aba')); // 4
+console.log(wonderfulSubstrings('aabb')); // 9
+console.log(wonderfulSubstrings('he')); // 2
