@@ -5405,23 +5405,41 @@ const len2: number = (value as string).length;
 // console.log(findRotateSteps('godding', 'gd')); // 4
 // console.log(findRotateSteps('godding', 'godding')); // 13
 // console.log(findRotateSteps('abcde', 'ade')); // 6
-function wonderfulSubstrings(word: string): number {
-	let count = 0;
-	const freq: number[] = new Array(1024).fill(0);
-	freq[0] = 1;
-	let mask = 0;
-	for (let i = 0; i < word.length; i++) {
-		const charIndex = word.charCodeAt(i) - 97;
-		mask ^= 1 << charIndex;
-		count += freq[mask];
-		for (let j = 0; j < 10; j++) {
-			count += freq[mask ^ (1 << j)];
-		}
-		freq[mask]++;
+// function wonderfulSubstrings(word: string): number {
+// 	let count = 0;
+// 	const freq: number[] = new Array(1024).fill(0);
+// 	freq[0] = 1;
+// 	let mask = 0;
+// 	for (let i = 0; i < word.length; i++) {
+// 		const charIndex = word.charCodeAt(i) - 97;
+// 		mask ^= 1 << charIndex;
+// 		count += freq[mask];
+// 		for (let j = 0; j < 10; j++) {
+// 			count += freq[mask ^ (1 << j)];
+// 		}
+// 		freq[mask]++;
+// 	}
+// 	return count;
+// }
+
+// console.log(wonderfulSubstrings('aba')); // 4
+// console.log(wonderfulSubstrings('aabb')); // 9
+// console.log(wonderfulSubstrings('he')); // 2
+
+function reversePrefix(word: string, ch: string): string {
+	const index = word.indexOf(ch);
+	if (index === -1) {
+		return word;
 	}
-	return count;
+	return (
+		word
+			.slice(0, index + 1)
+			.split('')
+			.reverse()
+			.join('') + word.slice(index + 1)
+	);
 }
 
-console.log(wonderfulSubstrings('aba')); // 4
-console.log(wonderfulSubstrings('aabb')); // 9
-console.log(wonderfulSubstrings('he')); // 2
+console.log(reversePrefix('abcdefd', 'd')); // "dcbaefd"
+console.log(reversePrefix('xyxzxe', 'z')); // "zxyxxe"
+console.log(reversePrefix('abcd', 'z')); // "abcd"
