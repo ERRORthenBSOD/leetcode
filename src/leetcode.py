@@ -2561,20 +2561,35 @@ def array_to_binary_tree(lst):
 # print(solution.sumOfDistancesInTree(2, [[1, 0]]))  # [1,1]
 
 
-class Solution:
-    def minOperations(self, nums: List[int], k: int) -> int:
-        xored, count = 0, 0
-        for n in nums:
-            xored ^= n
-        print(xored)
-        while k or xored:
-            if (k % 2) != (xored % 2):
-                count += 1
-            k //= 2
-            xored //= 2
-        return count
+# class Solution:
+#     def minOperations(self, nums: List[int], k: int) -> int:
+#         xored, count = 0, 0
+#         for n in nums:
+#             xored ^= n
+#         print(xored)
+#         while k or xored:
+#             if (k % 2) != (xored % 2):
+#                 count += 1
+#             k //= 2
+#             xored //= 2
+#         return count
 
 
-solution = Solution()
-print(solution.minOperations([2, 1, 3, 4], 1))  # 2
+# solution = Solution()
+# print(solution.minOperations([2, 1, 3, 4], 1))  # 2
 # print(solution.minOperations([2, 0, 2, 0], 0))  # 0
+
+
+# class Solution:
+#     def findMaxK(self, nums: List[int]) -> int:
+#         maxK = -1
+#         freq_set: Set[int] = set()
+#         for n in nums:
+#             if -n in freq_set:
+#                 maxK = max(maxK, abs(n))
+#             else:
+#                 freq_set.add(n)
+#         return maxK
+
+# solution = Solution()
+# print(solution.findMaxK([-1, 10, 6, 7, -7, 1]))  # 7

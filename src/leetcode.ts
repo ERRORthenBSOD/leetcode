@@ -5426,20 +5426,20 @@ const len2: number = (value as string).length;
 // console.log(wonderfulSubstrings('aabb')); // 9
 // console.log(wonderfulSubstrings('he')); // 2
 
-function reversePrefix(word: string, ch: string): string {
-	const index = word.indexOf(ch);
-	if (index === -1) {
-		return word;
-	}
-	return (
-		word
-			.slice(0, index + 1)
-			.split('')
-			.reverse()
-			.join('') + word.slice(index + 1)
-	);
-}
+// function reversePrefix(word: string, ch: string): string {
+// 	const index = word.indexOf(ch);
+// 	if (index === -1) {
+// 		return word;
+// 	}
+// 	return (
+// 		word
+// 			.slice(0, index + 1)
+// 			.split('')
+// 			.reverse()
+// 			.join('') + word.slice(index + 1)
+// 	);
+// }
 
-console.log(reversePrefix('abcdefd', 'd')); // "dcbaefd"
-console.log(reversePrefix('xyxzxe', 'z')); // "zxyxxe"
-console.log(reversePrefix('abcd', 'z')); // "abcd"
+// console.log(reversePrefix('abcdefd', 'd')); // "dcbaefd"
+// console.log(reversePrefix('xyxzxe', 'z')); // "zxyxxe"
+// console.log(reversePrefix('abcd', 'z')); // "abcd"
