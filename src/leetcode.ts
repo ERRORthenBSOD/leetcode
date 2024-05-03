@@ -5443,3 +5443,26 @@ const len2: number = (value as string).length;
 // console.log(reversePrefix('abcdefd', 'd')); // "dcbaefd"
 // console.log(reversePrefix('xyxzxe', 'z')); // "zxyxxe"
 // console.log(reversePrefix('abcd', 'z')); // "abcd"
+
+function compareVersion(version1: string, version2: string): number {
+	const ver1 = version1.split('.');
+	const ver2 = version2.split('.');
+
+	for (let i = 0; i < Math.max(ver1.length, ver2.length); i++) {
+		const v1 = Number(ver1[i] || 0);
+		const v2 = Number(ver2[i] || 0);
+		if (v1 > v2) {
+			return 1;
+		}
+		if (v1 < v2) {
+			return -1;
+		}
+	}
+	return 0;
+}
+
+// console.log(compareVersion('1.01', '1.001')); // 0
+// console.log(compareVersion('1.01', '1.001')); // 0
+// console.log(compareVersion('1.0', '1.0.0')); // 0
+// console.log(compareVersion('0.1', '1.1')); // -1
+console.log(compareVersion('1.0.1', '1')); // 1
