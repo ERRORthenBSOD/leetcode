@@ -5444,25 +5444,44 @@ const len2: number = (value as string).length;
 // console.log(reversePrefix('xyxzxe', 'z')); // "zxyxxe"
 // console.log(reversePrefix('abcd', 'z')); // "abcd"
 
-function compareVersion(version1: string, version2: string): number {
-	const ver1 = version1.split('.');
-	const ver2 = version2.split('.');
+// function compareVersion(version1: string, version2: string): number {
+// 	const ver1 = version1.split('.');
+// 	const ver2 = version2.split('.');
 
-	for (let i = 0; i < Math.max(ver1.length, ver2.length); i++) {
-		const v1 = Number(ver1[i] || 0);
-		const v2 = Number(ver2[i] || 0);
-		if (v1 > v2) {
-			return 1;
-		}
-		if (v1 < v2) {
-			return -1;
-		}
-	}
-	return 0;
-}
+// 	for (let i = 0; i < Math.max(ver1.length, ver2.length); i++) {
+// 		const v1 = Number(ver1[i] || 0);
+// 		const v2 = Number(ver2[i] || 0);
+// 		if (v1 > v2) {
+// 			return 1;
+// 		}
+// 		if (v1 < v2) {
+// 			return -1;
+// 		}
+// 	}
+// 	return 0;
+// }
 
 // console.log(compareVersion('1.01', '1.001')); // 0
 // console.log(compareVersion('1.01', '1.001')); // 0
 // console.log(compareVersion('1.0', '1.0.0')); // 0
 // console.log(compareVersion('0.1', '1.1')); // -1
-console.log(compareVersion('1.0.1', '1')); // 1
+// console.log(compareVersion('1.0.1', '1')); // 1
+
+function numRescueBoats(people: number[], limit: number): number {
+	people.sort((a, b) => a - b);
+	let boats = people.length;
+
+	while (people.length > 0) {
+		const heaviestMan = people.pop();
+		if (heaviestMan + people[0] <= limit) {
+			people.shift(); // lightest man
+			boats--;
+		}
+	}
+
+	return boats;
+}
+
+console.log(numRescueBoats([1, 2], 3)); // 1
+console.log(numRescueBoats([3, 2, 2, 1], 3)); // 3
+console.log(numRescueBoats([3, 5, 3, 4], 5)); // 4
