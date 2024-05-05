@@ -2593,3 +2593,9 @@ def array_to_binary_tree(lst):
 
 # solution = Solution()
 # print(solution.findMaxK([-1, 10, 6, 7, -7, 1]))  # 7
+
+
+class Solution:
+    def deleteNode(self, node):
+        node.val = node.next.val
+        node.next = node.next.next
