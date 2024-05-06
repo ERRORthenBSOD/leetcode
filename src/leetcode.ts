@@ -5467,21 +5467,52 @@ const len2: number = (value as string).length;
 // console.log(compareVersion('0.1', '1.1')); // -1
 // console.log(compareVersion('1.0.1', '1')); // 1
 
-function numRescueBoats(people: number[], limit: number): number {
-	people.sort((a, b) => a - b);
-	let boats = people.length;
+// function numRescueBoats(people: number[], limit: number): number {
+// 	people.sort((a, b) => a - b);
+// 	let boats = people.length;
 
-	while (people.length > 0) {
-		const heaviestMan = people.pop();
-		if (heaviestMan + people[0] <= limit) {
-			people.shift(); // lightest man
-			boats--;
+// 	while (people.length > 0) {
+// 		const heaviestMan = people.pop();
+// 		if (heaviestMan + people[0] <= limit) {
+// 			people.shift(); // lightest man
+// 			boats--;
+// 		}
+// 	}
+
+// 	return boats;
+// }
+
+// console.log(numRescueBoats([1, 2], 3)); // 1
+// console.log(numRescueBoats([3, 2, 2, 1], 3)); // 3
+// console.log(numRescueBoats([3, 5, 3, 4], 5)); // 4
+
+function removeNodes(head: ListNode | null): ListNode | null {
+	// reverse list
+	let prev: null | ListNode = null;
+	while (head) {
+		const nextNode = head.next;
+		head.next = prev;
+		prev = head;
+		head = nextNode;
+	}
+	head = prev;
+	// removing lesser nodes
+	while (prev.next) {
+		if (prev.next.val < prev.val) {
+			prev.next = prev.next.next;
+		} else {
+			prev = prev.next;
 		}
 	}
-
-	return boats;
+	prev = null;
+	// reverse list
+	while (head) {
+		const nextNode = head.next;
+		head.next = prev;
+		prev = head;
+		head = nextNode;
+	}
+	return prev;
 }
-
-console.log(numRescueBoats([1, 2], 3)); // 1
-console.log(numRescueBoats([3, 2, 2, 1], 3)); // 3
-console.log(numRescueBoats([3, 5, 3, 4], 5)); // 4
+//  8 3 13 2 5
+console.log(removeNodes(arrayToLinkedList([5, 2, 13, 3, 8]))); // [13,8]
