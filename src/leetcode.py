@@ -2595,7 +2595,32 @@ def array_to_binary_tree(lst):
 # print(solution.findMaxK([-1, 10, 6, 7, -7, 1]))  # 7
 
 
+# class Solution:
+#     def deleteNode(self, node):
+#         node.val = node.next.val
+#         node.next = node.next.next
+
+
 class Solution:
-    def deleteNode(self, node):
-        node.val = node.next.val
-        node.next = node.next.next
+    def doubleIt(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        temp = head
+        s = ""
+        while temp:
+            s += str(temp.val)
+            temp = temp.next
+        s = [*str(int(s) * 2)[::-1]]
+        temp = head
+        while s:
+            print(s)
+            if temp:
+                temp.val = int(s.pop())
+                if s and not temp.next:
+                    temp.next = ListNode(int(s.pop()), None)
+                temp = temp.next    
+            else:
+                break
+        return head
+
+
+solution = Solution()
+print(solution.doubleIt(lst2link([5, 0])))  # [1,0,0]
