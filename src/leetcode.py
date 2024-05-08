@@ -2601,26 +2601,42 @@ def array_to_binary_tree(lst):
 #         node.next = node.next.next
 
 
+# class Solution:
+#     def doubleIt(self, head: Optional[ListNode]) -> Optional[ListNode]:
+#         temp = head
+#         s = ""
+#         while temp:
+#             s += str(temp.val)
+#             temp = temp.next
+#         s = [*str(int(s) * 2)[::-1]]
+#         temp = head
+#         while s:
+#             print(s)
+#             if temp:
+#                 temp.val = int(s.pop())
+#                 if s and not temp.next:
+#                     temp.next = ListNode(int(s.pop()), None)
+#                 temp = temp.next
+#             else:
+#                 break
+#         return head
+
+
+# solution = Solution()
+# print(solution.doubleIt(lst2link([5, 0])))  # [1,0,0]
+
+
 class Solution:
-    def doubleIt(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        temp = head
-        s = ""
-        while temp:
-            s += str(temp.val)
-            temp = temp.next
-        s = [*str(int(s) * 2)[::-1]]
-        temp = head
-        while s:
-            print(s)
-            if temp:
-                temp.val = int(s.pop())
-                if s and not temp.next:
-                    temp.next = ListNode(int(s.pop()), None)
-                temp = temp.next    
-            else:
-                break
-        return head
+    def findRelativeRanks(self, score: List[int]) -> List[str]:
+        sorted_score = sorted(score, reverse=True)
 
-
-solution = Solution()
-print(solution.doubleIt(lst2link([5, 0])))  # [1,0,0]
+        def get_medals(val: int) -> str:
+            index = sorted_score.index(val)
+            if index == 0:
+                return 'Gold Medal'
+            if index == 1:
+                return 'Silver Medal'
+            if index == 2:
+                return 'Bronze Medal'
+            return str(index + 1)
+        return [get_medals(n) for n in score]

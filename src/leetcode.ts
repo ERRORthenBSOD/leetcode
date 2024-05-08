@@ -5486,33 +5486,52 @@ const len2: number = (value as string).length;
 // console.log(numRescueBoats([3, 2, 2, 1], 3)); // 3
 // console.log(numRescueBoats([3, 5, 3, 4], 5)); // 4
 
-function removeNodes(head: ListNode | null): ListNode | null {
-	// reverse list
-	let prev: null | ListNode = null;
-	while (head) {
-		const nextNode = head.next;
-		head.next = prev;
-		prev = head;
-		head = nextNode;
-	}
-	head = prev;
-	// removing lesser nodes
-	while (prev.next) {
-		if (prev.next.val < prev.val) {
-			prev.next = prev.next.next;
+// function removeNodes(head: ListNode | null): ListNode | null {
+// 	// reverse list
+// 	let prev: null | ListNode = null;
+// 	while (head) {
+// 		const nextNode = head.next;
+// 		head.next = prev;
+// 		prev = head;
+// 		head = nextNode;
+// 	}
+// 	head = prev;
+// 	// removing lesser nodes
+// 	while (prev.next) {
+// 		if (prev.next.val < prev.val) {
+// 			prev.next = prev.next.next;
+// 		} else {
+// 			prev = prev.next;
+// 		}
+// 	}
+// 	prev = null;
+// 	// reverse list
+// 	while (head) {
+// 		const nextNode = head.next;
+// 		head.next = prev;
+// 		prev = head;
+// 		head = nextNode;
+// 	}
+// 	return prev;
+// }
+// //  8 3 13 2 5
+// console.log(removeNodes(arrayToLinkedList([5, 2, 13, 3, 8]))); // [13,8]
+
+function findRelativeRanks(score: number[]): string[] {
+	const sorted = Array.from(score).sort((a, b) => b - a);
+	return score.map((el, i) => {
+		const index = sorted.indexOf(el);
+		if (index === 0) {
+			return 'Gold Medal';
+		} else if (index === 1) {
+			return 'Silver Medal';
+		} else if (index === 2) {
+			return 'Bronze Medal';
 		} else {
-			prev = prev.next;
+			return (index + 1).toString();
 		}
-	}
-	prev = null;
-	// reverse list
-	while (head) {
-		const nextNode = head.next;
-		head.next = prev;
-		prev = head;
-		head = nextNode;
-	}
-	return prev;
+	});
 }
-//  8 3 13 2 5
-console.log(removeNodes(arrayToLinkedList([5, 2, 13, 3, 8]))); // [13,8]
+
+console.log(findRelativeRanks([5, 4, 3, 2, 1])); // ["Gold Medal","Silver Medal","Bronze Medal","4","5"]
+console.log(findRelativeRanks([10, 3, 8, 9, 4])); // ["Gold Medal","5","Bronze Medal","Silver Medal","4"]
