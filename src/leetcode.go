@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"slices"
 	"sort"
 )
 
@@ -72,24 +71,41 @@ func convertToList(arr []int) *ListNode {
 // 	return head
 // }
 
-func findRelativeRanks(score []int) []string {
-	sortedScore := slices.Clone(score)
-	// sort.Sort(sort.IntSlice(sorted))
-	// slices.Reverse(sorted)
-	sort.Slice(sortedScore, func(i, j int) bool {
-		return sortedScore[j] < sortedScore[i]
+// func findRelativeRanks(score []int) []string {
+// 	sortedScore := slices.Clone(score)
+// 	// sort.Sort(sort.IntSlice(sorted))
+// 	// slices.Reverse(sorted)
+// 	sort.Slice(sortedScore, func(i, j int) bool {
+// 		return sortedScore[j] < sortedScore[i]
+// 	})
+// 	res := make([]string, len(score))
+// 	for i, v := range score {
+// 		index := slices.Index(sortedScore, v)
+// 		if index == 0 {
+// 			res[i] = "Gold Medal"
+// 		} else if index == 1 {
+// 			res[i] = "Silver Medal"
+// 		} else if index == 2 {
+// 			res[i] = "Bronze Medal"
+// 		} else {
+// 			res[i] = fmt.Sprint(index + 1)
+// 		}
+// 	}
+// 	return res
+// }
+
+func maximumHappinessSum(happiness []int, k int) int64 {
+	if len(happiness) == 1 {
+		return int64(happiness[0])
+	}
+	var res int64
+	sort.Slice(happiness, func(a, b int) bool {
+		return happiness[b] < happiness[a]
 	})
-	res := make([]string, len(score))
-	for i, v := range score {
-		index := slices.Index(sortedScore, v)
-		if index == 0 {
-			res[i] = "Gold Medal"
-		} else if index == 1 {
-			res[i] = "Silver Medal"
-		} else if index == 2 {
-			res[i] = "Bronze Medal"
-		} else {
-			res[i] = fmt.Sprint(index + 1)
+	for i := 0; i < k; i++ {
+		val := int64(happiness[i] - i)
+		if val > 0 {
+			res += val
 		}
 	}
 	return res
@@ -99,5 +115,6 @@ func main() {
 	// fmt.Println(numRescueBoats([]int{1, 2}, 3)) // 1
 	// fmt.Println(numRescueBoats([]int{3, 2, 2, 1}, 3)) // 3
 	// fmt.Println(doubleIt(convertToList([]int{9, 9, 9}))) // [1,9,9,8]
-	fmt.Println(findRelativeRanks([]int{10, 3, 8, 9, 4})) //["Gold Medal","5","Bronze Medal","Silver Medal","4"]
+	// fmt.Println(findRelativeRanks([]int{10, 3, 8, 9, 4})) //["Gold Medal","5","Bronze Medal","Silver Medal","4"]
+	fmt.Println(maximumHappinessSum([]int{1, 2, 3}, 2)) // 4
 }

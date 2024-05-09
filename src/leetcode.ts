@@ -5517,21 +5517,43 @@ const len2: number = (value as string).length;
 // //  8 3 13 2 5
 // console.log(removeNodes(arrayToLinkedList([5, 2, 13, 3, 8]))); // [13,8]
 
-function findRelativeRanks(score: number[]): string[] {
-	const sorted = Array.from(score).sort((a, b) => b - a);
-	return score.map((el, i) => {
-		const index = sorted.indexOf(el);
-		if (index === 0) {
-			return 'Gold Medal';
-		} else if (index === 1) {
-			return 'Silver Medal';
-		} else if (index === 2) {
-			return 'Bronze Medal';
-		} else {
-			return (index + 1).toString();
-		}
-	});
+// function findRelativeRanks(score: number[]): string[] {
+// 	const sorted = Array.from(score).sort((a, b) => b - a);
+// 	return score.map((el, i) => {
+// 		const index = sorted.indexOf(el);
+// 		if (index === 0) {
+// 			return 'Gold Medal';
+// 		} else if (index === 1) {
+// 			return 'Silver Medal';
+// 		} else if (index === 2) {
+// 			return 'Bronze Medal';
+// 		} else {
+// 			return (index + 1).toString();
+// 		}
+// 	});
+// }
+
+// console.log(findRelativeRanks([5, 4, 3, 2, 1])); // ["Gold Medal","Silver Medal","Bronze Medal","4","5"]
+// console.log(findRelativeRanks([10, 3, 8, 9, 4])); // ["Gold Medal","5","Bronze Medal","Silver Medal","4"]
+
+function maximumHappinessSum(happiness: number[], k: number): number {
+	if (happiness.length === 1) {
+		return happiness[0];
+	}
+	let res = 0;
+	happiness.sort((a, b) => b - a);
+	let i = 0;
+	while (k) {
+		res +=
+			i === 0
+				? happiness[i]
+				: happiness[i] - i > 0
+				? happiness[i] - i
+				: 0;
+		k--;
+		i++;
+	}
+	return res;
 }
 
-console.log(findRelativeRanks([5, 4, 3, 2, 1])); // ["Gold Medal","Silver Medal","Bronze Medal","4","5"]
-console.log(findRelativeRanks([10, 3, 8, 9, 4])); // ["Gold Medal","5","Bronze Medal","Silver Medal","4"]
+console.log(maximumHappinessSum([1, 2, 3], 2));
