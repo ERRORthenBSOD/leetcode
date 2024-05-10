@@ -2626,17 +2626,39 @@ def array_to_binary_tree(lst):
 # print(solution.doubleIt(lst2link([5, 0])))  # [1,0,0]
 
 
-class Solution:
-    def findRelativeRanks(self, score: List[int]) -> List[str]:
-        sorted_score = sorted(score, reverse=True)
+# class Solution:
+#     def findRelativeRanks(self, score: List[int]) -> List[str]:
+#         sorted_score = sorted(score, reverse=True)
 
-        def get_medals(val: int) -> str:
-            index = sorted_score.index(val)
-            if index == 0:
-                return 'Gold Medal'
-            if index == 1:
-                return 'Silver Medal'
-            if index == 2:
-                return 'Bronze Medal'
-            return str(index + 1)
-        return [get_medals(n) for n in score]
+#         def get_medals(val: int) -> str:
+#             index = sorted_score.index(val)
+#             if index == 0:
+#                 return 'Gold Medal'
+#             if index == 1:
+#                 return 'Silver Medal'
+#             if index == 2:
+#                 return 'Bronze Medal'
+#             return str(index + 1)
+#         return [get_medals(n) for n in score]
+
+
+class Solution:
+    def kthSmallestPrimeFraction(self, arr: List[int], k: int) -> List[int]:
+        l = len(arr)
+
+        if l == 2:
+            return arr
+        
+        minHeap = [] 
+        for L in range(l):
+            for R in range(L + 1, l):
+                heapq.heappush(minHeap, (arr[L] / arr[R], (arr[L], arr[R])))
+
+        for _ in range(k):
+            a, b = heapq.heappop(minHeap)[1]
+        return [a, b]
+
+
+sol = Solution()
+print(sol.kthSmallestPrimeFraction([1, 2, 3, 5], 3))  # [2,5]
+print(sol.kthSmallestPrimeFraction([1, 13, 17, 59], 6))  # [13,17]
