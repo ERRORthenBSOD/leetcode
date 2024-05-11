@@ -2642,23 +2642,48 @@ def array_to_binary_tree(lst):
 #         return [get_medals(n) for n in score]
 
 
-class Solution:
-    def kthSmallestPrimeFraction(self, arr: List[int], k: int) -> List[int]:
-        l = len(arr)
+# class Solution:
+#     def kthSmallestPrimeFraction(self, arr: List[int], k: int) -> List[int]:
+#         l = len(arr)
 
-        if l == 2:
-            return arr
+#         if l == 2:
+#             return arr
         
-        minHeap = [] 
-        for L in range(l):
-            for R in range(L + 1, l):
-                heapq.heappush(minHeap, (arr[L] / arr[R], (arr[L], arr[R])))
+#         minHeap = [] 
+#         for L in range(l):
+#             for R in range(L + 1, l):
+#                 heapq.heappush(minHeap, (arr[L] / arr[R], (arr[L], arr[R])))
 
-        for _ in range(k):
-            a, b = heapq.heappop(minHeap)[1]
-        return [a, b]
+#         for _ in range(k):
+#             a, b = heapq.heappop(minHeap)[1]
+#         return [a, b]
 
 
-sol = Solution()
-print(sol.kthSmallestPrimeFraction([1, 2, 3, 5], 3))  # [2,5]
-print(sol.kthSmallestPrimeFraction([1, 13, 17, 59], 6))  # [13,17]
+# sol = Solution()
+# print(sol.kthSmallestPrimeFraction([1, 2, 3, 5], 3))  # [2,5]
+# print(sol.kthSmallestPrimeFraction([1, 13, 17, 59], 6))  # [13,17]
+
+class Solution:
+    def mincostToHireWorkers(self, quality: List[int], wage: List[int], k: int) -> float:
+        res = float("inf")
+        pairs: List[Tuple[float, int]] = [] # (ratio, quality)
+
+        for i in range(len(quality)):
+            pairs.append((wage[i] / quality[i], quality[i]))
+        
+        pairs.sort(key=lambda p:p[0])
+
+        max_heap = [] # qualities
+        total_quality = 0
+
+        for rate, q in pairs:
+            heapq.heappush(max_heap, -q)
+            total_quality += q
+
+            if len(max_heap) > k:
+                total_quality += heapq.heappop(max_heap)
+
+            if len(max_heap) == k:
+                res = min(res, total_quality * rate)
+
+        return res
