@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"sort"
 )
 
 type ListNode struct {
@@ -94,18 +93,41 @@ func convertToList(arr []int) *ListNode {
 // 	return res
 // }
 
-func maximumHappinessSum(happiness []int, k int) int64 {
-	if len(happiness) == 1 {
-		return int64(happiness[0])
+// func maximumHappinessSum(happiness []int, k int) int64 {
+// 	if len(happiness) == 1 {
+// 		return int64(happiness[0])
+// 	}
+// 	var res int64
+// 	sort.Slice(happiness, func(a, b int) bool {
+// 		return happiness[b] < happiness[a]
+// 	})
+// 	for i := 0; i < k; i++ {
+// 		val := int64(happiness[i] - i)
+// 		if val > 0 {
+// 			res += val
+// 		}
+// 	}
+// 	return res
+// }
+
+func largestLocal(grid [][]int) [][]int {
+	res := make([][]int, len(grid)-2)
+	for i := range res {
+		res[i] = make([]int, len(grid)-2)
 	}
-	var res int64
-	sort.Slice(happiness, func(a, b int) bool {
-		return happiness[b] < happiness[a]
-	})
-	for i := 0; i < k; i++ {
-		val := int64(happiness[i] - i)
-		if val > 0 {
-			res += val
+	for i := range len(grid) - 2 {
+		for j := range len(grid[0]) - 2 {
+			res[i][j] = max(
+				grid[i+1][j+1],
+				grid[i+1+1][j+1],
+				grid[i+1][j+1+1],
+				grid[i-1+1][j+1],
+				grid[i+1][j-1+1],
+				grid[i+1+1][j+1+1],
+				grid[i-1+1][j-1+1],
+				grid[i-1+1][j+1+1],
+				grid[i+1+1][j-1+1],
+			)
 		}
 	}
 	return res
@@ -116,5 +138,6 @@ func main() {
 	// fmt.Println(numRescueBoats([]int{3, 2, 2, 1}, 3)) // 3
 	// fmt.Println(doubleIt(convertToList([]int{9, 9, 9}))) // [1,9,9,8]
 	// fmt.Println(findRelativeRanks([]int{10, 3, 8, 9, 4})) //["Gold Medal","5","Bronze Medal","Silver Medal","4"]
-	fmt.Println(maximumHappinessSum([]int{1, 2, 3}, 2)) // 4
+	// fmt.Println(maximumHappinessSum([]int{1, 2, 3}, 2)) // 4
+	fmt.Println(largestLocal([][]int{{9, 9, 8, 1}, {5, 6, 2, 6}, {8, 2, 6, 4}, {6, 2, 2, 2}})) // [[9,9],[8,6]]
 }

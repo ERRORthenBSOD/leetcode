@@ -5536,24 +5536,65 @@ const len2: number = (value as string).length;
 // console.log(findRelativeRanks([5, 4, 3, 2, 1])); // ["Gold Medal","Silver Medal","Bronze Medal","4","5"]
 // console.log(findRelativeRanks([10, 3, 8, 9, 4])); // ["Gold Medal","5","Bronze Medal","Silver Medal","4"]
 
-function maximumHappinessSum(happiness: number[], k: number): number {
-	if (happiness.length === 1) {
-		return happiness[0];
-	}
-	let res = 0;
-	happiness.sort((a, b) => b - a);
-	let i = 0;
-	while (k) {
-		res +=
-			i === 0
-				? happiness[i]
-				: happiness[i] - i > 0
-				? happiness[i] - i
-				: 0;
-		k--;
-		i++;
+// function maximumHappinessSum(happiness: number[], k: number): number {
+// 	if (happiness.length === 1) {
+// 		return happiness[0];
+// 	}
+// 	let res = 0;
+// 	happiness.sort((a, b) => b - a);
+// 	let i = 0;
+// 	while (k) {
+// 		res +=
+// 			i === 0
+// 				? happiness[i]
+// 				: happiness[i] - i > 0
+// 				? happiness[i] - i
+// 				: 0;
+// 		k--;
+// 		i++;
+// 	}
+// 	return res;
+// }
+
+// console.log(maximumHappinessSum([1, 2, 3], 2));
+
+function largestLocal(grid: number[][]): number[][] {
+	const res: number[][] = Array.from({ length: grid.length - 2 }, () =>
+		Array(grid[0].length - 2),
+	);
+	for (let i = 0; i < res.length; i++) {
+		for (let j = 0; j < res[0].length; j++) {
+			res[i][j] = Math.max(
+				grid[i + 1][j + 1],
+				grid[i + 1 + 1][j + 1],
+				grid[i + 1][j + 1 + 1],
+				grid[i - 1 + 1][j + 1],
+				grid[i + 1][j - 1 + 1],
+				grid[i + 1 + 1][j + 1 + 1],
+				grid[i - 1 + 1][j - 1 + 1],
+				grid[i - 1 + 1][j + 1 + 1],
+				grid[i + 1 + 1][j - 1 + 1],
+			);
+		}
 	}
 	return res;
 }
 
-console.log(maximumHappinessSum([1, 2, 3], 2));
+// console.log(
+// 	largestLocal([
+// 		[9, 9, 8, 1],
+// 		[5, 6, 2, 6],
+// 		[8, 2, 6, 4],
+// 		[6, 2, 2, 2],
+// 	]),
+// ); // [[9,9],[8,6]]
+
+console.log(
+	largestLocal([
+		[1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1],
+		[1, 1, 2, 1, 1],
+		[1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1],
+	]),
+); // [[2,2,2],[2,2,2],[2,2,2]]
