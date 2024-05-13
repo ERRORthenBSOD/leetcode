@@ -2648,8 +2648,8 @@ def array_to_binary_tree(lst):
 
 #         if l == 2:
 #             return arr
-        
-#         minHeap = [] 
+
+#         minHeap = []
 #         for L in range(l):
 #             for R in range(L + 1, l):
 #                 heapq.heappush(minHeap, (arr[L] / arr[R], (arr[L], arr[R])))
@@ -2663,27 +2663,45 @@ def array_to_binary_tree(lst):
 # print(sol.kthSmallestPrimeFraction([1, 2, 3, 5], 3))  # [2,5]
 # print(sol.kthSmallestPrimeFraction([1, 13, 17, 59], 6))  # [13,17]
 
+# class Solution:
+#     def mincostToHireWorkers(self, quality: List[int], wage: List[int], k: int) -> float:
+#         res = float("inf")
+#         pairs: List[Tuple[float, int]] = [] # (ratio, quality)
+
+#         for i in range(len(quality)):
+#             pairs.append((wage[i] / quality[i], quality[i]))
+
+#         pairs.sort(key=lambda p:p[0])
+
+#         max_heap = [] # qualities
+#         total_quality = 0
+
+#         for rate, q in pairs:
+#             heapq.heappush(max_heap, -q)
+#             total_quality += q
+
+#             if len(max_heap) > k:
+#                 total_quality += heapq.heappop(max_heap)
+
+#             if len(max_heap) == k:
+#                 res = min(res, total_quality * rate)
+
+#         return res
+
+
 class Solution:
-    def mincostToHireWorkers(self, quality: List[int], wage: List[int], k: int) -> float:
-        res = float("inf")
-        pairs: List[Tuple[float, int]] = [] # (ratio, quality)
+    def matrixScore(self, grid: List[List[int]]) -> int:
+        n, m = len(grid), len(grid[0])
+        res = (1 << (m - 1)) * n
 
-        for i in range(len(quality)):
-            pairs.append((wage[i] / quality[i], quality[i]))
-        
-        pairs.sort(key=lambda p:p[0])
+        for j in range(1, m):
+            val = 1 << (m - 1 - j)
+            set_count = 0
 
-        max_heap = [] # qualities
-        total_quality = 0
+            for i in range(n):
+                if grid[i][j] == grid[i][0]:
+                    set_count += 1
 
-        for rate, q in pairs:
-            heapq.heappush(max_heap, -q)
-            total_quality += q
-
-            if len(max_heap) > k:
-                total_quality += heapq.heappop(max_heap)
-
-            if len(max_heap) == k:
-                res = min(res, total_quality * rate)
+            res += max(set_count, n - set_count) * val
 
         return res
