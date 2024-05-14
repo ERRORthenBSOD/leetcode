@@ -2689,19 +2689,49 @@ def array_to_binary_tree(lst):
 #         return res
 
 
+# class Solution:
+#     def matrixScore(self, grid: List[List[int]]) -> int:
+#         n, m = len(grid), len(grid[0])
+#         res = (1 << (m - 1)) * n
+
+#         for j in range(1, m):
+#             val = 1 << (m - 1 - j)
+#             set_count = 0
+
+#             for i in range(n):
+#                 if grid[i][j] == grid[i][0]:
+#                     set_count += 1
+
+#             res += max(set_count, n - set_count) * val
+
+#         return res
+
+
 class Solution:
-    def matrixScore(self, grid: List[List[int]]) -> int:
-        n, m = len(grid), len(grid[0])
-        res = (1 << (m - 1)) * n
+    def getMaximumGold(self, grid: List[List[int]]) -> int:
+        ROWS, COLS = len(grid), len(grid[0])
+        res = 0
 
-        for j in range(1, m):
-            val = 1 << (m - 1 - j)
-            set_count = 0
+        def traverse(r: int, c: int) -> int:
+            if (
+                min(r, c) < 0
+                or r == ROWS
+                or c == COLS
+                or grid[r][c] == 0
+            ):
+                return 0
+            tmp = grid[r][c]
+            grid[r][c] = 0
+            res = 0
+            neighbors = [[r+1, c], [r-1, c], [r, c+1], [r, c-1]]
 
-            for i in range(n):
-                if grid[i][j] == grid[i][0]:
-                    set_count += 1
+            for n_r, n_c in neighbors:
+                res = max(res, tmp + traverse(n_r, n_c))
+            grid[r][c] = tmp
+            return res
 
-            res += max(set_count, n - set_count) * val
+        for r in range(ROWS):
+            for c in range(COLS):
+                res = max(res, traverse(r, c))
 
         return res
