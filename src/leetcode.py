@@ -2707,31 +2707,74 @@ def array_to_binary_tree(lst):
 #         return res
 
 
+# class Solution:
+#     def getMaximumGold(self, grid: List[List[int]]) -> int:
+#         ROWS, COLS = len(grid), len(grid[0])
+#         res = 0
+
+#         def traverse(r: int, c: int) -> int:
+#             if (
+#                 min(r, c) < 0
+#                 or r == ROWS
+#                 or c == COLS
+#                 or grid[r][c] == 0
+#             ):
+#                 return 0
+#             tmp = grid[r][c]
+#             grid[r][c] = 0
+#             res = 0
+#             neighbors = [[r+1, c], [r-1, c], [r, c+1], [r, c-1]]
+
+#             for n_r, n_c in neighbors:
+#                 res = max(res, tmp + traverse(n_r, n_c))
+#             grid[r][c] = tmp
+#             return res
+
+#         for r in range(ROWS):
+#             for c in range(COLS):
+#                 res = max(res, traverse(r, c))
+
+#         return res
+
+
 class Solution:
-    def getMaximumGold(self, grid: List[List[int]]) -> int:
-        ROWS, COLS = len(grid), len(grid[0])
-        res = 0
+    def maximumSafenessFactor(self, grid: List[List[int]]) -> int:
+        N = len(grid[0])
+        
 
-        def traverse(r: int, c: int) -> int:
-            if (
-                min(r, c) < 0
-                or r == ROWS
-                or c == COLS
-                or grid[r][c] == 0
-            ):
-                return 0
-            tmp = grid[r][c]
-            grid[r][c] = 0
-            res = 0
-            neighbors = [[r+1, c], [r-1, c], [r, c+1], [r, c-1]]
+        def in_bounds(r, c):
+            return min(r, c) >= 0 and max(r, c) < N
 
+        def precompute()-> Dict[Tuple[int, int], int]:
+            thieves: Deque[List[int]] = deque()  # [row, col, distance]
+            min_dist: Dict[Tuple[int, int], int] = {}
+            for r in range(N):
+                for c in range(N):
+                    if grid[r][c]:
+                        thieves.append([r, c, 0])
+                        min_dist[(r, c)] = 0
+            while thieves:
+                r, c, dist = thieves.popleft()
+                neighbors = [[r, c + 1], [r, c - 1], [r + 1, c], [r - 1, c]]
+                for n_r, n_c in neighbors:
+                    if in_bounds(n_r, n_c) and (n_r, n_c) not in min_dist:
+                        min_dist[(n_r, n_c)] = dist + 1
+                        thieves.append([n_r, n_c, dist + 1])
+            return min_dist
+
+        min_dist = precompute()
+        max_heap: list[tuple[int, int, int]] = [(-min_dist[(0, 0)], 0, 0)]  # dist, r, c
+        visit: Set[Tuple[int, int]] = set()
+        visit.add((0, 0))
+        while max_heap:
+            dist, r, c = heapq.heappop(max_heap)
+            dist = -dist
+            if (r, c) == (N-1, N-1):
+                return dist
+            neighbors = [[r, c + 1], [r, c - 1], [r + 1, c], [r - 1, c]]
             for n_r, n_c in neighbors:
-                res = max(res, tmp + traverse(n_r, n_c))
-            grid[r][c] = tmp
-            return res
+                if in_bounds(n_r, n_c) and (n_r, n_c) not in visit:
+                    visit.add((n_r, n_c))
+                    dist2 = min(dist, min_dist[(n_r, n_c)])
+                    heapq.heappush(max_heap, (-dist2, n_r, n_c))
 
-        for r in range(ROWS):
-            for c in range(COLS):
-                res = max(res, traverse(r, c))
-
-        return res
