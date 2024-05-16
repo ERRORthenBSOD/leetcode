@@ -1,8 +1,10 @@
 package main
 
-import (
-	"fmt"
-)
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
 
 type ListNode struct {
 	Val  int
@@ -110,27 +112,38 @@ func convertToList(arr []int) *ListNode {
 // 	return res
 // }
 
-func largestLocal(grid [][]int) [][]int {
-	res := make([][]int, len(grid)-2)
-	for i := range res {
-		res[i] = make([]int, len(grid)-2)
+// func largestLocal(grid [][]int) [][]int {
+// 	res := make([][]int, len(grid)-2)
+// 	for i := range res {
+// 		res[i] = make([]int, len(grid)-2)
+// 	}
+// 	for i := range len(grid) - 2 {
+// 		for j := range len(grid[0]) - 2 {
+// 			res[i][j] = max(
+// 				grid[i+1][j+1],
+// 				grid[i+1+1][j+1],
+// 				grid[i+1][j+1+1],
+// 				grid[i-1+1][j+1],
+// 				grid[i+1][j-1+1],
+// 				grid[i+1+1][j+1+1],
+// 				grid[i-1+1][j-1+1],
+// 				grid[i-1+1][j+1+1],
+// 				grid[i+1+1][j-1+1],
+// 			)
+// 		}
+// 	}
+// 	return res
+// }
+
+func evaluateTree(root *TreeNode) bool {
+	if root.Left == nil {
+		return root.Val != 0
 	}
-	for i := range len(grid) - 2 {
-		for j := range len(grid[0]) - 2 {
-			res[i][j] = max(
-				grid[i+1][j+1],
-				grid[i+1+1][j+1],
-				grid[i+1][j+1+1],
-				grid[i-1+1][j+1],
-				grid[i+1][j-1+1],
-				grid[i+1+1][j+1+1],
-				grid[i-1+1][j-1+1],
-				grid[i-1+1][j+1+1],
-				grid[i+1+1][j-1+1],
-			)
-		}
+
+	if root.Val == 3 {
+		return evaluateTree(root.Right) && evaluateTree(root.Left)
 	}
-	return res
+	return evaluateTree(root.Right) || evaluateTree(root.Left)
 }
 
 func main() {
@@ -139,5 +152,5 @@ func main() {
 	// fmt.Println(doubleIt(convertToList([]int{9, 9, 9}))) // [1,9,9,8]
 	// fmt.Println(findRelativeRanks([]int{10, 3, 8, 9, 4})) //["Gold Medal","5","Bronze Medal","Silver Medal","4"]
 	// fmt.Println(maximumHappinessSum([]int{1, 2, 3}, 2)) // 4
-	fmt.Println(largestLocal([][]int{{9, 9, 8, 1}, {5, 6, 2, 6}, {8, 2, 6, 4}, {6, 2, 2, 2}})) // [[9,9],[8,6]]
+	// fmt.Println(largestLocal([][]int{{9, 9, 8, 1}, {5, 6, 2, 6}, {8, 2, 6, 4}, {6, 2, 2, 2}})) // [[9,9],[8,6]]
 }

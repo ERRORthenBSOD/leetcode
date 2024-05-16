@@ -5558,27 +5558,27 @@ const len2: number = (value as string).length;
 
 // console.log(maximumHappinessSum([1, 2, 3], 2));
 
-function largestLocal(grid: number[][]): number[][] {
-	const res: number[][] = Array.from({ length: grid.length - 2 }, () =>
-		Array(grid[0].length - 2),
-	);
-	for (let i = 0; i < res.length; i++) {
-		for (let j = 0; j < res[0].length; j++) {
-			res[i][j] = Math.max(
-				grid[i + 1][j + 1],
-				grid[i + 1 + 1][j + 1],
-				grid[i + 1][j + 1 + 1],
-				grid[i - 1 + 1][j + 1],
-				grid[i + 1][j - 1 + 1],
-				grid[i + 1 + 1][j + 1 + 1],
-				grid[i - 1 + 1][j - 1 + 1],
-				grid[i - 1 + 1][j + 1 + 1],
-				grid[i + 1 + 1][j - 1 + 1],
-			);
-		}
-	}
-	return res;
-}
+// function largestLocal(grid: number[][]): number[][] {
+// 	const res: number[][] = Array.from({ length: grid.length - 2 }, () =>
+// 		Array(grid[0].length - 2),
+// 	);
+// 	for (let i = 0; i < res.length; i++) {
+// 		for (let j = 0; j < res[0].length; j++) {
+// 			res[i][j] = Math.max(
+// 				grid[i + 1][j + 1],
+// 				grid[i + 1 + 1][j + 1],
+// 				grid[i + 1][j + 1 + 1],
+// 				grid[i - 1 + 1][j + 1],
+// 				grid[i + 1][j - 1 + 1],
+// 				grid[i + 1 + 1][j + 1 + 1],
+// 				grid[i - 1 + 1][j - 1 + 1],
+// 				grid[i - 1 + 1][j + 1 + 1],
+// 				grid[i + 1 + 1][j - 1 + 1],
+// 			);
+// 		}
+// 	}
+// 	return res;
+// }
 
 // console.log(
 // 	largestLocal([
@@ -5589,12 +5589,27 @@ function largestLocal(grid: number[][]): number[][] {
 // 	]),
 // ); // [[9,9],[8,6]]
 
-console.log(
-	largestLocal([
-		[1, 1, 1, 1, 1],
-		[1, 1, 1, 1, 1],
-		[1, 1, 2, 1, 1],
-		[1, 1, 1, 1, 1],
-		[1, 1, 1, 1, 1],
-	]),
-); // [[2,2,2],[2,2,2],[2,2,2]]
+// console.log(
+// 	largestLocal([
+// 		[1, 1, 1, 1, 1],
+// 		[1, 1, 1, 1, 1],
+// 		[1, 1, 2, 1, 1],
+// 		[1, 1, 1, 1, 1],
+// 		[1, 1, 1, 1, 1],
+// 	]),
+// ); // [[2,2,2],[2,2,2],[2,2,2]]
+
+function evaluateTree(root: TreeNode | null): boolean {
+	if (!root.left && !root.right) {
+		return root.val !== 0;
+	}
+
+	if (root.val === 2) {
+		return evaluateTree(root.left) || evaluateTree(root.right);
+	}
+	return evaluateTree(root.left) && evaluateTree(root.right);
+}
+
+const root = new TreeNode(2).insert([1, 3, null, null, 0, 1]);
+
+console.log(evaluateTree(root));
