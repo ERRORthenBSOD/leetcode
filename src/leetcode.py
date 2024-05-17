@@ -2737,44 +2737,62 @@ def array_to_binary_tree(lst):
 #         return res
 
 
+# class Solution:
+#     def maximumSafenessFactor(self, grid: List[List[int]]) -> int:
+#         N = len(grid[0])
+
+
+#         def in_bounds(r, c):
+#             return min(r, c) >= 0 and max(r, c) < N
+
+#         def precompute()-> Dict[Tuple[int, int], int]:
+#             thieves: Deque[List[int]] = deque()  # [row, col, distance]
+#             min_dist: Dict[Tuple[int, int], int] = {}
+#             for r in range(N):
+#                 for c in range(N):
+#                     if grid[r][c]:
+#                         thieves.append([r, c, 0])
+#                         min_dist[(r, c)] = 0
+#             while thieves:
+#                 r, c, dist = thieves.popleft()
+#                 neighbors = [[r, c + 1], [r, c - 1], [r + 1, c], [r - 1, c]]
+#                 for n_r, n_c in neighbors:
+#                     if in_bounds(n_r, n_c) and (n_r, n_c) not in min_dist:
+#                         min_dist[(n_r, n_c)] = dist + 1
+#                         thieves.append([n_r, n_c, dist + 1])
+#             return min_dist
+
+#         min_dist = precompute()
+#         max_heap: list[tuple[int, int, int]] = [(-min_dist[(0, 0)], 0, 0)]  # dist, r, c
+#         visit: Set[Tuple[int, int]] = set()
+#         visit.add((0, 0))
+#         while max_heap:
+#             dist, r, c = heapq.heappop(max_heap)
+#             dist = -dist
+#             if (r, c) == (N-1, N-1):
+#                 return dist
+#             neighbors = [[r, c + 1], [r, c - 1], [r + 1, c], [r - 1, c]]
+#             for n_r, n_c in neighbors:
+#                 if in_bounds(n_r, n_c) and (n_r, n_c) not in visit:
+#                     visit.add((n_r, n_c))
+#                     dist2 = min(dist, min_dist[(n_r, n_c)])
+#                     heapq.heappush(max_heap, (-dist2, n_r, n_c))
+
 class Solution:
-    def maximumSafenessFactor(self, grid: List[List[int]]) -> int:
-        N = len(grid[0])
-        
+    def removeLeafNodes(self, root: Optional[TreeNode], target: int) -> Optional[TreeNode]:
+        if not root:
+            return None
+        self.removeLeafNodes(root.left, target)
+        self.removeLeafNodes(root.right, target)
+        if (
+            not root.left and
+            not root.right and
+            root.val == target
+        ):
+            return None
+        return root
 
-        def in_bounds(r, c):
-            return min(r, c) >= 0 and max(r, c) < N
 
-        def precompute()-> Dict[Tuple[int, int], int]:
-            thieves: Deque[List[int]] = deque()  # [row, col, distance]
-            min_dist: Dict[Tuple[int, int], int] = {}
-            for r in range(N):
-                for c in range(N):
-                    if grid[r][c]:
-                        thieves.append([r, c, 0])
-                        min_dist[(r, c)] = 0
-            while thieves:
-                r, c, dist = thieves.popleft()
-                neighbors = [[r, c + 1], [r, c - 1], [r + 1, c], [r - 1, c]]
-                for n_r, n_c in neighbors:
-                    if in_bounds(n_r, n_c) and (n_r, n_c) not in min_dist:
-                        min_dist[(n_r, n_c)] = dist + 1
-                        thieves.append([n_r, n_c, dist + 1])
-            return min_dist
-
-        min_dist = precompute()
-        max_heap: list[tuple[int, int, int]] = [(-min_dist[(0, 0)], 0, 0)]  # dist, r, c
-        visit: Set[Tuple[int, int]] = set()
-        visit.add((0, 0))
-        while max_heap:
-            dist, r, c = heapq.heappop(max_heap)
-            dist = -dist
-            if (r, c) == (N-1, N-1):
-                return dist
-            neighbors = [[r, c + 1], [r, c - 1], [r + 1, c], [r - 1, c]]
-            for n_r, n_c in neighbors:
-                if in_bounds(n_r, n_c) and (n_r, n_c) not in visit:
-                    visit.add((n_r, n_c))
-                    dist2 = min(dist, min_dist[(n_r, n_c)])
-                    heapq.heappush(max_heap, (-dist2, n_r, n_c))
-
+root = array_to_binary_tree([1, 2, 3, 2, None, 2, 4])
+sol = Solution()
+print(sol.removeLeafNodes(root, 2))

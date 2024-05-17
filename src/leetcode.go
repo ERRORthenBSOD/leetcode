@@ -135,15 +135,30 @@ func convertToList(arr []int) *ListNode {
 // 	return res
 // }
 
-func evaluateTree(root *TreeNode) bool {
-	if root.Left == nil {
-		return root.Val != 0
-	}
+// func evaluateTree(root *TreeNode) bool {
+// 	if root.Left == nil {
+// 		return root.Val != 0
+// 	}
 
-	if root.Val == 3 {
-		return evaluateTree(root.Right) && evaluateTree(root.Left)
+// 	if root.Val == 3 {
+// 		return evaluateTree(root.Right) && evaluateTree(root.Left)
+// 	}
+// 	return evaluateTree(root.Right) || evaluateTree(root.Left)
+// }
+
+func removeLeafNodes(root *TreeNode, target int) *TreeNode {
+	if root == nil {
+		return root
 	}
-	return evaluateTree(root.Right) || evaluateTree(root.Left)
+	root.Left = removeLeafNodes(root.Left, target)
+	root.Right = removeLeafNodes(root.Right, target)
+
+	if root.Left == nil &&
+		root.Right == nil &&
+		root.Val == target {
+		return nil
+	}
+	return root
 }
 
 func main() {
