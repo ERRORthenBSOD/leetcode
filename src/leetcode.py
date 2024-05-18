@@ -2796,3 +2796,27 @@ class Solution:
 root = array_to_binary_tree([1, 2, 3, 2, None, 2, 4])
 sol = Solution()
 print(sol.removeLeafNodes(root, 2))
+
+
+class Solution:
+    def distributeCoins(self, root: Optional[TreeNode]) -> int:
+        moves = 0
+
+        def traverse(node: Optional[TreeNode]) -> int:
+            if not node:
+                return 0
+            left_balance = traverse(node.left)
+            right_balance = traverse(node.right)
+
+            balance = node.val + left_balance + right_balance - 1
+            nonlocal moves
+            moves += abs(balance)
+            return balance
+
+        traverse(root)
+        return moves
+
+
+root = array_to_binary_tree([3, 0, 0])
+sol = Solution()
+print(sol.distributeCoins(root))
