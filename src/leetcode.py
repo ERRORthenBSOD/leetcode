@@ -2798,25 +2798,41 @@ sol = Solution()
 print(sol.removeLeafNodes(root, 2))
 
 
+# class Solution:
+#     def distributeCoins(self, root: Optional[TreeNode]) -> int:
+#         moves = 0
+
+#         def traverse(node: Optional[TreeNode]) -> int:
+#             if not node:
+#                 return 0
+#             left_balance = traverse(node.left)
+#             right_balance = traverse(node.right)
+
+#             balance = node.val + left_balance + right_balance - 1
+#             nonlocal moves
+#             moves += abs(balance)
+#             return balance
+
+#         traverse(root)
+#         return moves
+
+
+# root = array_to_binary_tree([3, 0, 0])
+# sol = Solution()
+# print(sol.distributeCoins(root))
+
+
 class Solution:
-    def distributeCoins(self, root: Optional[TreeNode]) -> int:
-        moves = 0
+    def maximumValueSum(self, nums: List[int], k: int, edges: List[List[int]]) -> int:
+        delta = [(n ^ k)-n for n in nums]
+        delta.sort(reverse=True)
+        res = sum(nums)
 
-        def traverse(node: Optional[TreeNode]) -> int:
-            if not node:
-                return 0
-            left_balance = traverse(node.left)
-            right_balance = traverse(node.right)
-
-            balance = node.val + left_balance + right_balance - 1
-            nonlocal moves
-            moves += abs(balance)
-            return balance
-
-        traverse(root)
-        return moves
-
-
-root = array_to_binary_tree([3, 0, 0])
-sol = Solution()
-print(sol.distributeCoins(root))
+        for i in range(0, len(nums), 2):
+            if i == len(nums) - 1:
+                break
+            path_delta = delta[i] + delta[i+1]
+            if path_delta <= 0:
+                break
+            res += path_delta
+        return res
