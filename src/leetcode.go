@@ -146,20 +146,31 @@ func convertToList(arr []int) *ListNode {
 // 	return evaluateTree(root.Right) || evaluateTree(root.Left)
 // }
 
-func removeLeafNodes(root *TreeNode, target int) *TreeNode {
-	if root == nil {
-		return root
-	}
-	root.Left = removeLeafNodes(root.Left, target)
-	root.Right = removeLeafNodes(root.Right, target)
+// func removeLeafNodes(root *TreeNode, target int) *TreeNode {
+// 	if root == nil {
+// 		return root
+// 	}
+// 	root.Left = removeLeafNodes(root.Left, target)
+// 	root.Right = removeLeafNodes(root.Right, target)
 
-	if root.Left == nil &&
-		root.Right == nil &&
-		root.Val == target {
-		return nil
-	}
-	return root
-}
+// 	if root.Left == nil &&
+// 		root.Right == nil &&
+// 		root.Val == target {
+// 		return nil
+// 	}
+// 	return root
+// }
+
+// func traverse(nums []int, index int, xorSum int) int {
+// 	if index == len(nums) {
+// 		return xorSum
+// 	}
+// 	return traverse(nums, index+1, xorSum) + traverse(nums, index+1, xorSum^nums[index])
+// }
+
+// func subsetXORSum(nums []int) int {
+// 	return traverse(nums, 0, 0)
+// }
 
 func main() {
 	// fmt.Println(numRescueBoats([]int{1, 2}, 3)) // 1
@@ -168,4 +179,5 @@ func main() {
 	// fmt.Println(findRelativeRanks([]int{10, 3, 8, 9, 4})) //["Gold Medal","5","Bronze Medal","Silver Medal","4"]
 	// fmt.Println(maximumHappinessSum([]int{1, 2, 3}, 2)) // 4
 	// fmt.Println(largestLocal([][]int{{9, 9, 8, 1}, {5, 6, 2, 6}, {8, 2, 6, 4}, {6, 2, 2, 2}})) // [[9,9],[8,6]]
+	// fmt.Println(subsetXORSum([]int{5, 1, 6})) // 28
 }

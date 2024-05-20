@@ -5599,17 +5599,33 @@ const len2: number = (value as string).length;
 // 	]),
 // ); // [[2,2,2],[2,2,2],[2,2,2]]
 
-function evaluateTree(root: TreeNode | null): boolean {
-	if (!root.left && !root.right) {
-		return root.val !== 0;
-	}
+// function evaluateTree(root: TreeNode | null): boolean {
+// 	if (!root.left && !root.right) {
+// 		return root.val !== 0;
+// 	}
 
-	if (root.val === 2) {
-		return evaluateTree(root.left) || evaluateTree(root.right);
-	}
-	return evaluateTree(root.left) && evaluateTree(root.right);
-}
+// 	if (root.val === 2) {
+// 		return evaluateTree(root.left) || evaluateTree(root.right);
+// 	}
+// 	return evaluateTree(root.left) && evaluateTree(root.right);
+// }
 
-const root = new TreeNode(2).insert([1, 3, null, null, 0, 1]);
+// const root = new TreeNode(2).insert([1, 3, null, null, 0, 1]);
 
-console.log(evaluateTree(root));
+// console.log(evaluateTree(root));
+
+// function subsetXORSum(nums: number[]): number {
+// 	const hashMap = new Map<number, number>();
+
+// 	function walk(index: number, total: number): number {
+// 		if (index === nums.length) {
+// 			return total;
+// 		}
+
+// 		return walk(index + 1, total ^ nums[index]) + walk(index + 1, total);
+// 	}
+
+// 	return walk(0, 0);
+// }
+
+// console.log(subsetXORSum([1, 3])); // 6
