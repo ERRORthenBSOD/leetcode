@@ -2778,24 +2778,24 @@ def array_to_binary_tree(lst):
 #                     dist2 = min(dist, min_dist[(n_r, n_c)])
 #                     heapq.heappush(max_heap, (-dist2, n_r, n_c))
 
-class Solution:
-    def removeLeafNodes(self, root: Optional[TreeNode], target: int) -> Optional[TreeNode]:
-        if not root:
-            return None
-        self.removeLeafNodes(root.left, target)
-        self.removeLeafNodes(root.right, target)
-        if (
-            not root.left and
-            not root.right and
-            root.val == target
-        ):
-            return None
-        return root
+# class Solution:
+#     def removeLeafNodes(self, root: Optional[TreeNode], target: int) -> Optional[TreeNode]:
+#         if not root:
+#             return None
+#         self.removeLeafNodes(root.left, target)
+#         self.removeLeafNodes(root.right, target)
+#         if (
+#             not root.left and
+#             not root.right and
+#             root.val == target
+#         ):
+#             return None
+#         return root
 
 
-root = array_to_binary_tree([1, 2, 3, 2, None, 2, 4])
-sol = Solution()
-print(sol.removeLeafNodes(root, 2))
+# root = array_to_binary_tree([1, 2, 3, 2, None, 2, 4])
+# sol = Solution()
+# print(sol.removeLeafNodes(root, 2))
 
 
 # class Solution:
@@ -2843,3 +2843,18 @@ print(sol.removeLeafNodes(root, 2))
 #         for n in nums:
 #             res = res | n
 #         return res * 2**(len(nums)-1) # res << len(nums)-1
+
+
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        def backtrack(curr: List[int], index: int ):
+            res.append(curr)
+            for i in range(index, len(nums)):
+                backtrack(curr + [nums[i]], i + 1)
+        res: List[List[int]] = []        
+        backtrack([], 0)
+        return res
+
+
+sol = Solution()
+print(sol.subsets([1, 2, 3]))

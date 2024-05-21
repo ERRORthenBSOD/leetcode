@@ -5615,7 +5615,6 @@ const len2: number = (value as string).length;
 // console.log(evaluateTree(root));
 
 // function subsetXORSum(nums: number[]): number {
-// 	const hashMap = new Map<number, number>();
 
 // 	function walk(index: number, total: number): number {
 // 		if (index === nums.length) {
@@ -5629,3 +5628,19 @@ const len2: number = (value as string).length;
 // }
 
 // console.log(subsetXORSum([1, 3])); // 6
+
+function subsets(nums: number[]): number[][] {
+	const res: number[][] = [];
+	function backtrack(curr: number[], index: number): void {
+		res.push([...curr]);
+		for (let i = index; i < nums.length; i++) {
+			curr.push(nums[i]);
+			backtrack(curr, ++index);
+			curr.pop();
+		}
+	}
+	backtrack([], 0);
+	return res;
+}
+
+console.log(subsets([1, 2, 3]));

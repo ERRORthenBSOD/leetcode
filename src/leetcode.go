@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
@@ -172,6 +174,28 @@ func convertToList(arr []int) *ListNode {
 // 	return traverse(nums, 0, 0)
 // }
 
+func backtrack(nums []int, idx, k int, list []int, res *[][]int) {
+	if len(list) == k {
+		temp := make([]int, k)
+		copy(temp, list)
+		*res = append(*res, temp)
+		return
+	}
+	for i := idx; i < len(nums); i++ {
+        backtrack(nums, i+1, k, append(list, nums[i]), res)
+    }
+}
+
+func subsets(nums []int) [][]int {
+	res := [][]int{}
+
+	for i := 0; i <= len(nums); i++ {
+		backtrack(nums, 0, i, []int{}, &res)
+	}
+
+	return res
+}
+
 func main() {
 	// fmt.Println(numRescueBoats([]int{1, 2}, 3)) // 1
 	// fmt.Println(numRescueBoats([]int{3, 2, 2, 1}, 3)) // 3
@@ -180,4 +204,5 @@ func main() {
 	// fmt.Println(maximumHappinessSum([]int{1, 2, 3}, 2)) // 4
 	// fmt.Println(largestLocal([][]int{{9, 9, 8, 1}, {5, 6, 2, 6}, {8, 2, 6, 4}, {6, 2, 2, 2}})) // [[9,9],[8,6]]
 	// fmt.Println(subsetXORSum([]int{5, 1, 6})) // 28
+	fmt.Println(subsets([]int{1, 2, 3}))
 }
