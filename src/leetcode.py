@@ -2845,16 +2845,37 @@ def array_to_binary_tree(lst):
 #         return res * 2**(len(nums)-1) # res << len(nums)-1
 
 
+# class Solution:
+#     def subsets(self, nums: List[int]) -> List[List[int]]:
+#         def backtrack(curr: List[int], index: int ):
+#             res.append(curr)
+#             for i in range(index, len(nums)):
+#                 backtrack(curr + [nums[i]], i + 1)
+#         res: List[List[int]] = []
+#         backtrack([], 0)
+#         return res
+# sol = Solution()
+# print(sol.subsets([1, 2, 3]))
+
+
 class Solution:
-    def subsets(self, nums: List[int]) -> List[List[int]]:
-        def backtrack(curr: List[int], index: int ):
-            res.append(curr)
-            for i in range(index, len(nums)):
-                backtrack(curr + [nums[i]], i + 1)
-        res: List[List[int]] = []        
-        backtrack([], 0)
-        return res
+    def partition(self, s: str) -> List[List[str]]:
+        def is_palindrome(sub_str) -> bool:
+            return sub_str == sub_str[::-1]
+
+        def backtrack(start, path):
+            if start == len(s):
+                result.append(path[:])
+                return
+            for end in range(start + 1, len(s) + 1):
+                if is_palindrome(s[start:end]):
+                    backtrack(end, path + [s[start:end]])
+
+        result: List[List[str]] = []
+        backtrack(0, [])
+        return result
 
 
 sol = Solution()
-print(sol.subsets([1, 2, 3]))
+print(sol.partition("aab"))  # [["a","a","b"],["aa","b"]]
+print(sol.partition("a"))  # [["a"]]
